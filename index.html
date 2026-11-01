@@ -4,21 +4,23 @@
     <meta name="google-site-verification" content="Or5JbtfQH0gGANckua64EHZYJ_xr-wmy5QeWB-W5O2w" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Money Bagga - Full-Stack Web Developer | Haroli, Una (HP)</title>
-    <meta name="description" content="Money Bagga is a Full-Stack Web Developer & AI Automation Expert based in Haroli, District Una, Himachal Pradesh, India.">
-    <meta name="keywords" content="MONEY BAGGA, Web Developer Haroli, Una HP Developer, Full Stack Developer Himachal Pradesh, bagga.antideploy.com">
+    <title>Money Bagga - Freelance Full-Stack Web Developer in India</title>
+    <meta name="description" content="Money Bagga is a Freelance Full-Stack Web Developer based in Haroli, District Una, Himachal Pradesh, India. Building fast, SEO-friendly websites and apps.">
+    <meta name="keywords" content="MONEY BAGGA, Web Developer Haroli, Una HP Developer, Freelance Web Developer India, bagga.antideploy.com">
     <meta name="author" content="MONEY BAGGA (Haroli, Una, HP)">
     <link rel="canonical" href="https://bagga.antideploy.com" />
 
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Money Bagga - Web Developer in Haroli, Una (Himachal Pradesh)" />
+    <meta property="og:title" content="Money Bagga - Freelance Web Developer in India" />
     <meta property="og:description" content="Fast, SEO-friendly websites, web applications and mobile apps engineered by Money Bagga from Haroli, District Una, HP." />
     <meta property="og:url" content="https://bagga.antideploy.com" />
     <meta property="og:site_name" content="Money Bagga" />
 
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Aesthetic Typography Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/jpeg" href="images/aster.jpg">
     <link rel="apple-touch-icon" href="images/aster.jpg">
 
@@ -28,13 +30,16 @@
 <body>
     <div id="toastContainer" class="toast-container"></div>
 
-    <!-- Mobile Navigation Overlay (UNTOUCHED 3D GLASS MENU) -->
+    <!-- Mobile Navigation Overlay (3D Frosted iPhone Glass Menu) -->
     <div id="mobileNavOverlay" class="mobile-nav-overlay">
-        <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
-        <a href="#" class="active" onclick="closeMobileNav()">Home</a>
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close Menu">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <a href="#top-hero" class="active" onclick="closeMobileNav()">Home</a>
         <a href="#developer" onclick="closeMobileNav()">Developer</a>
         <a href="#services" onclick="closeMobileNav()">Services</a>
         <a href="#case-studies" onclick="closeMobileNav()">Portfolio</a>
+        <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
         <a href="#faq" onclick="closeMobileNav()">FAQ</a>
         <a href="#contact" onclick="closeMobileNav()">Start a Project</a>
     </div>
@@ -42,20 +47,21 @@
     <!-- Main Website Wrap -->
     <div id="mainWebsite">
         
-        <!-- Sticky 3D iPhone Glass Navbar (UNTOUCHED STYLE) -->
+        <!-- Sticky 3D iPhone White Frosted Glass Navbar (Layout Untouched) -->
         <div class="navbar-wrapper">
             <nav class="iphone-glass navbar">
-                <a id="secretLoginTrigger" class="logo">Money Bagga</a>
+                <a id="secretLoginTrigger" class="logo"><span class="brand-blue">Money</span> Bagga</a>
                 <div class="nav-links">
-                    <a href="#" class="nav-btn active">Home</a>
+                    <a href="#top-hero" class="nav-btn active">Home</a>
                     <a href="#developer" class="nav-btn">Developer</a>
                     <a href="#services" class="nav-btn">Services</a>
                     <a href="#case-studies" class="nav-btn">Portfolio</a>
+                    <a href="#pricing" class="nav-btn">Pricing</a>
                     <a href="#faq" class="nav-btn">FAQ</a>
                 </div>
-                <a href="#contact" class="btn-glass" style="padding: 10px 24px; font-size: 14px;">Start a Project</a>
+                <a href="#contact" class="btn-glass" style="padding: 10px 22px; font-size: 13.5px;">Start a Project</a>
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round">
                         <line x1="3" y1="6" x2="21" y2="6"/>
                         <line x1="3" y1="12" x2="21" y2="12"/>
                         <line x1="3" y1="18" x2="21" y2="18"/>
@@ -66,10 +72,38 @@
 
         <main class="desktop-wrapper">
 
-            <!-- 1. DEVELOPER HERO CARD (Ruman Akhtar Style -> MONEY BAGGA) -->
+            <!-- 0. TOP FREELANCE HERO SECTION (Above Developer Card) -->
+            <section id="top-hero" class="top-freelance-hero reveal-up">
+                <div class="location-top-pill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/>
+                    </svg>
+                    <span>Based in Haroli, Una (HP). Working with clients across India.</span>
+                </div>
+
+                <h1 class="freelance-main-heading">
+                    Freelance Web<br>
+                    Developer<br>
+                    <strong>in India.</strong>
+                </h1>
+
+                <p class="freelance-sub-bio">
+                    Hi, I'm <strong><span class="brand-blue">Money</span> Bagga</strong>, a freelance full-stack web developer based in Haroli, District Una, Himachal Pradesh. I build fast, SEO-friendly websites, web applications and mobile apps for businesses and startups across India.
+                </p>
+
+                <div class="freelance-hero-btns">
+                    <a href="#contact" class="btn-dark-pill select-offer-trigger" data-package="Custom Quote Request" data-budget="Custom Quote" data-category="New Website">
+                        <span>Get a Quote</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                    <a href="#case-studies" class="btn-light-pill">See My Work</a>
+                </div>
+            </section>
+
+            <!-- 1. DEVELOPER HERO CARD (images/mani-devloper.jpeg UNTOUCHED) -->
             <section id="developer" class="dev-hero-section reveal-up">
                 <div class="dev-hero-card">
-                    <!-- Left: Photo Box -->
+                    <!-- Left: Photo Box (UNTOUCHED IMAGE PATH) -->
                     <div class="dev-photo-container">
                         <img src="images/mani-devloper.jpeg" alt="Money Bagga - Founder & Lead Developer" class="dev-main-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';">
                         <div class="dev-photo-fade"></div>
@@ -84,26 +118,33 @@
                         <div class="available-badge">
                             <span class="green-dot"></span> AVAILABLE FOR WORK
                         </div>
-                        <h1 class="engineered-title">
+                        <h2 class="engineered-title">
                             Engineered by<br>
-                            <strong>MONEY BAGGA</strong>
-                        </h1>
+                            <strong><span class="brand-blue">MONEY</span> BAGGA</strong>
+                        </h2>
                         <p class="dev-role-subtitle">FOUNDER &amp; LEAD DEVELOPER</p>
 
                         <p class="dev-bio-paragraph">
-                            I've built custom web platforms, AI automation systems, business websites and mobile apps on iOS and Android for clients across India, working from <strong>Haroli, District Una, Himachal Pradesh (Pincode 177220)</strong>.
+                            I've built EdTech platforms, AI automation systems, business websites and mobile apps on iOS and Android for clients across India, working from <strong>Haroli, District Una, Himachal Pradesh (Pincode 177220)</strong>.
                         </p>
                         <p class="dev-bio-paragraph">
                             My goal is to help businesses build digital experiences that strengthen their online presence, capture qualified leads, and deliver a fast, reliable user experience.
                         </p>
 
                         <div class="dev-contact-mini">
-                            <span>📍 Haroli, Distt. Una, HP (177220)</span>
-                            <span>📞 +91 82196-93695</span>
+                            <span class="meta-chip">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                Haroli, Distt. Una, HP (177220)
+                            </span>
+                            <span class="meta-chip">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                                +91 82196-93695
+                            </span>
                         </div>
 
                         <a href="#contact" class="read-story-btn">
-                            Read my full story <span>&rarr;</span>
+                            <span>Read my full story</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
                     </div>
                 </div>
@@ -119,21 +160,24 @@
                 <div class="bento-services-grid">
                     <!-- Card 1: Next.js & Full-Stack -->
                     <div class="bento-card bento-large bento-blue">
-                        <div class="bento-icon blue-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="bento-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="16 18 22 12 16 6"></polyline>
                                 <polyline points="8 6 2 12 8 18"></polyline>
                             </svg>
                         </div>
                         <h3>Next.js &amp; Full-Stack Development</h3>
-                        <p>Fast, scalable websites and web applications built with Next.js, React and Node.js, including rapid MVP development for startups.</p>
-                        <a href="#contact" class="bento-link">Explore all services &rarr;</a>
+                        <p>Fast, scalable websites and web applications built with Next.js, React and Laravel, including rapid MVP development for startups.</p>
+                        <a href="#pricing" class="bento-link">
+                            <span>Explore all services</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
                     </div>
 
                     <!-- Card 2: Conversion UI/UX Design -->
                     <div class="bento-card bento-small bento-purple">
-                        <div class="bento-icon purple-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="bento-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                                 <polyline points="2 12 12 17 22 12"></polyline>
                                 <polyline points="2 17 12 22 22 17"></polyline>
@@ -145,8 +189,8 @@
 
                     <!-- Card 3: Technical SEO & Speed -->
                     <div class="bento-card bento-small bento-orange">
-                        <div class="bento-icon orange-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="bento-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                             </svg>
                         </div>
@@ -156,15 +200,15 @@
 
                     <!-- Card 4: Custom Web & Mobile Applications -->
                     <div class="bento-card bento-large bento-green">
-                        <div class="bento-icon green-icon">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="bento-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="2" y1="12" x2="22" y2="12"></line>
                                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                             </svg>
                         </div>
                         <h3>Custom Web &amp; Mobile Applications</h3>
-                        <p>Online stores, SaaS products, learning platforms and iOS/Android apps, built for scale and smooth performance.</p>
+                        <p>Online stores, SaaS products, learning platforms and iOS/Android apps, like Intern Stump and SMC Online Classes.</p>
                     </div>
                 </div>
 
@@ -181,42 +225,54 @@
                 </div>
             </section>
 
-            <!-- 3. RECENT WORK & PORTFOLIO CASE STUDY (From Screenshots) -->
+            <!-- 3. RECENT WORK & PORTFOLIO CASE STUDY -->
             <section id="case-studies" class="white-section reveal-up">
                 <div class="recent-work-header">
                     <div>
                         <h2>Recent Work</h2>
                         <p>Websites, platforms and mobile apps built for real clients.</p>
                     </div>
-                    <a href="#contact" class="view-all-btn">View All Projects &rarr;</a>
+                    <a href="#contact" class="view-all-btn">
+                        <span>View All Projects</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
                 </div>
 
-                <!-- 3 Recent Work Mini Cards -->
+                <!-- 3 Recent Work Mini Cards (Pure SVG Icons) -->
                 <div class="recent-projects-grid">
                     <div class="recent-project-card">
                         <div class="project-logo-box">
-                            <span class="proj-badge-blue">◆</span> <strong>Mani Portal</strong>
+                            <span class="svg-logo-badge blue-diamond">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#2563eb"><path d="M12 2L22 12L12 22L2 12L12 2Z"/></svg>
+                            </span>
+                            <strong>Intern Stump</strong>
                         </div>
-                        <span class="proj-category">EdTech platform &amp; Web App</span>
-                        <h4>Custom Education &amp; Automation Suite</h4>
+                        <span class="proj-category">EdTech platform &amp; iOS app</span>
+                        <h4>Intern Stump Platform</h4>
                     </div>
                     <div class="recent-project-card">
                         <div class="project-logo-box">
-                            <span class="proj-badge-orange">●</span> <strong>SMC Classes</strong>
+                            <span class="svg-logo-badge orange-ring">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+                            </span>
+                            <strong>SMC Online</strong>
                         </div>
-                        <span class="proj-category">Android App &amp; Portal</span>
-                        <h4>Live Learning &amp; Student Dashboard</h4>
+                        <span class="proj-category">Android app</span>
+                        <h4>SMC Online Classes</h4>
                     </div>
                     <div class="recent-project-card">
                         <div class="project-logo-box">
-                            <span class="proj-badge-dark">▲</span> <strong>Bagga AI Systems</strong>
+                            <span class="svg-logo-badge dark-prism">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#0f172a"><polygon points="12 3 21 20 3 20"/></svg>
+                            </span>
+                            <strong><span class="brand-blue">Money</span> Systems</strong>
                         </div>
-                        <span class="proj-category">Business Website</span>
-                        <h4>Enterprise Lead &amp; Workflow System</h4>
+                        <span class="proj-category">Business website</span>
+                        <h4>Enterprise Automation Suite</h4>
                     </div>
                 </div>
 
-                <!-- Dark 3D Glass Featured Case Study Card (From Screenshot 1 & 2) -->
+                <!-- Dark 3D Glass Featured Case Study Card -->
                 <div class="dark-portfolio-showcase">
                     <div class="portfolio-top-label">PORTFOLIO</div>
                     <div class="dark-case-study-card">
@@ -247,13 +303,199 @@
                 </div>
             </section>
 
-            <!-- 4. INTERACTIVE TOOL / PACKAGE ESTIMATOR CARD -->
+            <!-- 4. TRANSPARENT PRICING & STANDALONE SERVICES (From Screenshot 58024.jpg) -->
+            <section id="pricing" class="white-section reveal-up">
+                <div class="pricing-center-header">
+                    <h2>Transparent Pricing</h2>
+                    <p>Simple plans with no hidden costs. Scale your business without the technical headache.</p>
+                </div>
+
+                <div class="pricing-cards-grid">
+                    <!-- Plan 1: Starter Launch -->
+                    <div class="pricing-card">
+                        <h3 class="plan-name">Starter Launch</h3>
+                        <div class="plan-price-row">
+                            <span class="price-big">₹19,999</span>
+                            <span class="price-sub">starting<br>at</span>
+                        </div>
+                        <p class="plan-desc">Perfect for personal brands &amp; simple local landing pages.</p>
+
+                        <ul class="plan-features-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>3-5 Pages</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>100/100 Mobile Speed</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Basic SEO Optimization</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Contact Form Setup</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>7-Day Delivery</span>
+                            </li>
+                        </ul>
+
+                        <button type="button" class="plan-btn plan-btn-dark select-offer-trigger" data-package="Starter Launch (₹19,999)" data-budget="₹15,000 – ₹25,000" data-category="New Website">
+                            Start Small
+                        </button>
+                    </div>
+
+                    <!-- Plan 2: Business Pro (MOST POPULAR) -->
+                    <div class="pricing-card popular-pricing-card">
+                        <div class="most-popular-pill">MOST POPULAR</div>
+                        <h3 class="plan-name">Business Pro</h3>
+                        <div class="plan-price-row">
+                            <span class="price-big">₹39,999</span>
+                            <span class="price-sub">starting<br>at</span>
+                        </div>
+                        <p class="plan-desc">Best for Gyms, Clinics, and Growing Local Businesses.</p>
+
+                        <ul class="plan-features-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>7-10 Pages</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Advanced Local SEO</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>2 Years Free Maintenance</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>WhatsApp Lead Integration</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>72-Hour Rapid Launch</span>
+                            </li>
+                        </ul>
+
+                        <button type="button" class="plan-btn plan-btn-blue select-offer-trigger" data-package="Business Pro (₹39,999)" data-budget="₹35,000 – ₹50,000" data-category="New Website">
+                            Grow My Business
+                        </button>
+                    </div>
+
+                    <!-- Plan 3: Custom Web App -->
+                    <div class="pricing-card">
+                        <h3 class="plan-name">Custom Web App</h3>
+                        <div class="plan-price-row">
+                            <span class="price-big">Quote</span>
+                        </div>
+                        <p class="plan-desc">For startups needing complex logic and databases.</p>
+
+                        <ul class="plan-features-list">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Full Stack Next.js</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Admin Dashboard</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>API Integrations</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Database Architecture</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+                                <span>Scalable Hosting Setup</span>
+                            </li>
+                        </ul>
+
+                        <button type="button" class="plan-btn plan-btn-dark select-offer-trigger" data-package="Custom Web App (Custom Quote)" data-budget="₹50,000+" data-category="App / Redesign">
+                            Get a Custom Quote
+                        </button>
+                    </div>
+                </div>
+
+                <p class="pricing-footnote">
+                    * Domain ownership and specialized 3rd-party database costs are paid directly by the client to maintain 100% ownership control. <a href="#contact">See full pricing details</a>
+                </p>
+
+                <!-- Standalone Services & Quick Starts -->
+                <div class="standalone-section-wrap">
+                    <div class="recent-work-header">
+                        <div>
+                            <h2>Standalone Services &amp; Quick Starts</h2>
+                            <p>High-impact, fast-turnaround solutions to scale your digital presence.</p>
+                        </div>
+                        <a href="#contact" class="view-all-btn">
+                            <span>View All Services</span>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+
+                    <div class="standalone-grid">
+                        <!-- Quick Start 1 -->
+                        <div class="standalone-card">
+                            <div class="standalone-icon s-blue">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <h4>Google Maps Booster</h4>
+                            <div class="standalone-price">
+                                <strong>₹999</strong> <del>₹1,999</del>
+                            </div>
+                            <p>Full optimization of your Google Business Profile, service area setup and a custom review link to help more local customers find you.</p>
+                            <button type="button" class="plan-btn plan-btn-dark select-offer-trigger" data-package="Google Maps Booster (₹999)" data-budget="Under ₹5,000" data-category="New Website">
+                                Book Now — 24h Delivery
+                            </button>
+                        </div>
+
+                        <!-- Quick Start 2 -->
+                        <div class="standalone-card">
+                            <div class="standalone-icon s-purple">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/></svg>
+                            </div>
+                            <h4>Figma UI Mockup</h4>
+                            <div class="standalone-price">
+                                <strong>₹1,499</strong>
+                            </div>
+                            <p>High-fidelity desktop and mobile prototype of your new homepage. 100% credited back toward your total balance if you book the full website.</p>
+                            <button type="button" class="plan-btn plan-btn-dark select-offer-trigger" data-package="Figma UI Mockup (₹1,499)" data-budget="Under ₹5,000" data-category="App / Redesign">
+                                Get a Mockup
+                            </button>
+                        </div>
+
+                        <!-- Quick Start 3 -->
+                        <div class="standalone-card">
+                            <div class="standalone-icon s-orange">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            </div>
+                            <h4>Promotional Video Shoot</h4>
+                            <div class="standalone-price">
+                                <strong>₹7,999+</strong>
+                            </div>
+                            <p>On-location cinematic filming and editing. Receive 3 short-form vertical Reels/Shorts to drive immediate social media engagement.</p>
+                            <button type="button" class="plan-btn plan-btn-dark select-offer-trigger" data-package="Promotional Video Shoot (₹7,999+)" data-budget="₹5,000 – ₹15,000" data-category="Online Store">
+                                Inquire Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. INTERACTIVE TOOL / PACKAGE ESTIMATOR CARD + STATS -->
             <section id="estimator" class="white-section reveal-up">
                 <div class="estimator-banner-card">
                     <div class="estimator-left">
                         <div class="interactive-pill">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2.2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
-                            INTERACTIVE TOOL
+                            <span>INTERACTIVE TOOL</span>
                         </div>
                         <h2>
                             Build your package<br>
@@ -261,8 +503,9 @@
                             <span class="purple-gradient-text">match your budget.</span>
                         </h2>
                         <p>Not sure which package fits? Use the project estimator to choose features, see the price change instantly, and find what's possible within your budget.</p>
-                        <a href="#contact" class="purple-estimator-btn">
-                            Try the Estimator <span>&rarr;</span>
+                        <a href="#contact" class="purple-estimator-btn select-offer-trigger" data-package="Custom Package Estimator" data-budget="Custom Budget" data-category="New Website">
+                            <span>Try the Estimator</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
                     </div>
 
@@ -280,7 +523,7 @@
                     </div>
                 </div>
 
-                <!-- 5. STATS BAR (2+ | 15+ | 2 yrs) -->
+                <!-- STATS BAR (2+ | 15+ | 2 yrs) -->
                 <div class="stats-three-col">
                     <div class="stat-box">
                         <h3>2+</h3>
@@ -310,7 +553,7 @@
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="clean-faq-answer">
-                            Pricing depends on the project scope, pages, and custom features. Standard business websites start at affordable packages, while custom full-stack web apps are quoted based on your exact requirements.
+                            Starter Launch websites begin at ₹19,999 and Business Pro packages start at ₹39,999. Custom web applications and SaaS platforms are quoted based on your specific feature requirements.
                         </div>
                     </div>
 
@@ -320,17 +563,17 @@
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="clean-faq-answer">
-                            Express landing pages and business websites can be launched within 72 hours to 1 week. Larger custom web applications and e-commerce platforms typically take 2 to 3 weeks.
+                            Business Pro websites feature a 72-hour rapid launch, while Starter Launch sites take 7 days. Complex custom web and mobile applications typically take 2 to 3 weeks.
                         </div>
                     </div>
 
                     <div class="clean-faq-item">
                         <div class="clean-faq-question">
-                            <span>Do you work with clients outside Himachal Pradesh?</span>
+                            <span>Do you work with clients outside Haroli / Himachal Pradesh?</span>
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="clean-faq-answer">
-                            Yes! While I am based in Haroli, District Una, Himachal Pradesh (177220), I work remotely with startups, businesses, and clients across all of India and globally.
+                            Yes! While I am based in Haroli, District Una, Himachal Pradesh (177220), I work remotely with startups, businesses, and brands across all of India and worldwide.
                         </div>
                     </div>
 
@@ -340,7 +583,7 @@
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="clean-faq-answer">
-                            Yes, I build high-performance Android and iOS mobile applications as well as responsive Progressive Web Apps (PWAs) tailored to your business needs.
+                            Yes, I build high-performance Android and iOS mobile applications as well as responsive web applications tailored to your business goals.
                         </div>
                     </div>
 
@@ -350,14 +593,14 @@
                             <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
                         <div class="clean-faq-answer">
-                            You have 100% ownership of the source code, domain name, hosting, and all digital assets once the project is completed.
+                            You maintain 100% ownership of the source code, domain name, hosting, and all digital assets from day one.
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 7. READY TO START YOUR 72-HOUR LAUNCH + CONTACT FORM -->
-            <section id="contact" class="launch-cta-section reveal-up">
+            <!-- 7. READY TO START YOUR 72-HOUR LAUNCH -->
+            <section class="launch-cta-section reveal-up">
                 <div class="launch-cta-box">
                     <h2>
                         Ready to start your<br>
@@ -368,23 +611,151 @@
                     </p>
                     <button type="button" id="toggleProjectFormBtn" class="start-project-pill-btn">
                         <span>Start a Project</span>
-                        <span class="arrow-circle">&rarr;</span>
+                        <span class="arrow-circle">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </span>
                     </button>
                 </div>
+            </section>
 
-                <!-- Lead Contact Form Card (Opens smoothly or stays visible below) -->
-                <div id="projectFormContainer" class="clean-contact-card">
-                    <h3>Hire Money Bagga — Send Your Project Details</h3>
-                    <p>📞 Direct Call / WhatsApp: <strong>+91 82196-93695</strong> | 📍 Haroli, District Una, HP (177220)</p>
-                    <form id="leadContactForm" class="clean-contact-form">
-                        <input type="text" id="leadName" class="clean-input" placeholder="Your full name" required>
-                        <input type="email" id="leadEmail" class="clean-input" placeholder="Your email or phone number" required>
-                        <input type="text" id="leadCompany" class="clean-input" placeholder="Project details / Company name" required>
-                        <button type="submit" class="start-project-pill-btn" style="width: 100%; justify-content: center;">
-                            <span>Send Your Request</span>
-                            <span class="arrow-circle">&rarr;</span>
-                        </button>
-                    </form>
+            <!-- 8. FULL CONTACT & PROJECT DETAILS SECTION (From Screenshot 58028.jpg) -->
+            <section id="contact" class="contact-page-section reveal-up">
+                <div class="contact-split-layout">
+                    
+                    <!-- Left Column: Delivery, Maintenance & Live Time -->
+                    <div class="contact-info-col">
+                        <p class="contact-lead-text">
+                            I specialize in 72-hour rapid deployments and long-term 2-year maintenance support for growing Indian businesses.
+                        </p>
+
+                        <div class="feature-mini-cards">
+                            <div class="feature-mini-card">
+                                <div class="f-mini-icon blue-bolt">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                </div>
+                                <div>
+                                    <h4>72H DELIVERY</h4>
+                                    <p>Fastest market launch for MVPs and landing pages.</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-mini-card">
+                                <div class="f-mini-icon purple-shield">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                                <div>
+                                    <h4>2Y MAINTENANCE</h4>
+                                    <p>Peace of mind with guaranteed security and updates.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="location-time-bar">
+                            <div class="loc-item">
+                                <span class="loc-label">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    LOCATION
+                                </span>
+                                <strong>Haroli, Una, HP, India</strong>
+                            </div>
+                            <div class="loc-item">
+                                <span class="loc-label">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                    LOCAL TIME
+                                </span>
+                                <strong id="liveIstClock">09:58 PM IST</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive White Form Card (Screenshot 58028.jpg) -->
+                    <div id="projectFormContainer" class="contact-form-card">
+                        <div id="selectedOfferBanner" class="selected-offer-banner" style="display: none;">
+                            <span>Selected Plan: <strong id="selectedOfferName">Business Pro</strong></span>
+                            <button type="button" id="clearOfferBtn" aria-label="Clear Selection">&times;</button>
+                        </div>
+
+                        <span class="help-with-label">WHAT CAN I HELP YOU WITH?</span>
+                        <div class="service-type-pills" id="serviceTypePills">
+                            <button type="button" class="type-pill active" data-type="New Website">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                <span>New Website</span>
+                            </button>
+                            <button type="button" class="type-pill" data-type="Online Store">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                                <span>Online Store</span>
+                            </button>
+                            <button type="button" class="type-pill" data-type="App / Redesign">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                                <span>App / Redesign</span>
+                            </button>
+                        </div>
+
+                        <form id="leadContactForm" class="modern-underline-form">
+                            <input type="hidden" id="leadCategory" value="New Website">
+                            <input type="hidden" id="leadSelectedPackage" value="General Inquiry">
+
+                            <div class="form-two-col">
+                                <div class="underline-field">
+                                    <label for="leadName">Full Name</label>
+                                    <input type="text" id="leadName" placeholder="Full Name" required>
+                                </div>
+                                <div class="underline-field">
+                                    <label for="leadEmail">Work Email</label>
+                                    <input type="email" id="leadEmail" placeholder="name@company.com" required>
+                                </div>
+                            </div>
+
+                            <div class="form-two-col">
+                                <div class="underline-field">
+                                    <label for="leadPhone">Phone Number</label>
+                                    <input type="tel" id="leadPhone" placeholder="+91 98765-43210" required>
+                                </div>
+                                <div class="underline-field">
+                                    <label for="leadLocation">Country / Location</label>
+                                    <div class="input-with-icon">
+                                        <input type="text" id="leadLocation" placeholder="City, State, India">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-two-col">
+                                <div class="underline-field">
+                                    <label for="leadBudget">Estimated Budget</label>
+                                    <select id="leadBudget">
+                                        <option value="" disabled selected>Estimated Budget</option>
+                                        <option value="Under ₹5,000">Under ₹5,000 (Quick Starts)</option>
+                                        <option value="₹5,000 – ₹15,000">₹5,000 – ₹15,000</option>
+                                        <option value="₹15,000 – ₹25,000">₹15,000 – ₹25,000 (Starter Launch)</option>
+                                        <option value="₹35,000 – ₹50,000">₹35,000 – ₹50,000 (Business Pro)</option>
+                                        <option value="₹50,000+">₹50,000+ (Custom Web App)</option>
+                                        <option value="Custom Quote">Custom Quote /Custom Budget</option>
+                                    </select>
+                                </div>
+                                <div class="underline-field">
+                                    <label for="leadWebsite">Existing Website URL <small>(OPTIONAL)</small></label>
+                                    <input type="text" id="leadWebsite" placeholder="https://yourwebsite.com">
+                                </div>
+                            </div>
+
+                            <div class="underline-field full-width-field">
+                                <label for="leadVision">Tell me about your vision...</label>
+                                <textarea id="leadVision" rows="3" placeholder="Tell me about your vision, timeline, or project goals..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="submit-project-blue-btn">
+                                <span>Submit Project Details</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </button>
+
+                            <div class="form-card-footer">
+                                <span>USUALLY REPLIES IN 2-4 HOURS</span>
+                                <a href="#top-hero">INSTAGRAM</a>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </section>
 
@@ -393,17 +764,17 @@
         <!-- Clean White Footer -->
         <footer class="clean-footer">
             <div class="clean-footer-inner">
-                <p>© 2026 Money Bagga (Haroli, District Una, Himachal Pradesh 177220). All rights reserved.</p>
+                <p>© 2026 <span class="brand-blue" style="font-weight:700;">Money</span> Bagga. All rights reserved. Haroli, District Una, HP (177220).</p>
                 <div class="clean-footer-links">
-                    <a href="#developer">About</a>
-                    <a href="#services">Services</a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+                    <a href="#pricing">Pricing</a>
                     <a href="#contact">Contact</a>
                 </div>
             </div>
         </footer>
 
-        <!-- Floating Blue "Free Website Audit" Button (Bottom Right as in Screenshots) -->
-        <a href="#contact" class="floating-audit-btn">
+        <!-- Floating Blue "Free Website Audit" Button -->
+        <a href="#contact" class="floating-audit-btn select-offer-trigger" data-package="Free Website Audit" data-budget="Custom Quote" data-category="App / Redesign">
             <span>Free Website Audit</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -416,11 +787,12 @@
     <div id="secretLoginModal" class="login-overlay">
         <div class="iphone-glass login-box">
             <span class="close-login" id="closeLoginModal">&times;</span>
-            <h3 style="color:#fff;">Admin Access</h3>
+            <h3>Admin Portal</h3>
+            <p style="font-size: 13px; color: #64748b; margin-top: -8px;">Authorized access for <span class="brand-blue" style="font-weight:700;">Money</span> Bagga</p>
             <form id="adminLoginForm" autocomplete="off" onsubmit="return false;">
                 <input type="text" id="loginUser" class="input-glass" placeholder="Username" autocomplete="off">
                 <input type="password" id="loginPass" class="input-glass" placeholder="Password" autocomplete="new-password">
-                <button id="loginSubmitBtn" type="button" class="btn-white" style="margin-top: 10px; width: 100%;">Login</button>
+                <button id="loginSubmitBtn" type="button" class="btn-dark-pill" style="margin-top: 10px; width: 100%; justify-content: center;">Unlock Inbox</button>
             </form>
         </div>
     </div>
@@ -428,13 +800,13 @@
     <!-- Admin Dashboard -->
     <div id="adminDashboard" class="admin-dashboard">
         <div class="iphone-glass admin-header">
-            <h2 class="admin-title">Admin Dashboard <span>Secured Portal</span></h2>
-            <button id="logoutBtn" class="btn-glass" style="border-color: rgba(255,100,100,0.4); color: #ff6b6b;">Logout Exit</button>
+            <h2 class="admin-title"><span class="brand-blue">Money</span> Bagga Admin <span>Secured Portal</span></h2>
+            <button id="logoutBtn" class="btn-glass" style="border-color: rgba(239,68,68,0.4); color: #dc2626;">Logout Exit</button>
         </div>
         <div class="admin-container">
             <div style="margin-bottom: 30px;">
-                <h3 style="font-size: 24px; color: #fff;">Lead Messages Inbox</h3>
-                <p style="color: #9ca3af; font-size: 14px;">Recent client requests from your website.</p>
+                <h3 style="font-size: 24px; color: #0f172a;">Client Project &amp; Email Inquiries</h3>
+                <p style="color: #64748b; font-size: 14px;">All project bookings, emails, and package selections submitted from your website.</p>
             </div>
             <div id="adminMessagesGrid" class="messages-grid"></div>
         </div>
