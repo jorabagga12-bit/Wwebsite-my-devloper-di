@@ -150,12 +150,25 @@ html, body { width: 100%; max-width: 100vw; background-color: var(--bg-white); c
 .btn-light-pill { display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.9); color: #0f172a; font-size: 14px; font-weight: 700; text-decoration: none; padding: 15px 28px; border-radius: 40px; border: 1px solid #cbd5e1; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05), inset 0 1px 1px #ffffff; transition: all 0.25s ease; }
 .btn-light-pill:hover { border-color: #94a3b8; transform: translateY(-2px); }
 
-/* 4. DEVELOPER HERO CARD (PURE BLACK TEXT & B&W PHOTO) */
+/* 4. DEVELOPER HERO CARD (PERMANENT BLACK & WHITE PHOTO - NEVER TURNS COLOR ON TAP/HOVER) */
 .dev-hero-section { padding-top: 20px; }
 .dev-hero-card { border-radius: 34px; padding: 38px; display: grid; grid-template-columns: 340px 1fr; gap: 44px; align-items: center; max-width: 100%; overflow: hidden; }
 .dev-photo-container { position: relative; background: #ffffff; border-radius: 26px; overflow: hidden; height: 395px; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.09); border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; }
-.dev-main-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: grayscale(100%) contrast(1.08); transition: filter 0.5s ease, transform 0.5s ease; display: block; }
-.dev-hero-card:hover .dev-main-img { filter: grayscale(0%) contrast(1.02); transform: scale(1.02); }
+.dev-main-img,
+.dev-hero-card:hover .dev-main-img,
+.dev-hero-card:active .dev-main-img,
+.dev-main-img:hover,
+.dev-main-img:active,
+.dev-main-img:focus {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    filter: grayscale(100%) contrast(1.08) !important;
+    -webkit-filter: grayscale(100%) contrast(1.08) !important;
+    transform: none !important;
+    display: block;
+}
 .add-photo-placeholder { width: 100%; height: 100%; padding-bottom: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%); cursor: pointer; text-align: center; }
 .add-photo-btn-circle { width: 56px; height: 56px; border-radius: 50%; background: #ffffff; border: 1.5px dashed #94a3b8; color: #0f172a; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06); }
 .add-photo-title { font-size: 15px; font-weight: 800; color: #0f172a; }
