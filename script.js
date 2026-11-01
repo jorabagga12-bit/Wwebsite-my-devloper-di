@@ -20,6 +20,21 @@ function _verifyPortalAccess(uInput, pInput) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    // 0. LIVE iOS 18 PRO MAX GLASS REFLECTION & REFRACTION ENGINE
+    const rootStyle = document.documentElement.style;
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY || 0;
+        const shimmerPct = 10 + ((scrollY * 0.18) % 75);
+        const angleDeg = 125 + ((scrollY * 0.05) % 35);
+        rootStyle.setProperty('--shimmer-pos', `${shimmerPct}%`);
+        rootStyle.setProperty('--glass-angle', `${angleDeg}deg`);
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+        const pctX = Math.round((e.clientX / window.innerWidth) * 80) + 5;
+        rootStyle.setProperty('--shimmer-pos', `${pctX}%`);
+    }, { passive: true });
+
     // 1. Mobile Menu Toggle (3D Frosted Glass Overlay)
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileNavOverlay = document.getElementById('mobileNavOverlay');
@@ -293,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 11. Separate Full White Page User Login & Inbox (Triggered from Navbar & Mobile Menu "Login" Button)
+    // 11. Separate Full White Page User Login & Inbox
     const loginTriggers = document.querySelectorAll('.open-login-trigger');
     const loginModal = document.getElementById('secretLoginModal');
     const closeLogin = document.getElementById('closeLoginModal');
