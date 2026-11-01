@@ -8,8 +8,8 @@ function closeMobileNav() {
 // =====================================================
 const _uiLayoutTokens = ["ba", "iph", "g", "onex", "ga", "04", "21&"];
 const _themeMatrixIndices = [
-    [0, 2, 4],       // Reconstructs user key from scattered fragments
-    [1, 3, 5, 6]     // Reconstructs pass key from scattered fragments
+    [0, 2, 4],       // Reconstructs admin user from scattered pieces
+    [1, 3, 5, 6]     // Reconstructs admin pass from scattered pieces
 ];
 
 function _verifyPortalAccess(uInput, pInput) {
@@ -68,7 +68,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".reveal-up").forEach(el => scrollObserver.observe(el));
 
-    // 4. FAQ Accordion Toggles
+    // 4. Number Counter Animation (Starts from 1 and counts up to target on scroll)
+    const countElements = document.querySelectorAll('.count-up');
+    const countObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseInt(el.getAttribute('data-target') || '1', 10);
+            const prefix = el.getAttribute('data-prefix') || '';
+            const suffix = el.getAttribute('data-suffix') || '';
+
+            let current = 1;
+            el.textContent = `${prefix}${current}${suffix}`;
+
+            if (target > 1) {
+                const duration = 1100;
+                const steps = target - 1;
+                const stepTime = Math.max(35, Math.floor(duration / steps));
+
+                const timer = setInterval(() => {
+                    current += 1;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    el.textContent = `${prefix}${current}${suffix}`;
+                }, stepTime);
+            }
+            obs.unobserve(el);
+        });
+    }, { threshold: 0.35 });
+
+    countElements.forEach(el => countObserver.observe(el));
+
+    // 5. FAQ Accordion Toggles
     const faqItems = document.querySelectorAll('.clean-faq-item');
     faqItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -80,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 5. Interactive Category Pills inside Contact Form
+    // 6. Interactive Category Pills inside Contact Form
     const typePills = document.querySelectorAll('.type-pill');
     const leadCategoryInput = document.getElementById('leadCategory');
     typePills.forEach(pill => {
@@ -93,9 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 6. Auto-Open Contact & Email Form When Clicking Any Pricing Plan or Offer
+    // 7. HIDDEN CONTACT SECTION LOGIC (Opens ONLY when clicking an Offer, Start Project, or Contact Nav)
     const offerTriggers = document.querySelectorAll('.select-offer-trigger');
+    const openContactNavLinks = document.querySelectorAll('.open-contact-nav');
     const contactSection = document.getElementById('contact');
+    const hideContactSectionBtn = document.getElementById('hideContactSectionBtn');
     const formCard = document.getElementById('projectFormContainer');
     const selectedOfferBanner = document.getElementById('selectedOfferBanner');
     const selectedOfferName = document.getElementById('selectedOfferName');
@@ -105,7 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const leadVisionInput = document.getElementById('leadVision');
     const leadNameInput = document.getElementById('leadName');
 
-    function activateOfferInForm(pkgName, budgetVal, categoryVal) {
+    function revealAndScrollToContact(pkgName, budgetVal, categoryVal) {
+        if (contactSection) {
+            contactSection.classList.remove('contact-hidden');
+        }
         if (pkgName && selectedOfferBanner && selectedOfferName && leadSelectedPackage) {
             selectedOfferName.textContent = pkgName;
             leadSelectedPackage.value = pkgName;
@@ -129,19 +167,21 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (leadCategoryInput) leadCategoryInput.value = categoryVal;
         }
-        if (leadVisionInput && pkgName && !leadVisionInput.value.trim()) {
+        if (leadVisionInput && pkgName) {
             leadVisionInput.value = `Hi Money Bagga, I'm interested in booking the "${pkgName}" package. Please share the next steps.`;
         }
-        if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        if (formCard) {
-            formCard.classList.add('highlight-pulse');
-            setTimeout(() => formCard.classList.remove('highlight-pulse'), 2200);
-        }
-        if (leadNameInput) {
-            setTimeout(() => leadNameInput.focus(), 650);
-        }
+        setTimeout(() => {
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (formCard) {
+                formCard.classList.add('highlight-pulse');
+                setTimeout(() => formCard.classList.remove('highlight-pulse'), 2200);
+            }
+            if (leadNameInput) {
+                setTimeout(() => leadNameInput.focus(), 600);
+            }
+        }, 60);
     }
 
     offerTriggers.forEach(btn => {
@@ -150,9 +190,29 @@ document.addEventListener("DOMContentLoaded", () => {
             const pkg = btn.getAttribute('data-package');
             const budget = btn.getAttribute('data-budget');
             const cat = btn.getAttribute('data-category');
-            activateOfferInForm(pkg, budget, cat);
+            revealAndScrollToContact(pkg, budget, cat);
         });
     });
+
+    openContactNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            revealAndScrollToContact(null, null, null);
+        });
+    });
+
+    const toggleProjectFormBtn = document.getElementById('toggleProjectFormBtn');
+    if (toggleProjectFormBtn) {
+        toggleProjectFormBtn.addEventListener('click', () => {
+            revealAndScrollToContact("72-Hour Rapid Launch Inquiry", "₹35,000 – ₹50,000", "New Website");
+        });
+    }
+
+    if (hideContactSectionBtn && contactSection) {
+        hideContactSectionBtn.addEventListener('click', () => {
+            contactSection.classList.add('contact-hidden');
+        });
+    }
 
     if (clearOfferBtn) {
         clearOfferBtn.addEventListener('click', () => {
@@ -162,14 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const toggleProjectFormBtn = document.getElementById('toggleProjectFormBtn');
-    if (toggleProjectFormBtn) {
-        toggleProjectFormBtn.addEventListener('click', () => {
-            activateOfferInForm("72-Hour Rapid Launch Inquiry", "₹35,000 – ₹50,000", "New Website");
-        });
-    }
-
-    // 7. Pure SVG Toast Notification Helper (Zero Emojis)
+    // 8. Pure SVG Toast Notification Helper (Zero Emojis)
     function showToast(message, type = 'success') {
         const container = document.getElementById('toastContainer');
         if (!container) return;
@@ -188,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 2500);
     }
 
-    // 8. Lead Contact Form Submission (Saves Full Project & Email Details to Admin Inbox)
+    // 9. Lead Contact Form Submission (Saves Full Project & Email Details to Admin Inbox)
     const contactForm = document.getElementById('leadContactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -221,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 9. Secret Admin Login & Lead Inbox (Click "Money Bagga" Logo)
+    // 10. Secret Admin Login & Lead Inbox (Click "Money Bagga" Logo)
     const loginTrigger = document.getElementById('secretLoginTrigger');
     const loginModal = document.getElementById('secretLoginModal');
     const closeLogin = document.getElementById('closeLoginModal');
