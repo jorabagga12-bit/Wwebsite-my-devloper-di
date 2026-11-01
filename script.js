@@ -4,12 +4,12 @@ function closeMobileNav() {
 }
 
 // =====================================================
-// SPLIT & OBFUSCATED VERIFICATION (NO PLAIN CREDENTIALS)
+// SPLIT & OBFUSCATED VERIFICATION (UNTOUCHED)
 // =====================================================
 const _uiLayoutTokens = ["ba", "iph", "g", "onex", "ga", "04", "21&"];
 const _themeMatrixIndices = [
-    [0, 2, 4],       // Reconstructs admin user from scattered pieces
-    [1, 3, 5, 6]     // Reconstructs admin pass from scattered pieces
+    [0, 2, 4],       // Reconstructs user from scattered pieces
+    [1, 3, 5, 6]     // Reconstructs pass from scattered pieces
 ];
 
 function _verifyPortalAccess(uInput, pInput) {
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 8. HIDDEN CONTACT SECTION LOGIC (Opens ONLY when clicking an Offer, Start Project, or Contact Nav)
+    // 8. HIDDEN CONTACT SECTION LOGIC
     const offerTriggers = document.querySelectorAll('.select-offer-trigger');
     const openContactNavLinks = document.querySelectorAll('.open-contact-nav');
     const contactSection = document.getElementById('contact');
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 9. Pure SVG Toast Notification Helper (Zero Emojis)
+    // 9. Pure SVG Toast Notification Helper
     function showToast(message, type = 'success') {
         const container = document.getElementById('toastContainer');
         if (!container) return;
@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 2500);
     }
 
-    // 10. Lead Contact Form Submission (Saves Full Project & Email Details to Admin Inbox)
+    // 10. Lead Contact Form Submission
     const contactForm = document.getElementById('leadContactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -293,8 +293,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 11. Secret Admin Login & Lead Inbox (Click "Money Bagga" Logo)
-    const loginTrigger = document.getElementById('secretLoginTrigger');
+    // 11. Separate Full White Page User Login & Inbox (Triggered from Navbar & Mobile Menu "Login" Button)
+    const loginTriggers = document.querySelectorAll('.open-login-trigger');
     const loginModal = document.getElementById('secretLoginModal');
     const closeLogin = document.getElementById('closeLoginModal');
     const submitLogin = document.getElementById('loginSubmitBtn');
@@ -302,18 +302,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const adminDashboard = document.getElementById('adminDashboard');
     const logoutBtn = document.getElementById('logoutBtn');
 
-    if (loginTrigger) {
-        loginTrigger.addEventListener('click', (e) => {
+    loginTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
             e.preventDefault();
+            mainWebsite.style.display = 'none';
             loginModal.style.display = 'flex';
             document.getElementById('loginUser').value = '';
             document.getElementById('loginPass').value = '';
+            window.scrollTo(0, 0);
         });
-    }
+    });
 
     if (closeLogin) {
         closeLogin.addEventListener('click', () => {
             loginModal.style.display = 'none';
+            mainWebsite.style.display = 'block';
+            window.scrollTo(0, 0);
         });
     }
 
@@ -323,12 +327,12 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.innerHTML = '';
         const messages = JSON.parse(localStorage.getItem('maniLeads') || '[]');
         if (messages.length === 0) {
-            grid.innerHTML = '<div class="empty-inbox">No new inquiries yet. Client project bookings and emails will appear here.</div>';
+            grid.innerHTML = '<div class="empty-inbox">No new inquiries yet. Client project bookings, budgets, and emails will appear here.</div>';
             return;
         }
         messages.slice().reverse().forEach(msg => {
             const card = document.createElement('div');
-            card.className = 'iphone-glass client-msg-card';
+            card.className = 'client-msg-card';
             card.innerHTML = `
                 <h4>${msg.name}</h4>
                 <div class="email">${msg.email}</div>
@@ -344,15 +348,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const user = document.getElementById('loginUser').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
             if (_verifyPortalAccess(user, pass)) {
-                showToast("Admin Verified. Unlocking Inbox...", "success");
+                showToast("Login Successful!", "success");
                 setTimeout(() => {
                     loginModal.style.display = 'none';
                     mainWebsite.style.display = 'none';
                     adminDashboard.style.display = 'flex';
                     loadAdminMessages();
-                }, 700);
+                }, 500);
             } else {
-                showToast("Invalid Admin Credentials!", "error");
+                showToast("Invalid Username or Password!", "error");
             }
         });
     }
@@ -361,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
         logoutBtn.addEventListener('click', () => {
             adminDashboard.style.display = 'none';
             mainWebsite.style.display = 'block';
-            showToast("Logged out of Admin Portal.", "success");
+            showToast("Logged out successfully.", "success");
             window.scrollTo(0, 0);
         });
     }
