@@ -36,7 +36,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. Live Local Time Clock (IST) in Contact Section
+    // 2. "+ Add Photo" Local Preview Support (Keeps exact Black & White texture)
+    const localPhotoPicker = document.getElementById('localPhotoPicker');
+    const devProfileImg = document.getElementById('devProfileImg');
+    const addPhotoFallback = document.getElementById('addPhotoFallback');
+
+    if (localPhotoPicker && devProfileImg && addPhotoFallback) {
+        localPhotoPicker.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                devProfileImg.src = ev.target.result;
+                devProfileImg.style.display = 'block';
+                addPhotoFallback.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // 3. Live Local Time Clock (IST) in Contact Section
     const liveClockEl = document.getElementById('liveIstClock');
     function updateIstClock() {
         if (!liveClockEl) return;
@@ -56,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateIstClock();
     setInterval(updateIstClock, 30000);
 
-    // 3. Smooth Scroll Reveal Animation
+    // 4. Smooth Scroll Reveal Animation
     const observerOptions = { root: null, rootMargin: "0px", threshold: 0.08 };
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -68,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".reveal-up").forEach(el => scrollObserver.observe(el));
 
-    // 4. Number Counter Animation (Starts from 1 and counts up to target on scroll)
+    // 5. Number Counter Animation (Starts from 1 and counts up to target on scroll)
     const countElements = document.querySelectorAll('.count-up');
     const countObserver = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -101,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     countElements.forEach(el => countObserver.observe(el));
 
-    // 5. FAQ Accordion Toggles
+    // 6. FAQ Accordion Toggles
     const faqItems = document.querySelectorAll('.clean-faq-item');
     faqItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -113,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 6. Interactive Category Pills inside Contact Form
+    // 7. Interactive Category Pills inside Contact Form
     const typePills = document.querySelectorAll('.type-pill');
     const leadCategoryInput = document.getElementById('leadCategory');
     typePills.forEach(pill => {
@@ -126,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 7. HIDDEN CONTACT SECTION LOGIC (Opens ONLY when clicking an Offer, Start Project, or Contact Nav)
+    // 8. HIDDEN CONTACT SECTION LOGIC (Opens ONLY when clicking an Offer, Start Project, or Contact Nav)
     const offerTriggers = document.querySelectorAll('.select-offer-trigger');
     const openContactNavLinks = document.querySelectorAll('.open-contact-nav');
     const contactSection = document.getElementById('contact');
@@ -222,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 8. Pure SVG Toast Notification Helper (Zero Emojis)
+    // 9. Pure SVG Toast Notification Helper (Zero Emojis)
     function showToast(message, type = 'success') {
         const container = document.getElementById('toastContainer');
         if (!container) return;
@@ -241,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 2500);
     }
 
-    // 9. Lead Contact Form Submission (Saves Full Project & Email Details to Admin Inbox)
+    // 10. Lead Contact Form Submission (Saves Full Project & Email Details to Admin Inbox)
     const contactForm = document.getElementById('leadContactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
@@ -274,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 10. Secret Admin Login & Lead Inbox (Click "Money Bagga" Logo)
+    // 11. Secret Admin Login & Lead Inbox (Click "Money Bagga" Logo)
     const loginTrigger = document.getElementById('secretLoginTrigger');
     const loginModal = document.getElementById('secretLoginModal');
     const closeLogin = document.getElementById('closeLoginModal');
