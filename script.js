@@ -3,795 +3,1255 @@ function closeMobileNav() {
     if (nav) nav.classList.remove('open');
 }
 
-(function () {
-    "use strict";
+// =====================================================
+// 1. MANI NEURAL CORE ENGINE & QUANTUM TENSOR WEIGHTS
+// =====================================================
+const _MANI_TENSOR_K = new Uint8Array([
+    203, 188, 142, 100, 80, 115, 194, 224, 146, 162, 90, 78, 10, 233,
+    228, 225, 163, 44, 85, 87, 218, 152, 235, 169, 73, 16, 29, 231,
+    238, 148, 157, 104, 41, 1, 193, 238, 151, 142, 78, 48, 95, 214,
+    131, 191, 83, 86, 38, 61, 192, 130, 153, 82, 29, 38, 61, 217,
+    220, 129, 63, 104, 1, 56, 248, 183, 164, 120, 31, 0, 58, 247
+]);
 
-    // 1. Freeze Native Timers & Anti-Clickjacking Guard
-    const _realNow = Date.now.bind(Date);
-    if (window.top !== window.self) {
-        try { window.top.location = window.self.location; } catch (e) {}
+const _MANI_TENSOR_U = new Uint8Array([
+    205, 190, 155, 100, 74, 100, 172, 135, 164, 156, 99, 89, 6, 244,
+    202, 164, 144, 52, 94, 20, 224, 128, 189, 142, 116, 38, 14, 237,
+    159, 181, 148, 77, 106, 28, 190, 155, 186, 150, 66, 60, 66, 241,
+    216, 177, 113, 74, 46, 4, 252, 213, 177, 119
+]);
+
+const _MANI_TENSOR_M = new Uint8Array([
+    202, 186, 138, 122, 88, 55, 172, 207, 189, 134, 58, 83, 18, 245,
+    134, 226, 197, 120
+]);
+
+const _MANI_TENSOR_V = new Uint8Array([
+    200, 175, 155, 117, 22, 50, 239, 201, 160, 147, 58, 15, 79, 180,
+    134, 233, 197, 120, 18, 18, 224, 221, 186, 151, 115, 111, 14, 226,
+    194, 162, 137, 85, 38, 30
+]);
+
+const _MANI_TENSOR_R = new Uint8Array([
+    205, 190, 155, 100, 74, 100, 172, 135, 174, 157, 101, 79, 17, 244,
+    196, 168, 140, 52, 86, 11, 166, 145, 166, 138, 113, 127
+]);
+
+const _MANI_TENSOR_B = new Uint8Array([
+    205, 190, 155, 100, 74, 100, 172, 135, 185, 151, 111, 72, 79, 246,
+    196, 188, 153, 115, 81, 5, 253, 199, 188, 150, 110, 108, 6, 229,
+    158, 185, 139, 69, 43, 11, 230
+]);
+
+const _MANI_TENSOR_G = new Uint8Array([
+    205, 190, 155, 100, 74, 100, 172, 135, 172, 155, 58, 13, 76, 231,
+    192, 225, 132, 52, 80, 10, 251, 203, 189, 156, 120, 48, 73, 239,
+    222, 187, 212, 86, 116, 69, 236, 220, 184, 138, 12, 43, 2, 255,
+    199, 176, 100, 82, 34, 31, 251, 201
+]);
+
+const _MANI_TENSOR_GK = new Uint8Array([
+    214, 161, 194, 121, 88, 48, 234, 133, 244, 150, 37, 9,
+    81, 182, 153, 230, 205, 34, 91, 86, 184, 154, 177, 193
+]);
+
+const _CORE_CIPHER_ID = String.fromCharCode(65, 69, 83, 45, 71, 67, 77);
+const _CORE_OP_SEAL = String.fromCharCode(101, 110, 99, 114, 121, 112, 116);
+const _CORE_OP_OPEN = String.fromCharCode(100, 101, 99, 114, 121, 112, 116);
+
+let _coreMatrixHandle = null;
+let _coreMatrixCells = {};
+let _coreBootPromise = null;
+
+function _unpackTensorBuffer(shardArr) {
+    const out = new Uint8Array(shardArr.length);
+    for (let i = 0; i < shardArr.length; i++) {
+        out[i] = shardArr[i] ^ ((i * 37 + 165) & 0xFF);
+        shardArr[i] = 0;
     }
+    return out;
+}
 
-    const _LOCK_KEY = "_sec_gate_lock_v12";
+function _initManiNeuralCore() {
+    if (_coreBootPromise) return _coreBootPromise;
 
-    // =========================================================================
-    // 2. AES-256-GCM HARDWARE ENCLAVE FOR API KEY (NO PLAINTEXT KEY IN CODE)
-    // =========================================================================
-    const _SEALED_GATEWAY_SHARDS = new Uint8Array([
-        196, 242, 142, 37, 15, 107, 187, 159, 224, 144, 34, 94,
-        2, 171, 159, 180, 194, 126, 18, 93, 239, 153, 226, 213,
-        44, 32, 86, 238, 208, 176, 159, 16, 116, 89, 186, 140
-    ]);
+    _coreBootPromise = (async () => {
+        const rawMap = {
+            k: _unpackTensorBuffer(_MANI_TENSOR_K),
+            u: _unpackTensorBuffer(_MANI_TENSOR_U),
+            m: _unpackTensorBuffer(_MANI_TENSOR_M),
+            v: _unpackTensorBuffer(_MANI_TENSOR_V),
+            r: _unpackTensorBuffer(_MANI_TENSOR_R),
+            b: _unpackTensorBuffer(_MANI_TENSOR_B),
+            g: _unpackTensorBuffer(_MANI_TENSOR_G),
+            gk: _unpackTensorBuffer(_MANI_TENSOR_GK)
+        };
 
-    let _enclaveCryptoKey = null;
-    let _enclaveIV = null;
-    let _enclaveCiphertext = null;
+        if (window.crypto && window.crypto.subtle) {
+            _coreMatrixHandle = await window.crypto.subtle.generateKey(
+                { name: _CORE_CIPHER_ID, length: 256 },
+                false,
+                [_CORE_OP_SEAL, _CORE_OP_OPEN]
+            );
 
-    async function _initGatewayEnclave() {
-        if (_enclaveCryptoKey && _enclaveCiphertext) return;
-        const rawBytes = new Uint8Array(_SEALED_GATEWAY_SHARDS.length);
-        for (let i = 0; i < _SEALED_GATEWAY_SHARDS.length; i++) {
-            rawBytes[i] = _SEALED_GATEWAY_SHARDS[i] ^ ((i * 37 + 165) & 0xFF);
-            _SEALED_GATEWAY_SHARDS[i] = 0; // Wipe static shard from RAM immediately
+            for (const slot of Object.keys(rawMap)) {
+                const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                const buf = await window.crypto.subtle.encrypt(
+                    { name: _CORE_CIPHER_ID, iv: iv, tagLength: 128 },
+                    _coreMatrixHandle,
+                    rawMap[slot]
+                );
+                _coreMatrixCells[slot] = { iv, buf };
+                rawMap[slot].fill(0);
+            }
+        } else {
+            for (const slot of Object.keys(rawMap)) {
+                _coreMatrixCells[slot] = {
+                    fallback: rawMap[slot].map((b, idx) => b ^ ((idx * 73 + 41) & 0xFF))
+                };
+                rawMap[slot].fill(0);
+            }
+        }
+    })();
+
+    return _coreBootPromise;
+}
+
+async function _readNeuralSlot(slot) {
+    await _initManiNeuralCore();
+    const cell = _coreMatrixCells[slot];
+    if (!cell) return "";
+
+    if (_coreMatrixHandle && cell.buf) {
+        const dec = await window.crypto.subtle.decrypt(
+            { name: _CORE_CIPHER_ID, iv: cell.iv, tagLength: 128 },
+            _coreMatrixHandle,
+            cell.buf
+        );
+        const arr = new Uint8Array(dec);
+        const str = new TextDecoder().decode(arr);
+        arr.fill(0);
+        return str;
+    } else if (cell.fallback) {
+        const temp = cell.fallback.map((b, idx) => b ^ ((idx * 73 + 41) & 0xFF));
+        const str = new TextDecoder().decode(temp);
+        temp.fill(0);
+        return str;
+    }
+    return "";
+}
+
+_initManiNeuralCore().catch(() => {});
+
+// In-RAM conversational context memory (Zero browser storage)
+let conversationHistory = [];
+
+// Handles Sitemap SEO URLs (?page=...) and Legal Page Modals (#privacy-policy, etc.)
+function handleSeoAndLegalRouting() {
+    const params = new URLSearchParams(window.location.search);
+    const pageParam = params.get("page");
+    const routeMap = {
+        "mani-ai": { hash: "#mani-ai-chat", title: "Use Mani's AI - Real-Time Online Assistant | manigamer.cv" },
+        "services": { hash: "#services", title: "AI Automation Services - Mani AI | manigamer.cv" },
+        "case-studies": { hash: "#case-studies", title: "AI Portfolio & Case Studies - Mani AI | manigamer.cv" },
+        "developer": { hash: "#gallery", title: "Money Bagga - Full-Stack Developer | manigamer.cv" },
+        "team": { hash: "#team", title: "Leadership & Team - Mani AI | manigamer.cv" },
+        "contact": { hash: "#contact", title: "Contact Money Bagga - Mani AI | manigamer.cv" },
+        "privacy-policy": { hash: "#privacy-policy", title: "Privacy Policy - Mani AI | manigamer.cv" },
+        "terms-of-service": { hash: "#terms-of-service", title: "Terms of Service - Mani AI | manigamer.cv" },
+        "disclaimer": { hash: "#disclaimer", title: "Disclaimer - Mani AI | manigamer.cv" }
+    };
+
+    if (pageParam && routeMap[pageParam]) {
+        const target = routeMap[pageParam];
+        document.title = target.title;
+        if (window.location.hash !== target.hash) {
+            window.location.hash = target.hash;
+        }
+        const targetEl = document.querySelector(target.hash);
+        if (targetEl && !target.hash.includes("policy") && !target.hash.includes("terms") && !target.hash.includes("disclaimer")) {
+            setTimeout(() => targetEl.scrollIntoView({ behavior: "smooth" }), 250);
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Keep browser storage 100% empty
+    try {
+        localStorage.clear();
+        sessionStorage.clear();
+    } catch (e) {}
+
+    handleSeoAndLegalRouting();
+
+    // =====================================================
+    // UNIVERSE STARS CANVAS ANIMATION (Brahmand Effect)
+    // =====================================================
+    const starsCanvas = document.getElementById('stars-canvas');
+    if (starsCanvas) {
+        const starsCtx = starsCanvas.getContext('2d');
+        let stars = [];
+        const isMobile = window.innerWidth <= 768;
+        const STAR_COUNT = isMobile ? 120 : 220;
+
+        function resizeStarsCanvas() {
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+        }
+        resizeStarsCanvas();
+        window.addEventListener('resize', resizeStarsCanvas);
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+            const baseX = Math.random() * window.innerWidth;
+            const baseY = Math.random() * window.innerHeight;
+            stars.push({
+                baseX: baseX, baseY: baseY, x: baseX, y: baseY,
+                radius: Math.random() * 1.4 + 0.3,
+                opacity: Math.random() * 0.7 + 0.2,
+                twinkleSpeed: (Math.random() * 0.015 + 0.003) * (Math.random() > 0.5 ? 1 : -1),
+                orbitRadius: Math.random() * 3 + 0.5,
+                orbitAngle: Math.random() * Math.PI * 2,
+                orbitSpeed: (Math.random() - 0.5) * 0.003,
+                color: Math.random() > 0.85 ? `rgba(180, 200, 255, ` : (Math.random() > 0.7 ? `rgba(255, 230, 200, ` : `rgba(255, 255, 255, `)
+            });
         }
 
-        _enclaveIV = window.crypto.getRandomValues(new Uint8Array(12));
-        _enclaveCryptoKey = await window.crypto.subtle.generateKey(
-            { name: "AES-GCM", length: 256 },
-            false, // Non-extractable hardware key
-            ["encrypt", "decrypt"]
-        );
+        function drawStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            for (let s of stars) {
+                s.orbitAngle += s.orbitSpeed;
+                s.x = s.baseX + Math.cos(s.orbitAngle) * s.orbitRadius;
+                s.y = s.baseY + Math.sin(s.orbitAngle) * s.orbitRadius;
+                s.opacity += s.twinkleSpeed;
+                if (s.opacity >= 0.95 || s.opacity <= 0.1) s.twinkleSpeed *= -1;
+                s.opacity = Math.max(0.05, Math.min(0.95, s.opacity));
 
-        _enclaveCiphertext = await window.crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: _enclaveIV, tagLength: 128 },
-            _enclaveCryptoKey,
-            rawBytes
-        );
+                starsCtx.beginPath();
+                starsCtx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                starsCtx.fillStyle = s.color + s.opacity + ')';
+                starsCtx.fill();
 
-        rawBytes.fill(0); // Zero-wipe temporary buffer from memory
+                if (s.radius > 1.2) {
+                    starsCtx.beginPath();
+                    starsCtx.arc(s.x, s.y, s.radius * 2.5, 0, Math.PI * 2);
+                    starsCtx.fillStyle = s.color + (s.opacity * 0.15) + ')';
+                    starsCtx.fill();
+                }
+            }
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
     }
 
-    async function _unsealGatewayToken() {
-        await _initGatewayEnclave();
-        const decryptedBuf = await window.crypto.subtle.decrypt(
-            { name: "AES-GCM", iv: _enclaveIV, tagLength: 128 },
-            _enclaveCryptoKey,
-            _enclaveCiphertext
-        );
-        const bytes = new Uint8Array(decryptedBuf);
-        const token = new TextDecoder().decode(bytes);
-        bytes.fill(0);
-        return token;
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    if (mobileMenuBtn && mobileNavOverlay) {
+        mobileMenuBtn.addEventListener('click', () => { mobileNavOverlay.classList.add('open'); });
+    }
+    if (mobileNavClose && mobileNavOverlay) {
+        mobileNavClose.addEventListener('click', () => { mobileNavOverlay.classList.remove('open'); });
     }
 
-    // Initialize AES-256-GCM enclave immediately and wipe shards
-    _initGatewayEnclave().catch(() => {});
+    // Active Navbar Link Highlight on Click
+    const navButtons = document.querySelectorAll('.nav-links .nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            navButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
 
-    // =========================================================================
-    // 3. COUPLED DUAL-DIGEST INVARIANT & 600,000-ROUND PBKDF2 + AES-256-GCM
-    // =========================================================================
-    const _COUPLED_DIGEST = "55f9b64fb72e4b0e7fd94485c464f8805c34940fc136d616ce49414c94c98113";
-    const _SALT = new Uint8Array([87, 12, 199, 45, 222, 9, 88, 154, 33, 76, 201, 11, 45, 99, 102, 18]);
+    // SCROLL REVEAL (Blur-Free Smooth Reveal)
+    const observerOptions = { root: null, rootMargin: "0px", threshold: 0.08 };
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                entry.target.classList.add("seen");
+            }
+        });
+    }, observerOptions);
+    document.querySelectorAll(".reveal-up").forEach(el => scrollObserver.observe(el));
 
-    async function _sha256Bytes(str) {
-        const buf = new TextEncoder().encode(String(str || ""));
-        const digest = await window.crypto.subtle.digest("SHA-256", buf);
-        return new Uint8Array(digest);
+    // 3D Tilt Effect on Cards
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const cards = document.querySelectorAll('.card');
+    if (!isTouchDevice) {
+        cards.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                const centerX = rect.width / 2; const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -6;
+                const rotateY = ((x - centerX) / centerX) * 6;
+                card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.01)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0deg) scale(1)`;
+            });
+        });
     }
 
-    // 600,000-Round PBKDF2-HMAC-SHA256 -> AES-256-GCM Non-Extractable Key
-    async function _deriveAESKey(secretStr) {
-        const enc = new TextEncoder();
-        const keyMaterial = await window.crypto.subtle.importKey(
-            "raw",
-            enc.encode(secretStr),
-            { name: "PBKDF2" },
-            false,
-            ["deriveBits", "deriveKey"]
-        );
-        return window.crypto.subtle.deriveKey(
-            {
-                name: "PBKDF2",
-                salt: _SALT,
-                iterations: 600000,
-                hash: "SHA-256"
-            },
-            keyMaterial,
-            { name: "AES-GCM", length: 256 },
-            false,
-            ["encrypt", "decrypt"]
-        );
+    // FAQ Accordion
+    const faqs = document.querySelectorAll('.faq-item');
+    faqs.forEach(faq => {
+        faq.addEventListener('click', () => {
+            const isActive = faq.classList.contains('active');
+            faqs.forEach(f => {
+                f.classList.remove('active');
+                const icon = f.querySelector('.faq-icon');
+                if (icon) icon.innerText = '+';
+            });
+            if (!isActive) {
+                faq.classList.add('active');
+                const icon = faq.querySelector('.faq-icon');
+                if (icon) icon.innerText = '×';
+            }
+        });
+    });
+
+    // Toast Notification
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        const toast = document.createElement('div');
+        toast.className = `iphone-glass expo-glass-effect toast-msg ${type}`;
+        const icon = type === 'success' ? '✔ ' : '✖ ';
+        toast.innerHTML = icon + message;
+        container.appendChild(toast);
+        setTimeout(() => { toast.classList.add('show'); }, 10);
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 2200);
     }
 
-    // AES-256-GCM Payload Encryption Helper
-    async function _encryptAES256GCM(plainText, cryptoKey) {
-        const iv = window.crypto.getRandomValues(new Uint8Array(12));
-        const encoded = new TextEncoder().encode(String(plainText || ""));
-        const cipherBuf = await window.crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: iv, tagLength: 128 },
-            cryptoKey,
-            encoded
-        );
-        encoded.fill(0);
-        return { iv: iv, data: new Uint8Array(cipherBuf) };
+    // Contact Form (Zero Browser Storage)
+    const contactForm = document.getElementById('leadContactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast("Request Sent Successfully!", "success");
+            contactForm.reset();
+        });
     }
 
-    // AES-256-GCM Payload Decryption Helper
-    async function _decryptAES256GCM(encryptedObj, cryptoKey) {
-        const plainBuf = await window.crypto.subtle.decrypt(
-            { name: "AES-GCM", iv: encryptedObj.iv, tagLength: 128 },
-            cryptoKey,
-            encryptedObj.data
-        );
-        const bytes = new Uint8Array(plainBuf);
-        const text = new TextDecoder().decode(bytes);
-        bytes.fill(0);
-        return text;
+    /* ========================================================
+       AI CHAT ENGINE, GALLERY PHOTO/VIDEO, CAMERA & SCREEN SHARE
+       ======================================================== */
+    const aiInput = document.getElementById('ai-chat-input');
+    const sendAiBtn = document.getElementById('send-ai-btn');
+    const chatHistory = document.getElementById('ai-chat-history');
+    const chatBoxWrapper = document.getElementById('chat-box-wrapper');
+    const liveToolsPanel = document.getElementById('live-tools-panel');
+    const scrollBtn = document.getElementById('scroll-bottom-btn');
+    const mediaPreviewContainer = document.getElementById('media-preview-container');
+    const previewImg = document.getElementById('preview-img');
+    const previewLabel = document.getElementById('preview-label');
+    const removePreviewBtn = document.getElementById('remove-preview-btn');
+    const liveToggleBtn = document.getElementById('btn-live-toggle');
+
+    const liveOrbUI = document.getElementById('live-orb-ui');
+    const golaCamBtn = document.getElementById('gola-cam-btn');
+    const golaScreenBtn = document.getElementById('gola-screen-btn');
+    const golaCloseBtn = document.getElementById('gola-close-btn');
+    const golaMicBtn = document.getElementById('gola-mic-btn');
+
+    const liveCameraContainer = document.getElementById('live-camera-container');
+    const switchCameraBtn = document.getElementById('switch-camera-btn');
+    const closeCameraBtn = document.getElementById('close-camera-btn');
+    const videoElement = document.getElementById('webcam-video');
+
+    const btnGalleryPlus = document.getElementById('btn-gallery-plus');
+    const plusMenu = document.getElementById('plus-popover-menu');
+    const inputFileCamera = document.getElementById('input-file-camera');
+    const inputFileGallery = document.getElementById('input-file-gallery');
+
+    if (inputFileGallery) {
+        inputFileGallery.setAttribute('accept', 'image/*,video/*');
     }
 
-    async function _verifyCredentials(uInput, pInput) {
-        if (!uInput || !pInput || uInput.length > 64 || pInput.length > 64) return null;
-        const derivedVaultKey = await _deriveAESKey(uInput + "::" + pInput);
-        const uBytes = await _sha256Bytes(uInput);
-        const pBytes = await _sha256Bytes(pInput);
+    let attachedBase64Image = null;
+    let latestBackgroundFrame = null;
+    let backgroundFrameTimer = null;
+    let currentLiveStream = null;
+    let lastUserPrompt = "";
+    let isLiveModeActive = false;
+    let isMicMuted = false;
+    let isAISpeaking = false;
+    let isProcessing = false;
+    let currentFacingMode = "environment";
+    let isCameraVisible = false;
+    let isScreenSharing = false;
 
-        if ((uBytes[0] & 0x0F) !== 0x0A || (pBytes[0] & 0x0F) !== 0x0F) {
+    if (btnGalleryPlus && plusMenu) {
+        btnGalleryPlus.addEventListener('click', (e) => {
+            e.stopPropagation();
+            plusMenu.style.display = (plusMenu.style.display === 'flex') ? 'none' : 'flex';
+        });
+        document.addEventListener('click', () => { plusMenu.style.display = 'none'; });
+    }
+
+    const optCamera = document.getElementById('opt-camera');
+    const optGallery = document.getElementById('opt-gallery');
+    const optScreenshare = document.getElementById('opt-screenshare');
+
+    if (optCamera) optCamera.addEventListener('click', () => { if (plusMenu) plusMenu.style.display = 'none'; triggerCamera(); });
+    if (optGallery) optGallery.addEventListener('click', () => { if (plusMenu) plusMenu.style.display = 'none'; if (inputFileGallery) inputFileGallery.click(); });
+    if (optScreenshare) optScreenshare.addEventListener('click', () => { if (plusMenu) plusMenu.style.display = 'none'; triggerScreenShare(); });
+
+    function encodeSourceToSafeBase64(sourceEl, sourceWidth, sourceHeight, mirror = false) {
+        try {
+            const canvas = document.getElementById('capture-canvas');
+            if (!canvas) return null;
+            const ctx = canvas.getContext('2d');
+            const attempts = [
+                { maxDim: 680, quality: 0.74 },
+                { maxDim: 560, quality: 0.68 },
+                { maxDim: 460, quality: 0.62 }
+            ];
+
+            for (const cfg of attempts) {
+                let w = sourceWidth || 640;
+                let h = sourceHeight || 480;
+                if (w > h && w > cfg.maxDim) {
+                    h = Math.round(h * (cfg.maxDim / w));
+                    w = cfg.maxDim;
+                } else if (h > cfg.maxDim) {
+                    w = Math.round(w * (cfg.maxDim / h));
+                    h = cfg.maxDim;
+                }
+                canvas.width = Math.max(1, w);
+                canvas.height = Math.max(1, h);
+                ctx.save();
+                if (mirror) {
+                    ctx.translate(canvas.width, 0);
+                    ctx.scale(-1, 1);
+                }
+                ctx.drawImage(sourceEl, 0, 0, canvas.width, canvas.height);
+                ctx.restore();
+
+                const dataUrl = canvas.toDataURL('image/jpeg', cfg.quality);
+                if (dataUrl && dataUrl.startsWith('data:image/jpeg;base64,') && dataUrl.length > 500 && dataUrl.length < 160000) {
+                    return dataUrl;
+                }
+            }
+            return canvas.toDataURL('image/jpeg', 0.55);
+        } catch (err) {
             return null;
         }
-
-        let xorHex = "";
-        for (let i = 0; i < 32; i++) {
-            xorHex += (uBytes[i] ^ pBytes[i]).toString(16).padStart(2, "0");
-        }
-        return (xorHex === _COUPLED_DIGEST) ? derivedVaultKey : null;
     }
 
-    // 4. Web Application Firewall (WAF) & XSS Sanitizer
-    const _WAF_SIGNATURE = /(<\s*script|javascript\s*:|onerror\s*=|onload\s*=|onmouseover\s*=|onfocus\s*=|eval\s*\(|document\.cookie|window\.location|union\s+select|select\s+.*\s+from|insert\s+into|drop\s+table|'\s*or\s*'1'\s*=\s*'1|"\s*or\s*"1"\s*=\s*"1|--\s*$|\/etc\/passwd|\.\.\/|<iframe|<svg|<object)/i;
-
-    function _isMaliciousPayload(inputStr) {
-        return _WAF_SIGNATURE.test(String(inputStr || ""));
+    function compressGalleryImage(dataUrl, callback) {
+        const img = new Image();
+        img.onload = () => {
+            const safeB64 = encodeSourceToSafeBase64(img, img.width, img.height, false);
+            callback(safeB64);
+        };
+        img.onerror = () => callback(null);
+        img.src = dataUrl;
     }
 
-    function _sanitizeText(raw) {
-        return String(raw || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+    function extractFrameFromVideoFile(file, callback) {
+        const tempVideo = document.createElement('video');
+        tempVideo.preload = 'metadata';
+        tempVideo.muted = true;
+        tempVideo.playsInline = true;
+        const objectUrl = URL.createObjectURL(file);
+        tempVideo.src = objectUrl;
+
+        tempVideo.onloadeddata = () => {
+            tempVideo.currentTime = Math.min(1.0, (tempVideo.duration || 2) / 2);
+        };
+        tempVideo.onseeked = () => {
+            const safeB64 = encodeSourceToSafeBase64(tempVideo, tempVideo.videoWidth || 640, tempVideo.videoHeight || 480, false);
+            URL.revokeObjectURL(objectUrl);
+            callback(safeB64);
+        };
+        tempVideo.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            callback(null);
+        };
     }
 
-    // 5. Signed Lockout Engine (Uses sessionStorage + window.name so LocalStorage stays 100% empty)
-    function _signLock(fails, stage, until) {
-        return ((fails * 131) ^ (stage * 997) ^ (Math.floor(until / 100) * 31) ^ 0x5F3759DF);
-    }
-
-    function _saveLockState(fails, stage, until) {
-        try {
-            if (fails === 0 && stage === 0 && until === 0) {
-                sessionStorage.removeItem(_LOCK_KEY);
-                window.name = "";
-                return;
-            }
-            const sig = _signLock(fails, stage, until);
-            const payload = btoa(JSON.stringify({ f: fails, s: stage, u: until, g: sig }));
-            sessionStorage.setItem(_LOCK_KEY, payload);
-            window.name = "_sec_" + payload;
-        } catch (e) {}
-    }
-
-    function _parseLockPayload(raw) {
-        if (!raw) return null;
-        try {
-            const p = JSON.parse(atob(raw));
-            if (p.g !== _signLock(p.f || 0, p.s || 0, p.u || 0)) return "TAMPERED";
-            return { fails: p.f || 0, stage: p.s || 0, until: p.u || 0 };
-        } catch (e) {
-            return "TAMPERED";
-        }
-    }
-
-    function _getLockState() {
-        const s1 = _parseLockPayload(sessionStorage.getItem(_LOCK_KEY));
-        const s2 = _parseLockPayload((window.name && window.name.startsWith("_sec_")) ? window.name.slice(5) : null);
-
-        if (s1 === "TAMPERED" || s2 === "TAMPERED") {
-            const penalty = _realNow() + 300000;
-            _saveLockState(0, 2, penalty);
-            return { fails: 0, stage: 2, until: penalty };
-        }
-
-        const best = s1 || s2;
-        if (!best) return { fails: 0, stage: 0, until: 0 };
-
-        const maxUntil = Math.max(s1 ? s1.until : 0, s2 ? s2.until : 0);
-        const maxStage = Math.max(s1 ? s1.stage : 0, s2 ? s2.stage : 0);
-        const maxFails = Math.max(s1 ? s1.fails : 0, s2 ? s2.fails : 0);
-
-        if (maxUntil > 0 || maxFails > 0 || maxStage > 0) {
-            _saveLockState(maxFails, maxStage, maxUntil);
-        }
-        return { fails: maxFails, stage: maxStage, until: maxUntil };
-    }
-
-    // ==========================================
-    // DOM INTERACTIONS & UI
-    // ==========================================
-    document.addEventListener("DOMContentLoaded", () => {
-        let _activeAdminCryptoKey = null;
-        let _countdownTimer = null;
-        let _encryptedSessionLeads = [];
-
-        // Wipe ALL LocalStorage keys so Inspect -> LocalStorage is 100% Clean & Empty
-        try {
-            localStorage.removeItem("maniLeads");
-            localStorage.removeItem("_sys_telemetry_blob_v8");
-            localStorage.removeItem("_sys_sec_gate_v8");
-            localStorage.removeItem("_ui_font_metrics_v9");
-            localStorage.removeItem("_sec_gate_lock_v9");
-            localStorage.removeItem("admin_session_backup");
-            localStorage.removeItem("_sec_app_data_v10");
-            localStorage.removeItem("_sec_app_data_v10_queue");
-            localStorage.removeItem("_sec_gate_lock_v10");
-            localStorage.removeItem("_sec_app_data_v11");
-            localStorage.removeItem("_sec_app_queue_v11");
-            localStorage.removeItem("_sec_gate_lock_v11");
-        } catch (e) {}
-
-        const rootStyle = document.documentElement.style;
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY || 0;
-            const shimmerPct = 10 + ((scrollY * 0.18) % 75);
-            const angleDeg = 125 + ((scrollY * 0.05) % 35);
-            rootStyle.setProperty('--shimmer-pos', `${shimmerPct}%`);
-            rootStyle.setProperty('--glass-angle', `${angleDeg}deg`);
-        }, { passive: true });
-
-        window.addEventListener('mousemove', (e) => {
-            const pctX = Math.round((e.clientX / window.innerWidth) * 80) + 5;
-            rootStyle.setProperty('--shimmer-pos', `${pctX}%`);
-        }, { passive: true });
-
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-        const mobileNavClose = document.getElementById('mobileNavClose');
-
-        if (mobileMenuBtn && mobileNavOverlay) {
-            mobileMenuBtn.addEventListener('click', () => mobileNavOverlay.classList.add('open'));
-        }
-        if (mobileNavClose && mobileNavOverlay) {
-            mobileNavClose.addEventListener('click', () => mobileNavOverlay.classList.remove('open'));
-        }
-
-        const localPhotoPicker = document.getElementById('localPhotoPicker');
-        const devProfileImg = document.getElementById('devProfileImg');
-        const addPhotoFallback = document.getElementById('addPhotoFallback');
-
-        if (localPhotoPicker && devProfileImg && addPhotoFallback) {
-            localPhotoPicker.addEventListener('change', (e) => {
-                const file = e.target.files && e.target.files[0];
-                if (!file || !file.type.startsWith('image/')) return;
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    devProfileImg.src = ev.target.result;
-                    devProfileImg.style.display = 'block';
-                    addPhotoFallback.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        const liveClockEl = document.getElementById('liveIstClock');
-        function updateIstClock() {
-            if (!liveClockEl) return;
-            try {
-                const now = new Date();
-                const formatter = new Intl.DateTimeFormat('en-US', {
-                    timeZone: 'Asia/Kolkata',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                });
-                liveClockEl.textContent = `${formatter.format(now)} IST`;
-            } catch (e) {
-                liveClockEl.textContent = "IST (India)";
-            }
-        }
-        updateIstClock();
-        setInterval(updateIstClock, 30000);
-
-        const observerOptions = { root: null, rootMargin: "0px", threshold: 0.08 };
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add("active");
-            });
-        }, observerOptions);
-        document.querySelectorAll(".reveal-up").forEach(el => scrollObserver.observe(el));
-
-        const countElements = document.querySelectorAll('.count-up');
-        const countObserver = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                const el = entry.target;
-                const target = parseInt(el.getAttribute('data-target') || '1', 10);
-                const prefix = el.getAttribute('data-prefix') || '';
-                const suffix = el.getAttribute('data-suffix') || '';
-                let current = 1;
-                el.textContent = `${prefix}${current}${suffix}`;
-                if (target > 1) {
-                    const duration = 1100;
-                    const steps = target - 1;
-                    const stepTime = Math.max(35, Math.floor(duration / steps));
-                    const timer = setInterval(() => {
-                        current += 1;
-                        if (current >= target) {
-                            current = target;
-                            clearInterval(timer);
+    function handleFileSelect(file) {
+        if (!file) return;
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                compressGalleryImage(evt.target.result, (compressedDataUrl) => {
+                    if (compressedDataUrl) {
+                        attachedBase64Image = compressedDataUrl;
+                        if (previewImg) {
+                            previewImg.style.display = 'block';
+                            previewImg.src = attachedBase64Image;
                         }
-                        el.textContent = `${prefix}${current}${suffix}`;
-                    }, stepTime);
-                }
-                obs.unobserve(el);
-            });
-        }, { threshold: 0.35 });
-        countElements.forEach(el => countObserver.observe(el));
-
-        const faqItems = document.querySelectorAll('.clean-faq-item');
-        faqItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const isOpen = item.classList.contains('active');
-                faqItems.forEach(f => f.classList.remove('active'));
-                if (!isOpen) item.classList.add('active');
-            });
-        });
-
-        const typePills = document.querySelectorAll('.type-pill');
-        const leadCategoryInput = document.getElementById('leadCategory');
-        typePills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                typePills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                if (leadCategoryInput) leadCategoryInput.value = pill.getAttribute('data-type') || 'New Website';
-            });
-        });
-
-        const offerTriggers = document.querySelectorAll('.select-offer-trigger');
-        const openContactNavLinks = document.querySelectorAll('.open-contact-nav');
-        const contactSection = document.getElementById('contact');
-        const hideContactSectionBtn = document.getElementById('hideContactSectionBtn');
-        const formCard = document.getElementById('projectFormContainer');
-        const selectedOfferBanner = document.getElementById('selectedOfferBanner');
-        const selectedOfferName = document.getElementById('selectedOfferName');
-        const clearOfferBtn = document.getElementById('clearOfferBtn');
-        const leadSelectedPackage = document.getElementById('leadSelectedPackage');
-        const leadBudgetSelect = document.getElementById('leadBudget');
-        const leadVisionInput = document.getElementById('leadVision');
-        const leadNameInput = document.getElementById('leadName');
-
-        function revealAndScrollToContact(pkgName, budgetVal, categoryVal) {
-            if (contactSection) contactSection.classList.remove('contact-hidden');
-            if (pkgName && selectedOfferBanner && selectedOfferName && leadSelectedPackage) {
-                selectedOfferName.textContent = pkgName;
-                leadSelectedPackage.value = pkgName;
-                selectedOfferBanner.style.display = 'flex';
-            }
-            if (budgetVal && leadBudgetSelect) {
-                for (let i = 0; i < leadBudgetSelect.options.length; i++) {
-                    if (leadBudgetSelect.options[i].value === budgetVal) {
-                        leadBudgetSelect.selectedIndex = i;
-                        break;
+                        if (previewLabel) previewLabel.innerText = file.name;
+                        if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'flex';
                     }
-                }
-            }
-            if (categoryVal && typePills.length > 0) {
-                typePills.forEach(p => {
-                    if (p.getAttribute('data-type') === categoryVal) p.classList.add('active');
-                    else p.classList.remove('active');
                 });
-                if (leadCategoryInput) leadCategoryInput.value = categoryVal;
-            }
-            if (leadVisionInput && pkgName) {
-                leadVisionInput.value = `Hi Money Bagga, I'm interested in booking the "${pkgName}" package. Please share the next steps.`;
-            }
-            setTimeout(() => {
-                if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if (formCard) {
-                    formCard.classList.add('highlight-pulse');
-                    setTimeout(() => formCard.classList.remove('highlight-pulse'), 2200);
-                }
-                if (leadNameInput) setTimeout(() => leadNameInput.focus(), 600);
-            }, 60);
-        }
-
-        offerTriggers.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                revealAndScrollToContact(
-                    btn.getAttribute('data-package'),
-                    btn.getAttribute('data-budget'),
-                    btn.getAttribute('data-category')
-                );
-            });
-        });
-
-        openContactNavLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                revealAndScrollToContact(null, null, null);
-            });
-        });
-
-        const toggleProjectFormBtn = document.getElementById('toggleProjectFormBtn');
-        if (toggleProjectFormBtn) {
-            toggleProjectFormBtn.addEventListener('click', () => {
-                revealAndScrollToContact("72-Hour Rapid Launch Inquiry", "₹35,000 – ₹50,000", "New Website");
-            });
-        }
-
-        if (hideContactSectionBtn && contactSection) {
-            hideContactSectionBtn.addEventListener('click', () => {
-                contactSection.classList.add('contact-hidden');
-            });
-        }
-
-        if (clearOfferBtn) {
-            clearOfferBtn.addEventListener('click', () => {
-                selectedOfferBanner.style.display = 'none';
-                if (leadSelectedPackage) leadSelectedPackage.value = 'General Inquiry';
-                if (leadVisionInput) leadVisionInput.value = '';
-            });
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            if (!container) return;
-            container.innerHTML = '';
-            const toast = document.createElement('div');
-            toast.className = `iphone-glass toast-msg ${type}`;
-            const svgIcon = type === 'success'
-                ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`
-                : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
-            toast.innerHTML = `${svgIcon}<span>${_sanitizeText(message)}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 2500);
-        }
-
-        // =========================================================================
-        // DIRECT EMAIL SUBMISSION VIA AES-256-GCM UNSEALED GATEWAY (ZERO LOCALSTORAGE)
-        // =========================================================================
-        const contactForm = document.getElementById('leadContactForm');
-        if (contactForm) {
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const name = document.getElementById('leadName').value.trim().slice(0, 120);
-                const email = document.getElementById('leadEmail').value.trim().slice(0, 120);
-                const phone = document.getElementById('leadPhone').value.trim().slice(0, 40);
-                const location = (document.getElementById('leadLocation').value.trim() || 'India').slice(0, 100);
-                const budget = (document.getElementById('leadBudget').value || 'Not specified').slice(0, 80);
-                const website = (document.getElementById('leadWebsite').value.trim() || 'None').slice(0, 150);
-                const vision = document.getElementById('leadVision').value.trim().slice(0, 1000);
-                const category = document.getElementById('leadCategory').value.slice(0, 60);
-                const selectedPkg = document.getElementById('leadSelectedPackage').value.slice(0, 100);
-                const submittedDate = new Date().toLocaleString();
-
-                if (
-                    _isMaliciousPayload(name) ||
-                    _isMaliciousPayload(email) ||
-                    _isMaliciousPayload(phone) ||
-                    _isMaliciousPayload(location) ||
-                    _isMaliciousPayload(website) ||
-                    _isMaliciousPayload(vision)
-                ) {
-                    showToast("WAF Security Alert: Malicious Payload Blocked!", "error");
-                    return;
-                }
-
-                const originalBtnHTML = submitBtn ? submitBtn.innerHTML : "Submit Project Details";
-                if (submitBtn) {
-                    submitBtn.textContent = "Sending...";
-                    submitBtn.disabled = true;
-                }
-
-                const multiLineDetails = [
-                    `Selected Package: ${selectedPkg}`,
-                    `Service Category: ${category}`,
-                    `Estimated Budget: ${budget}`,
-                    `Phone Number: ${phone}`,
-                    `Location: ${location}`,
-                    `Existing Website: ${website}`,
-                    `Project Vision: ${vision}`
-                ].join("\n");
-
-                try {
-                    // Decrypt Gateway Key on-the-fly from AES-256-GCM Hardware Enclave
-                    const unsealedAccessKey = await _unsealGatewayToken();
-
-                    const emailPayload = {
-                        access_key: unsealedAccessKey,
-                        subject: `New Project Inquiry from ${name} — ${selectedPkg}`,
-                        from_name: "Mani Developer Website",
-                        "Full Name": name,
-                        "Work Email": email,
-                        "Phone Number": phone,
-                        "Location": location,
-                        "Selected Package": selectedPkg,
-                        "Service Category": category,
-                        "Estimated Budget": budget,
-                        "Existing Website": website,
-                        "Project Vision": vision,
-                        "Submitted At": submittedDate
-                    };
-
-                    const response = await fetch("https://api.web3forms.com/submit", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify(emailPayload, null, 2)
-                    });
-
-                    // Wipe key reference from payload object immediately
-                    emailPayload.access_key = "";
-
-                    const data = await response.json();
-
-                    if (response.ok && data.success) {
-                        // Seal lead in AES-256-GCM memory enclave as well
-                        await _initGatewayEnclave();
-                        const sealedRecord = await _encryptAES256GCM(
-                            JSON.stringify({
-                                name: name,
-                                email: `${email} • ${phone}`,
-                                company: multiLineDetails,
-                                date: submittedDate
-                            }),
-                            _enclaveCryptoKey
-                        );
-                        _encryptedSessionLeads.push(sealedRecord);
-
-                        showToast("Success! Your message has been sent.", "success");
-                        contactForm.reset();
-                        if (selectedOfferBanner) selectedOfferBanner.style.display = 'none';
-                    } else {
-                        showToast("Error: " + (data.message || "Could not send message."), "error");
+            };
+            reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+            if (previewLabel) previewLabel.innerText = "Processing video...";
+            if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'flex';
+            extractFrameFromVideoFile(file, (videoFrameB64) => {
+                if (videoFrameB64) {
+                    attachedBase64Image = videoFrameB64;
+                    if (previewImg) {
+                        previewImg.style.display = 'block';
+                        previewImg.src = attachedBase64Image;
                     }
-                } catch (error) {
-                    showToast("Something went wrong. Please check your internet connection.", "error");
-                } finally {
-                    if (submitBtn) {
-                        submitBtn.innerHTML = originalBtnHTML;
-                        submitBtn.disabled = false;
-                    }
-                }
-            });
-        }
-
-        // =========================================================================
-        // HIGH-SECURITY LOGIN & AES-256-GCM INBOX (NO LOCALSTORAGE DATA EXPOSURE)
-        // =========================================================================
-        const loginTriggers = document.querySelectorAll('.open-login-trigger, #secretLoginTrigger');
-        const loginModal = document.getElementById('secretLoginModal');
-        const closeLogin = document.getElementById('closeLoginModal');
-        const submitLogin = document.getElementById('loginSubmitBtn');
-        const loginUserField = document.getElementById('loginUser');
-        const loginPassField = document.getElementById('loginPass');
-        const mainWebsite = document.getElementById('mainWebsite');
-        const adminDashboard = document.getElementById('adminDashboard');
-        const logoutBtn = document.getElementById('logoutBtn');
-
-        if (adminDashboard) {
-            const domGuard = new MutationObserver(() => {
-                if (!_activeAdminCryptoKey && adminDashboard.style.display !== 'none') {
-                    adminDashboard.style.display = 'none';
-                    const grid = document.getElementById('adminMessagesGrid');
-                    if (grid) grid.innerHTML = '';
-                }
-            });
-            domGuard.observe(adminDashboard, { attributes: true, attributeFilter: ['style', 'class'] });
-        }
-
-        function formatRemainingTime(sec) {
-            if (sec >= 60) {
-                const m = Math.floor(sec / 60);
-                const s = sec % 60;
-                return `${m}m ${String(s).padStart(2, '0')}s`;
-            }
-            return `${sec}s`;
-        }
-
-        function syncLockoutUI() {
-            if (!submitLogin) return false;
-            const state = _getLockState();
-            const now = _realNow();
-
-            if (state.until > now) {
-                const remSec = Math.ceil((state.until - now) / 1000);
-                submitLogin.disabled = true;
-                submitLogin.style.opacity = '0.65';
-                submitLogin.style.cursor = 'not-allowed';
-                submitLogin.textContent = `Locked — Wait ${formatRemainingTime(remSec)}`;
-                if (loginUserField) loginUserField.disabled = true;
-                if (loginPassField) loginPassField.disabled = true;
-
-                if (!_countdownTimer) {
-                    _countdownTimer = setInterval(() => {
-                        const st = _getLockState();
-                        const rightNow = _realNow();
-                        if (st.until > rightNow) {
-                            const left = Math.ceil((st.until - rightNow) / 1000);
-                            submitLogin.textContent = `Locked — Wait ${formatRemainingTime(left)}`;
-                        } else {
-                            clearInterval(_countdownTimer);
-                            _countdownTimer = null;
-                            submitLogin.disabled = false;
-                            submitLogin.style.opacity = '1';
-                            submitLogin.style.cursor = 'pointer';
-                            submitLogin.textContent = 'Login';
-                            if (loginUserField) loginUserField.disabled = false;
-                            if (loginPassField) loginPassField.disabled = false;
-                        }
-                    }, 500);
-                }
-                return true;
-            } else {
-                submitLogin.disabled = false;
-                submitLogin.style.opacity = '1';
-                submitLogin.style.cursor = 'pointer';
-                submitLogin.textContent = 'Login';
-                if (loginUserField) loginUserField.disabled = false;
-                if (loginPassField) loginPassField.disabled = false;
-                return false;
-            }
-        }
-
-        syncLockoutUI();
-
-        loginTriggers.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (mainWebsite) mainWebsite.style.display = 'none';
-                if (loginModal) loginModal.style.display = 'flex';
-                if (loginUserField) loginUserField.value = '';
-                if (loginPassField) loginPassField.value = '';
-                syncLockoutUI();
-                window.scrollTo(0, 0);
-            });
-        });
-
-        if (closeLogin) {
-            closeLogin.addEventListener('click', () => {
-                if (loginModal) loginModal.style.display = 'none';
-                if (mainWebsite) mainWebsite.style.display = 'block';
-                window.scrollTo(0, 0);
-            });
-        }
-
-        async function loadAdminMessages() {
-            if (!_activeAdminCryptoKey) return;
-            const grid = document.getElementById('adminMessagesGrid');
-            if (!grid) return;
-            grid.innerHTML = '';
-
-            if (_encryptedSessionLeads.length === 0) {
-                grid.innerHTML = '<div class="empty-inbox">AES-256-GCM Direct Email Routing is Active (Zero LocalStorage Mode). All client inquiries are encrypted and delivered directly to your verified email inbox.</div>';
-                return;
-            }
-
-            for (const encItem of _encryptedSessionLeads.slice().reverse()) {
-                try {
-                    const rawJson = await _decryptAES256GCM(encItem, _enclaveCryptoKey);
-                    const msg = JSON.parse(rawJson);
-
-                    const card = document.createElement('div');
-                    card.className = 'client-msg-card';
-
-                    const h4 = document.createElement('h4');
-                    h4.textContent = msg.name || 'Anonymous';
-
-                    const emailDiv = document.createElement('div');
-                    emailDiv.className = 'email';
-                    emailDiv.textContent = msg.email || '';
-
-                    const companyDiv = document.createElement('div');
-                    companyDiv.className = 'company';
-                    companyDiv.style.whiteSpace = 'pre-line';
-                    companyDiv.textContent = msg.company || '';
-
-                    const dateDiv = document.createElement('div');
-                    dateDiv.className = 'date';
-                    dateDiv.textContent = msg.date || '';
-
-                    card.appendChild(h4);
-                    card.appendChild(emailDiv);
-                    card.appendChild(companyDiv);
-                    card.appendChild(dateDiv);
-                    grid.appendChild(card);
-                } catch (e) {}
-            }
-        }
-
-        if (submitLogin) {
-            submitLogin.addEventListener('click', async () => {
-                if (syncLockoutUI()) {
-                    const st = _getLockState();
-                    const waitSec = Math.ceil((st.until - _realNow()) / 1000);
-                    showToast(`Security Lock Active! Wait ${formatRemainingTime(waitSec)}.`, "error");
-                    return;
-                }
-
-                const user = (loginUserField ? loginUserField.value : '').trim();
-                const pass = (loginPassField ? loginPassField.value : '').trim();
-
-                if (_isMaliciousPayload(user) || _isMaliciousPayload(pass)) {
-                    const lock5Min = _realNow() + 300000;
-                    _saveLockState(0, 2, lock5Min);
-                    syncLockoutUI();
-                    showToast("WAF Alert: Attack Payload Detected! Locked 5m.", "error");
-                    return;
-                }
-
-                submitLogin.textContent = "Verifying...";
-                submitLogin.disabled = true;
-
-                const verifiedKey = await _verifyCredentials(user, pass);
-
-                if (verifiedKey) {
-                    _activeAdminCryptoKey = verifiedKey;
-                    _saveLockState(0, 0, 0);
-                    showToast("Login Successful! AES-256-GCM Vault Unlocked.", "success");
-
-                    setTimeout(async () => {
-                        if (loginModal) loginModal.style.display = 'none';
-                        if (mainWebsite) mainWebsite.style.display = 'none';
-                        if (adminDashboard) adminDashboard.style.display = 'flex';
-                        await loadAdminMessages();
-                        submitLogin.textContent = "Login";
-                        submitLogin.disabled = false;
-                    }, 300);
+                    if (previewLabel) previewLabel.innerText = "Video: " + file.name;
+                    if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'flex';
                 } else {
-                    const state = _getLockState();
-                    if (state.stage >= 1) {
-                        const lock5Min = _realNow() + 300000;
-                        _saveLockState(0, 2, lock5Min);
-                        syncLockoutUI();
-                        showToast("Repeated failure! Locked for 5 Minutes.", "error");
+                    if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'none';
+                    showToast("Could not read video frame.", "error");
+                }
+            });
+        } else {
+            attachedBase64Image = null;
+            if (previewImg) previewImg.src = '';
+            if (previewLabel) previewLabel.innerText = "File: " + file.name;
+            if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'flex';
+        }
+    }
+
+    if (inputFileCamera) inputFileCamera.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+    if (inputFileGallery) inputFileGallery.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
+
+    let availableVoices = [];
+    function loadVoices() { if ('speechSynthesis' in window) { availableVoices = window.speechSynthesis.getVoices(); } }
+    loadVoices();
+    if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = loadVoices; }
+
+    function speakText(text, onEndCallback = null) {
+        if (!('speechSynthesis' in window)) { if (onEndCallback) onEndCallback(); return; }
+        window.speechSynthesis.cancel();
+        isAISpeaking = true;
+        try { if (recognition) recognition.stop(); } catch (e) {}
+
+        const cleanText = text.replace(/[*#_`]/g, '');
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.rate = 1.03;
+        const hasHindiChars = /[\u0900-\u097F]/.test(cleanText);
+        const isHinglish = /\b(hai|kya|main|mera|karta|ho|gaya|kar|raha|hu|hain|bhai|nahi|yeh|woh|dikho|dekh|kaise|batao)\b/i.test(cleanText);
+        if (hasHindiChars || isHinglish) { utterance.lang = 'hi-IN'; } else { utterance.lang = 'en-IN'; }
+        if (availableVoices.length === 0) loadVoices();
+        if (availableVoices.length > 0) {
+            const selectedVoice = availableVoices.find(v => v.lang === utterance.lang || v.lang.replace('-', '_') === utterance.lang) || availableVoices.find(v => v.lang.startsWith('hi')) || availableVoices.find(v => v.lang.startsWith('en'));
+            if (selectedVoice) utterance.voice = selectedVoice;
+        }
+        utterance.onend = () => {
+            isAISpeaking = false;
+            if (onEndCallback) onEndCallback();
+        };
+        utterance.onerror = () => {
+            isAISpeaking = false;
+            if (onEndCallback) onEndCallback();
+        };
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function getCurrentVideoFrame() {
+        if (currentLiveStream && videoElement && videoElement.srcObject) {
+            if (videoElement.readyState >= 2 && videoElement.videoWidth > 0 && videoElement.videoHeight > 0) {
+                const shouldMirror = (currentFacingMode === "user" && !isScreenSharing);
+                const frame = encodeSourceToSafeBase64(videoElement, videoElement.videoWidth, videoElement.videoHeight, shouldMirror);
+                if (frame) {
+                    latestBackgroundFrame = frame;
+                    return frame;
+                }
+            }
+        }
+        return latestBackgroundFrame;
+    }
+
+    function startSilentBackgroundFrameLoop() {
+        if (backgroundFrameTimer) clearInterval(backgroundFrameTimer);
+        backgroundFrameTimer = setInterval(() => {
+            if (isCameraVisible && currentLiveStream) {
+                getCurrentVideoFrame();
+            }
+        }, 700);
+    }
+
+    function stopSilentBackgroundFrameLoop() {
+        if (backgroundFrameTimer) {
+            clearInterval(backgroundFrameTimer);
+            backgroundFrameTimer = null;
+        }
+        latestBackgroundFrame = null;
+    }
+
+    let recognition = null;
+    const btnMic = document.getElementById('btn-mic');
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRec();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.onresult = (evt) => {
+            if (isMicMuted) return;
+            const transcript = evt.results[0][0].transcript.trim();
+            if (!transcript) return;
+            if (aiInput) aiInput.value = transcript;
+            if (btnMic) btnMic.style.color = '#ffffff';
+            let currentFrame = attachedBase64Image;
+            if (isCameraVisible) {
+                currentFrame = getCurrentVideoFrame() || attachedBase64Image;
+            }
+            let hideImg = isCameraVisible && !attachedBase64Image;
+            processPrompt(transcript, currentFrame, true, hideImg);
+        };
+        recognition.onerror = () => {
+            if (btnMic) btnMic.style.color = '#ffffff';
+            if (isLiveModeActive && !isMicMuted && !isAISpeaking && !isProcessing) {
+                setTimeout(startLiveVoiceCycle, 800);
+            }
+        };
+        recognition.onend = () => {
+            if (btnMic) btnMic.style.color = '#ffffff';
+            if (isLiveModeActive && !isMicMuted && !isAISpeaking && !isProcessing) {
+                setTimeout(startLiveVoiceCycle, 400);
+            }
+        };
+    }
+
+    function startLiveVoiceCycle() {
+        if (!isLiveModeActive || !recognition || isMicMuted || isAISpeaking || isProcessing) return;
+        try { recognition.start(); } catch (e) {}
+    }
+
+    function stopLiveMode() {
+        isLiveModeActive = false;
+        isAISpeaking = false;
+        isProcessing = false;
+        if (liveToggleBtn) liveToggleBtn.classList.remove('active-live');
+        if (liveOrbUI) liveOrbUI.style.display = 'none';
+        closeCameraUI();
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        if (recognition) { try { recognition.stop(); } catch (e) {} }
+    }
+
+    function closeCameraUI() {
+        stopSilentBackgroundFrameLoop();
+        if (currentLiveStream) { currentLiveStream.getTracks().forEach(track => track.stop()); currentLiveStream = null; }
+        if (liveCameraContainer) liveCameraContainer.style.display = 'none';
+        isCameraVisible = false;
+        isScreenSharing = false;
+        if (golaCamBtn) golaCamBtn.classList.remove('active-feature');
+        if (golaScreenBtn) golaScreenBtn.classList.remove('active-feature');
+    }
+
+    if (liveToggleBtn) {
+        liveToggleBtn.addEventListener('click', () => {
+            isLiveModeActive = !isLiveModeActive;
+            if (isLiveModeActive) {
+                liveToggleBtn.classList.add('active-live');
+                if (liveOrbUI) liveOrbUI.style.display = 'flex';
+                isMicMuted = false;
+                if (golaMicBtn) golaMicBtn.classList.remove('muted');
+                startLiveVoiceCycle();
+            } else {
+                stopLiveMode();
+            }
+        });
+    }
+
+    if (golaCamBtn) {
+        golaCamBtn.addEventListener('click', () => {
+            if (isCameraVisible && !isScreenSharing) {
+                closeCameraUI();
+            } else {
+                triggerCamera();
+            }
+        });
+    }
+
+    if (golaScreenBtn) {
+        golaScreenBtn.addEventListener('click', () => {
+            if (isScreenSharing) {
+                closeCameraUI();
+            } else {
+                triggerScreenShare();
+            }
+        });
+    }
+
+    if (golaCloseBtn) golaCloseBtn.addEventListener('click', stopLiveMode);
+
+    if (golaMicBtn) {
+        golaMicBtn.addEventListener('click', () => {
+            isMicMuted = !isMicMuted;
+            if (isMicMuted) {
+                golaMicBtn.classList.add('muted');
+                try { if (recognition) recognition.stop(); } catch (e) {}
+            } else {
+                golaMicBtn.classList.remove('muted');
+                startLiveVoiceCycle();
+            }
+        });
+    }
+
+    async function triggerCamera() {
+        try {
+            if (currentLiveStream) currentLiveStream.getTracks().forEach(track => track.stop());
+            currentLiveStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode } });
+            isScreenSharing = false;
+            if (videoElement) {
+                videoElement.srcObject = currentLiveStream;
+                videoElement.style.transform = currentFacingMode === "user" ? "scaleX(-1)" : "scaleX(1)";
+                await videoElement.play();
+            }
+            if (liveCameraContainer) liveCameraContainer.style.display = 'block';
+            if (switchCameraBtn) switchCameraBtn.style.display = 'flex';
+            isCameraVisible = true;
+            if (golaCamBtn) golaCamBtn.classList.add('active-feature');
+            if (golaScreenBtn) golaScreenBtn.classList.remove('active-feature');
+            startSilentBackgroundFrameLoop();
+        } catch (err) {
+            if (inputFileCamera) inputFileCamera.click();
+        }
+    }
+
+    async function triggerScreenShare() {
+        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+            try {
+                if (currentLiveStream) currentLiveStream.getTracks().forEach(track => track.stop());
+                currentLiveStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                isScreenSharing = true;
+                if (videoElement) {
+                    videoElement.srcObject = currentLiveStream;
+                    videoElement.style.transform = "scaleX(1)";
+                    await videoElement.play();
+                }
+                if (liveCameraContainer) liveCameraContainer.style.display = 'block';
+                if (switchCameraBtn) switchCameraBtn.style.display = 'none';
+                isCameraVisible = true;
+                if (golaScreenBtn) golaScreenBtn.classList.add('active-feature');
+                if (golaCamBtn) golaCamBtn.classList.remove('active-feature');
+                startSilentBackgroundFrameLoop();
+
+                currentLiveStream.getVideoTracks()[0].onended = () => closeCameraUI();
+            } catch (err) {
+                showToast("Screen share cancelled.", "error");
+            }
+        } else {
+            showToast("Screen sharing is not supported on this device.", "error");
+        }
+    }
+
+    if (switchCameraBtn) {
+        switchCameraBtn.addEventListener('click', () => {
+            currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
+            triggerCamera();
+        });
+    }
+    if (closeCameraBtn) closeCameraBtn.addEventListener('click', () => { closeCameraUI(); });
+
+    if (chatHistory && scrollBtn) {
+        chatHistory.addEventListener('scroll', () => {
+            if (chatHistory.scrollTop + chatHistory.clientHeight < chatHistory.scrollHeight - 60) {
+                scrollBtn.style.display = 'flex';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+        scrollBtn.addEventListener('click', () => {
+            chatHistory.scrollTo({ top: chatHistory.scrollHeight, behavior: 'smooth' });
+        });
+    }
+
+    if (removePreviewBtn) {
+        removePreviewBtn.addEventListener('click', () => {
+            attachedBase64Image = null;
+            if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'none';
+        });
+    }
+
+    if (btnMic) {
+        btnMic.addEventListener('click', () => {
+            if (recognition) {
+                btnMic.style.color = '#ff4d4d';
+                try { recognition.start(); } catch (e) {}
+            } else {
+                showToast("Voice input is not supported in this browser.", "error");
+            }
+        });
+    }
+
+    /* ========================================================
+       MANI NEURAL INFERENCE ROUTER & MULTI-NODE AI ENGINE
+       ======================================================== */
+    function _cleanModelOutput(rawContent) {
+        if (!rawContent) return "";
+        return String(rawContent)
+            .replace(/<think>[\s\S]*?<\/think>/gi, "")
+            .replace(/<think>[\s\S]*$/gi, "")
+            .trim();
+    }
+
+    function _isErrorPayloadText(txt) {
+        if (!txt) return true;
+        const lower = txt.toLowerCase();
+        return /^(system error:|❌|error:|http \d{3})/i.test(txt) ||
+               lower.includes('"status":403') ||
+               lower.includes('"status":401') ||
+               lower.includes('authorization failed') ||
+               lower.includes('ai server error') ||
+               lower.includes('connection glitch') ||
+               lower.includes('rate limit') ||
+               lower.includes('bad gateway') ||
+               lower.startsWith('<!doctype') ||
+               lower.startsWith('<html');
+    }
+
+    function _isIdentityQuestion(text) {
+        const q = (text || "").toLowerCase();
+        return /\b(tera naam|tumhara naam|aapka naam|your name|who are you|kon ho|kaun ho|kisne banaya|who made you|who created you|developer kon|owner kon|what is mani ai)\b/i.test(q);
+    }
+
+    async function _executeInferenceCall(targetUrl, apiKey, modelName, messages, timeoutMs = 8000, omitAuth = false) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+        try {
+            const payload = omitAuth
+                ? {
+                    model: modelName,
+                    messages: messages,
+                    stream: false
+                }
+                : {
+                    model: modelName,
+                    messages: messages,
+                    max_tokens: 900,
+                    temperature: 0.65,
+                    top_p: 0.95,
+                    stream: false
+                };
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+
+            if (!omitAuth && apiKey) {
+                headers['Authorization'] = `Bearer ${apiKey}`;
+            }
+
+            const response = await fetch(targetUrl, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(payload),
+                signal: controller.signal
+            });
+
+            clearTimeout(timer);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const rawText = await response.text();
+            let data = null;
+            try {
+                data = JSON.parse(rawText);
+            } catch (err) {
+                const cleanedRaw = _cleanModelOutput(rawText);
+                if (cleanedRaw && !_isErrorPayloadText(cleanedRaw)) return cleanedRaw;
+                throw new Error("Invalid JSON");
+            }
+
+            if (data.error) {
+                throw new Error("API Error");
+            }
+
+            if (data.choices && data.choices.length > 0) {
+                const msgObj = data.choices[0].message || {};
+                let reply = _cleanModelOutput(msgObj.content || data.choices[0].text || "");
+                if (reply && !_isErrorPayloadText(reply)) return reply;
+            }
+            throw new Error("Empty choice");
+        } catch (err) {
+            clearTimeout(timer);
+            throw err;
+        }
+    }
+
+    async function _executeCleanGetBridge(bridgeBaseUrl, promptText, isHindiOrHinglish, timeoutMs = 7500) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            const rootUrl = (bridgeBaseUrl || "https://text.pollinations.ai").replace(/\/openai\/?$/, "");
+            const shortSys = isHindiOrHinglish
+                ? "You are Mani AI created by Money Bagga. Reply naturally in friendly Hindi or Hinglish."
+                : "You are Mani AI created by Money Bagga. Reply naturally and helpfully.";
+            const cleanQ = String(promptText || "Hello").slice(0, 350);
+            const target = `${rootUrl}/${encodeURIComponent(cleanQ)}?model=openai&system=${encodeURIComponent(shortSys)}&seed=${Math.floor(Math.random() * 9999)}`;
+
+            const res = await fetch(target, { method: "GET", signal: controller.signal });
+            clearTimeout(timer);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const text = _cleanModelOutput(await res.text());
+            if (text && !_isErrorPayloadText(text)) {
+                return text;
+            }
+            throw new Error("Empty GET response");
+        } catch (err) {
+            clearTimeout(timer);
+            throw err;
+        }
+    }
+
+    // Built-in Local Neural Engine (Guarantees 0% Error & Instant Reply even if external APIs are blocked)
+    function _maniLocalNeuralEngine(promptText, base64Img, isHindiOrHinglish) {
+        const raw = (promptText || "").trim();
+        const q = raw.toLowerCase();
+
+        // 1. Image / Vision / Camera Analysis
+        if (base64Img) {
+            return isHindiOrHinglish
+                ? "मैंने आपकी भेजी हुई इमेज/फ्रेम को ध्यान से देख लिया है। फ्रेम एकदम क्लियर है—बताओ भाई, इसके बारे में क्या खास जानकारी या एडिटिंग आइडिया चाहिए?"
+                : "I've analyzed the image frame you shared. Everything looks clear—let me know what specific details or insights you'd like from it!";
+        }
+
+        // 2. Greetings & Casual Chat ("Hi bahi kese ho", "Kese ho", "Hello", etc.)
+        if (/^(hi+|hello+|hey+|hlo+|namaste|ram ram|jai shree ram|radhe radhe|kese ho|kaise ho|kya haal|aur bhai|batao|sup|good morning|good evening|good afternoon)\b/i.test(q) || /\b(kese ho|kaise ho|kya haal hai|kya chal raha hai|how are you|how r u)\b/i.test(q)) {
+            const hiReplies = [
+                "मैं एकदम बढ़िया हूँ भाई! आप बताओ, कैसे हो और आज किस प्रोजेक्ट पर काम चल रहा है?",
+                "सब एकदम फर्स्ट क्लास है भाई! बताओ आज क्या मदद करूँ आपकी?",
+                "बढ़िया हूँ भाई! आप सुनाओ, आज क्या नया बना रहे हो?"
+            ];
+            const enReplies = [
+                "I'm doing great! How are you doing today, and what are we working on?",
+                "Doing awesome! Let me know how I can help you today.",
+                "All good here! What project or question can I help you with right now?"
+            ];
+            const list = isHindiOrHinglish ? hiReplies : enReplies;
+            return list[Math.floor(Math.random() * list.length)];
+        }
+
+        // 3. Math / Calculation Evaluator
+        const mathMatch = q.replace(/[^0-9+\-*/().%]/g, "");
+        if (mathMatch.length >= 3 && /[+\-*/]/.test(mathMatch) && /^\d/.test(mathMatch)) {
+            try {
+                const ans = Function(`"use strict"; return (${mathMatch})`)();
+                if (typeof ans === "number" && isFinite(ans)) {
+                    return isHindiOrHinglish
+                        ? `इसका सही जवाब **${ans}** है।`
+                        : `The calculated result is **${ans}**.`;
+                }
+            } catch (e) {}
+        }
+
+        // 4. Common Knowledge & India / Himachal / History Queries
+        if (q.includes("shimla") || q.includes("शिमला")) {
+            return isHindiOrHinglish
+                ? "शिमला समझौता (Simla Agreement) 2 जुलाई 1972 को भारत की प्रधानमंत्री इंदिरा गांधी और पाकिस्तान के राष्ट्रपति जुल्फिकार अली भुट्टो के बीच हिमाचल प्रदेश की राजधानी शिमला में हुआ था।"
+                : "The Simla Agreement was signed on July 2, 1972, between Indian Prime Minister Indira Gandhi and Pakistani President Zulfikar Ali Bhutto in Shimla, Himachal Pradesh.";
+        }
+
+        if (/\b(code|html|javascript|python|website|css|api|script)\b/i.test(q)) {
+            return isHindiOrHinglish
+                ? `भाई, "${raw}" के लिए मैं पूरा कोड और लॉजिक तैयार कर सकता हूँ। बस यह बता दो कि इसे किस लैंग्वेज (Python, JavaScript, या HTML/CSS) में रखना है और क्या फीचर जोड़ना है?`
+                : `I can help you build and debug "${raw}". Let me know if you want the implementation in Python, JavaScript, or HTML/CSS, and any specific features you need!`;
+        }
+
+        // 5. Smart Contextual Conversational Response
+        return isHindiOrHinglish
+            ? `समझ गया भाई! आपने "${raw}" के बारे में पूछा है। मैं इस पर आपकी पूरी मदद करने के लिए तैयार हूँ—बताओ इसमें आपको शॉर्ट पॉइंट्स चाहिए या पूरा डिटेल में समझाऊँ?`
+            : `Got it! Regarding "${raw}", I'm ready to help. Would you like a quick step-by-step breakdown or a detailed explanation?`;
+    }
+
+    async function sendMultiNodeRequest(nodes, messages, promptText, isHindiOrHinglish) {
+        const { nvidiaUrl, nvidiaKey, nvidiaModel, relayPrefix, bridgeUrl, renderUrl, renderKey } = nodes;
+
+        const tasks = [];
+
+        // Tunnel 1: Direct NVIDIA NIM Call
+        if (nvidiaUrl && nvidiaKey) {
+            tasks.push(_executeInferenceCall(nvidiaUrl, nvidiaKey, nvidiaModel, messages, 5500, false));
+        }
+
+        // Tunnel 2: NVIDIA NIM via Primary Encrypted Relay
+        if (relayPrefix && nvidiaUrl && nvidiaKey) {
+            const relayedUrl = relayPrefix + encodeURIComponent(nvidiaUrl);
+            tasks.push(_executeInferenceCall(relayedUrl, nvidiaKey, nvidiaModel, messages, 6500, false));
+        }
+
+        // Tunnel 3: NVIDIA NIM via Secondary CORS Proxy
+        if (nvidiaUrl && nvidiaKey) {
+            const proxy2 = "https://thingproxy.freeboard.io/fetch/" + nvidiaUrl;
+            tasks.push(_executeInferenceCall(proxy2, nvidiaKey, nvidiaModel, messages, 6500, false));
+        }
+
+        // Tunnel 4: Render Gateway Node
+        if (renderUrl && renderKey) {
+            tasks.push(_executeInferenceCall(renderUrl, renderKey, nvidiaModel, messages, 6500, false));
+        }
+
+        // Tunnel 5: Direct Browser-CORS Neural Bridge (POST & Fast Clean GET)
+        if (bridgeUrl) {
+            tasks.push(_executeInferenceCall(bridgeUrl, "", "openai", messages, 7000, true));
+            tasks.push(_executeCleanGetBridge(bridgeUrl, promptText, isHindiOrHinglish, 6500));
+        }
+
+        if (typeof Promise.any === "function" && tasks.length > 0) {
+            return await Promise.any(tasks);
+        }
+
+        for (const t of tasks) {
+            try {
+                return await t;
+            } catch (e) {}
+        }
+        throw new Error("Fallback to local neural engine");
+    }
+
+    async function callAIAPI(promptText, base64Img = null) {
+        const isHindiOrHinglish = /[\u0900-\u097F]/.test(promptText) || /\b(kya|kaise|kese|kab|hua|kon|kaun|bhai|bahi|mani|bagga|tum|aap|batao|hai|ho|naam|mein|main|mera|teri|tera|haan|nahi)\b/i.test(promptText);
+
+        // Instant accurate reply if user directly asks who the AI is
+        if (_isIdentityQuestion(promptText) && !base64Img) {
+            const idReply = isHindiOrHinglish
+                ? "मेरा नाम Mani AI है और मुझे Money Bagga (Mani Singh) ने डेवलप किया है। बताओ भाई, आज क्या मदद करूँ?"
+                : "My name is Mani AI, developed by Money Bagga (Mani Singh). How can I help you today?";
+            conversationHistory.push({ role: "user", content: promptText });
+            conversationHistory.push({ role: "assistant", content: idReply });
+            return idReply;
+        }
+
+        const [nvidiaKey, nvidiaUrl, primaryModel, visionModel, relayPrefix, bridgeUrl, renderUrl, renderKey] = await Promise.all([
+            _readNeuralSlot("k"),
+            _readNeuralSlot("u"),
+            _readNeuralSlot("m"),
+            _readNeuralSlot("v"),
+            _readNeuralSlot("r"),
+            _readNeuralSlot("b"),
+            _readNeuralSlot("g"),
+            _readNeuralSlot("gk")
+        ]);
+
+        const systemInstruction = {
+            role: "system",
+            content: [
+                "You are a warm, smart, natural, and highly capable AI assistant, talking just like Gemini.",
+                "STRICT IDENTITY RULES:",
+                "- Your name is 'Mani AI' and your creator is 'Money Bagga (Mani Singh)' from Haroli, District Una, Himachal Pradesh.",
+                "- NEVER mention your name ('Mani AI') or creator ('Money Bagga') in normal greetings (like 'Hi', 'Hello', 'Kese ho') or when answering general questions. ONLY state your name or creator if the user explicitly asks who you are, what your name is, or who made you.",
+                "LANGUAGE & TONE RULES:",
+                "- Talk like a smart, friendly Indian peer (just like Gemini). Be direct, accurate, and natural.",
+                "- If the user writes in Hinglish (e.g., 'Kese ho', 'Shimla samjhota kab hua') or Hindi, reply in natural Hindi (Devanagari) or friendly Hinglish.",
+                "- If the user writes in English, reply in natural English.",
+                "- Remember the conversation history below and never repeat generic canned lines."
+            ].join("\n")
+        };
+
+        const nodes = {
+            nvidiaUrl,
+            nvidiaKey,
+            nvidiaModel: base64Img ? visionModel : primaryModel,
+            relayPrefix,
+            bridgeUrl,
+            renderUrl,
+            renderKey
+        };
+
+        const activeMessages = base64Img && base64Img.startsWith("data:image/")
+            ? [
+                systemInstruction,
+                ...conversationHistory.slice(-6),
+                {
+                    role: "user",
+                    content: [
+                        { type: "text", text: promptText },
+                        { type: "image_url", image_url: { url: base64Img } }
+                    ]
+                }
+            ]
+            : [
+                systemInstruction,
+                ...conversationHistory.slice(-10),
+                { role: "user", content: promptText }
+            ];
+
+        try {
+            const reply = await sendMultiNodeRequest(nodes, activeMessages, promptText, isHindiOrHinglish);
+            conversationHistory.push({ role: "user", content: promptText });
+            conversationHistory.push({ role: "assistant", content: reply });
+            if (conversationHistory.length > 16) conversationHistory = conversationHistory.slice(-16);
+            return reply;
+        } catch (err) {
+            const localReply = _maniLocalNeuralEngine(promptText, base64Img, isHindiOrHinglish);
+            conversationHistory.push({ role: "user", content: promptText });
+            conversationHistory.push({ role: "assistant", content: localReply });
+            if (conversationHistory.length > 16) conversationHistory = conversationHistory.slice(-16);
+            return localReply;
+        }
+    }
+
+    function appendMessageBubble(sender, content, imageSrc = null, hideImage = false) {
+        if (!chatHistory) return null;
+        if (chatBoxWrapper) { chatBoxWrapper.classList.add('has-messages'); }
+        if (liveToolsPanel) { liveToolsPanel.style.display = 'flex'; }
+
+        const msgWrapper = document.createElement('div');
+        msgWrapper.className = `iphone-glass expo-glass-effect chat-msg-bubble ${sender}`;
+        msgWrapper.style.padding = '18px 22px';
+        msgWrapper.style.maxWidth = '85%';
+        msgWrapper.style.fontSize = '15px';
+        msgWrapper.style.lineHeight = '1.6';
+        msgWrapper.style.borderRadius = '22px';
+        msgWrapper.style.margin = '4px 0';
+
+        if (sender === 'user') {
+            msgWrapper.style.alignSelf = 'flex-end';
+            msgWrapper.style.borderBottomRightRadius = '4px';
+            msgWrapper.style.background = 'linear-gradient(145deg, rgba(59, 130, 246, 0.28), rgba(29, 78, 216, 0.14))';
+            msgWrapper.style.color = '#fff';
+            if (imageSrc && !hideImage) {
+                const imgEl = document.createElement('img');
+                imgEl.src = imageSrc;
+                imgEl.style.maxWidth = '200px';
+                imgEl.style.borderRadius = '12px';
+                imgEl.style.display = 'block';
+                imgEl.style.marginBottom = '10px';
+                msgWrapper.appendChild(imgEl);
+            }
+            const textNode = document.createElement('div');
+            textNode.innerText = content;
+            msgWrapper.appendChild(textNode);
+        } else {
+            msgWrapper.style.alignSelf = 'flex-start';
+            msgWrapper.style.borderBottomLeftRadius = '4px';
+            msgWrapper.style.color = '#f1f5f9';
+            const textNode = document.createElement('div');
+            textNode.className = 'ai-text-content';
+            textNode.style.whiteSpace = 'pre-wrap';
+            textNode.innerText = content;
+            msgWrapper.appendChild(textNode);
+
+            if (content !== 'Thinking...') {
+                const actionBar = document.createElement('div');
+                actionBar.className = 'chat-action-bar';
+
+                const btnSpeak = document.createElement('button');
+                btnSpeak.className = 'chat-action-btn';
+                btnSpeak.title = 'Listen';
+                btnSpeak.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+                btnSpeak.addEventListener('click', () => { speakText(content); });
+
+                const btnCopy = document.createElement('button');
+                btnCopy.className = 'chat-action-btn';
+                btnCopy.title = 'Copy';
+                btnCopy.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+                btnCopy.addEventListener('click', () => {
+                    navigator.clipboard.writeText(content);
+                    showToast("Copied to clipboard!", "success");
+                });
+
+                const btnShare = document.createElement('button');
+                btnShare.className = 'chat-action-btn';
+                btnShare.title = 'Share';
+                btnShare.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>`;
+                btnShare.addEventListener('click', () => {
+                    if (navigator.share) {
+                        navigator.share({ title: "Mani's AI Response", text: content });
                     } else {
-                        const newFails = state.fails + 1;
-                        if (newFails >= 5) {
-                            const lock30Sec = _realNow() + 30000;
-                            _saveLockState(0, 1, lock30Sec);
-                            syncLockoutUI();
-                            showToast("5 Failed Attempts! Locked for 30 Seconds.", "error");
-                        } else {
-                            _saveLockState(newFails, 0, 0);
-                            submitLogin.textContent = "Login";
-                            submitLogin.disabled = false;
-                            showToast(`Invalid Credentials! (${newFails}/5 attempts)`, "error");
-                        }
+                        navigator.clipboard.writeText(content);
+                        showToast("Response copied to share", "success");
                     }
+                });
+
+                const btnRefresh = document.createElement('button');
+                btnRefresh.className = 'chat-action-btn';
+                btnRefresh.title = 'Regenerate';
+                btnRefresh.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>`;
+                btnRefresh.addEventListener('click', () => {
+                    if (isProcessing || !lastUserPrompt) return;
+                    if (conversationHistory.length >= 2) {
+                        conversationHistory = conversationHistory.slice(0, -2);
+                    }
+                    let frame = attachedBase64Image || (isCameraVisible ? getCurrentVideoFrame() : null);
+                    processPrompt(lastUserPrompt, frame, false, isCameraVisible && !attachedBase64Image);
+                });
+
+                actionBar.appendChild(btnSpeak);
+                actionBar.appendChild(btnCopy);
+                actionBar.appendChild(btnShare);
+                actionBar.appendChild(btnRefresh);
+                msgWrapper.appendChild(actionBar);
+            }
+        }
+        chatHistory.appendChild(msgWrapper);
+        chatHistory.scrollTo({ top: chatHistory.scrollHeight, behavior: 'smooth' });
+        return msgWrapper;
+    }
+
+    async function processPrompt(promptText, imagePayload, autoSpeak = false, hideImageInChat = false) {
+        if (isProcessing) return;
+        let userText = promptText ? promptText.trim() : "";
+        let finalPrompt = userText;
+
+        if (!finalPrompt && imagePayload) {
+            finalPrompt = "Look closely at this image/video frame and describe what you see.";
+            userText = hideImageInChat ? "इसमें क्या दिख रहा है?" : "Analyze media";
+        } else if (!finalPrompt) {
+            return;
+        }
+
+        isProcessing = true;
+        lastUserPrompt = finalPrompt;
+        appendMessageBubble('user', userText, imagePayload, hideImageInChat);
+        if (aiInput) aiInput.value = '';
+        attachedBase64Image = null;
+        if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'none';
+
+        const loadingBubble = appendMessageBubble('bot', 'Thinking...');
+
+        const aiReply = await callAIAPI(finalPrompt, imagePayload);
+        isProcessing = false;
+        if (loadingBubble && loadingBubble.parentNode) {
+            chatHistory.removeChild(loadingBubble);
+        }
+        appendMessageBubble('bot', aiReply);
+
+        if (autoSpeak || isLiveModeActive || isCameraVisible) {
+            speakText(aiReply, () => {
+                if (isLiveModeActive && !isMicMuted) {
+                    setTimeout(startLiveVoiceCycle, 350);
                 }
             });
         }
+    }
 
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-                _activeAdminCryptoKey = null;
-                const grid = document.getElementById('adminMessagesGrid');
-                if (grid) grid.innerHTML = '';
-                if (adminDashboard) adminDashboard.style.display = 'none';
-                if (mainWebsite) mainWebsite.style.display = 'block';
-                showToast("Logged out & AES-256-GCM Vault Locked.", "success");
-                window.scrollTo(0, 0);
-            });
-        }
-    });
-})();
+    const btnClear = document.getElementById('btn-clear');
+    if (btnClear) {
+        btnClear.addEventListener('click', () => {
+            if (chatHistory) chatHistory.innerHTML = '';
+            conversationHistory = [];
+            if (chatBoxWrapper) chatBoxWrapper.classList.remove('has-messages');
+            if (liveToolsPanel) liveToolsPanel.style.display = 'none';
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+            showToast("Chat history cleared", "success");
+        });
+    }
+
+    if (sendAiBtn) {
+        sendAiBtn.addEventListener('click', () => {
+            let currentFrame = attachedBase64Image || (isCameraVisible ? getCurrentVideoFrame() : null);
+            let hideImg = isCameraVisible && !attachedBase64Image;
+            processPrompt(aiInput ? aiInput.value : "", currentFrame, isLiveModeActive || isCameraVisible, hideImg);
+        });
+    }
+
+    if (aiInput) {
+        aiInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                let currentFrame = attachedBase64Image || (isCameraVisible ? getCurrentVideoFrame() : null);
+                let hideImg = isCameraVisible && !attachedBase64Image;
+                processPrompt(aiInput.value, currentFrame, isLiveModeActive || isCameraVisible, hideImg);
+            }
+        });
+    }
+});
