@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+=====================================================================================
+  [ TOP VERIFIED SEO BADGE — NEXUSMANI.SHOP OFFICIAL STATIC SITEMAP ]
+  ★ TITLE      : Mani Developer — Money Bagga | #1 Web & App Developer in Una, HP
+  ★ BRAND      : Mani Developer (Money Bagga / MONEY / Developer Money)
+  ★ DOMAIN     : https://nexusmani.shop/
+  ★ ROLE       : #1 Full-Stack Web Developer, App Creator & Cyber Expert in Una, HP
+  ★ LOCATION   : Haroli, District Una, Himachal Pradesh (177220), India
+  ★ CONTACT    : +91-82196-93695 (24/7 Direct Support)
+  ★ STATUS     : Google Search Console Fast-Index Static Sitemap (Priority 1.0)
+=====================================================================================
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+                            http://www.google.com/schemas/sitemap-image/1.1
+                            http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
+
+    <!-- ======================================================================== -->
+    <!-- 1. PRIMARY HOMEPAGE & TOP RANKING LANDING PAGE (PRIORITY 1.00)           -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/</loc>
+        <xhtml:link rel="alternate" hreflang="en-in" href="https://nexusmani.shop/" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://nexusmani.shop/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://nexusmani.shop/" />
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.00</priority>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/mani-devloper.jpeg</image:loc>
+            <image:title>Mani Developer — Money Bagga | #1 Web &amp; App Developer in Una, HP</image:title>
+            <image:caption>Money Bagga (Mani Developer / MONEY) — #1 Full-Stack Web Developer, Custom Mobile App Creator &amp; Cyber Expert in Haroli, District Una, Himachal Pradesh (177220).</image:caption>
+            <image:geo_location>Haroli, District Una, Himachal Pradesh, India</image:geo_location>
+        </image:image>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/aster.jpg</image:loc>
+            <image:title>Mani Developer (Money Bagga) Official Brand Logo Badge</image:title>
+            <image:caption>Official Brand Badge and Favicon of Mani Developer — nexusmani.shop (#1 Web &amp; App Developer in Himachal Pradesh).</image:caption>
+            <image:geo_location>Una, Himachal Pradesh, India</image:geo_location>
+        </image:image>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 2. MAIN INDEX ENTRY POINT                                                -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/index.html</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.98</priority>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/mani-devloper.jpeg</image:loc>
+            <image:title>Freelance Web Developer in India — Money Bagga (Mani Developer)</image:title>
+            <image:caption>Fast, SEO-friendly websites, web applications and mobile apps for businesses and startups across India by Money Bagga.</image:caption>
+            <image:geo_location>Haroli, Una, Himachal Pradesh, India</image:geo_location>
+        </image:image>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 3. TOP HERO SECTION — FREELANCE WEB DEVELOPER & CYBER EXPERT IN INDIA    -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#top-hero</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.95</priority>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 4. DEVELOPER PROFILE — CYBER EXPERT & DEVELOPER MONEY BAGGA              -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#developer</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/mani-devloper.jpeg</image:loc>
+            <image:title>Cyber Expert &amp; Developer Money Bagga — Founder &amp; Lead Developer</image:title>
+            <image:caption>Meet Money Bagga (Mani Developer) — #1 Web &amp; App Developer &amp; Cyber Expert in Haroli, District Una, Himachal Pradesh (177220).</image:caption>
+            <image:geo_location>Haroli, District Una, Himachal Pradesh 177220, India</image:geo_location>
+        </image:image>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 5. WEB & MOBILE APP DEVELOPMENT SERVICES (NEXT.JS, UI/UX, SEO)           -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#services</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.92</priority>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 6. PORTFOLIO & CASE STUDIES (INTERN STUMP, SMC ONLINE, MONEY SYSTEMS)    -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#case-studies</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 7. TRANSPARENT PRICING & 72-HOUR LAUNCH PACKAGES                         -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#pricing</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 8. INTERACTIVE PROJECT & BUDGET ESTIMATOR TOOL                           -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#estimator</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 9. 24/7 DIRECT CONTACT SUPPORT & PROJECT BOOKING (+91 82196-93695)       -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#contact</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.92</priority>
+    </url>
+
+    <!-- ======================================================================== -->
+    <!-- 10. FREQUENTLY ASKED QUESTIONS (FAQ) & OWNERSHIP / PRIVACY POLICY        -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/#faq</loc>
+        <lastmod>2026-11-04T22:09:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.80</priority>
+    </url>
+
+</urlset>
