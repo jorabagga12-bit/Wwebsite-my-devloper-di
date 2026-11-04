@@ -30,18 +30,21 @@ document.addEventListener("DOMContentLoaded", () => {
         mobileNavOverlayEl.appendChild(darkBtn);
     }
 
-    // 1. फॉर्म को हमेशा पेज पर दिखाने के लिए
+    // 1. फॉर्म को डिफ़ॉल्ट रूप से छुपा कर रखने के लिए (सिर्फ बटन क्लिक पर खुलेगा)
     const contactSection = document.getElementById('contact');
-    const closeBar = document.querySelector('.contact-close-bar');
+    const closeContactBtn = document.getElementById('closeContactFormBtn');
     if (contactSection) {
-        contactSection.classList.remove('contact-hidden');
-        contactSection.style.display = 'block';
+        contactSection.classList.add('contact-hidden');
+        contactSection.style.display = 'none';
     }
-    if (closeBar) {
-        closeBar.style.display = 'none';
+    if (closeContactBtn && contactSection) {
+        closeContactBtn.addEventListener('click', () => {
+            contactSection.classList.add('contact-hidden');
+            contactSection.style.display = 'none';
+        });
     }
 
-    // 1.1 फॉर्म को फोटो जैसा एकदम क्लीन करने के लिए (नंबर, ईमेल और डबल टेक्स्ट हटाने के लिए)
+    // 1.1 फॉर्म को एकदम क्लीन रखने के लिए (कोई पर्सनल नंबर या ईमेल शो न हो)
     const cleanForm = document.getElementById('form') || document.getElementById('leadContactForm');
     if (cleanForm) {
         cleanForm.setAttribute('autocomplete', 'off');
@@ -51,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const fieldPlaceholders = {
             leadName: "Full Name",
-            leadEmail: "Work Email",
+            leadEmail: "Email Address",
             leadPhone: "Phone Number",
             leadLocation: "Country / Location",
             leadWebsite: "Existing Website URL (OPTIONAL)",
@@ -218,6 +221,17 @@ document.addEventListener("DOMContentLoaded", () => {
             selectedOfferName.textContent = pkgName;
             leadSelectedPackage.value = pkgName;
             selectedOfferBanner.style.display = 'flex';
+        } else if (!pkgName && selectedOfferBanner && leadSelectedPackage) {
+            selectedOfferBanner.style.display = 'none';
+            leadSelectedPackage.value = 'General Inquiry';
+        }
+        if (budgetVal && leadBudgetSelect) {
+            for (let i = 0; i < leadBudgetSelect.options.length; i++) {
+                if (leadBudgetSelect.options[i].value === budgetVal) {
+                    leadBudgetSelect.selectedIndex = i;
+                    break;
+                }
+            }
         }
         if (categoryVal && typePills.length > 0) {
             typePills.forEach(p => {
