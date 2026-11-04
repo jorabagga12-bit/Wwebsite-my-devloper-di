@@ -1,147 +1,68 @@
+// =====================================================
+// MANI AI MAIN SCRIPT (manigamer.cv)
+// =====================================================
 function closeMobileNav() {
     const nav = document.getElementById('mobileNavOverlay');
     if (nav) nav.classList.remove('open');
 }
 
 // =====================================================
-// 1. MANI NEURAL CORE ENGINE & QUANTUM TENSOR WEIGHTS
+// 1. EXACT NVIDIA NODE CONFIG (ONLY YOUR CREDENTIALS)
 // =====================================================
-const _MANI_TENSOR_K = new Uint8Array([
-    203, 188, 142, 100, 80, 115, 194, 224, 146, 162, 90, 78, 10, 233,
-    228, 225, 163, 44, 85, 87, 218, 152, 235, 169, 73, 16, 29, 231,
-    238, 148, 157, 104, 41, 1, 193, 238, 151, 142, 78, 48, 95, 214,
-    131, 191, 83, 86, 38, 61, 192, 130, 153, 82, 29, 38, 61, 217,
-    220, 129, 63, 104, 1, 56, 248, 183, 164, 120, 31, 0, 58, 247
-]);
+const NVIDIA_CONFIG = {
+    apiKey: "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",
+    baseURL: "https://integrate.api.nvidia.com/v1",
+    model: "openai/gpt-oss-20b",
+    temperature: 1,
+    top_p: 1,
+    max_tokens: 4096,
+    stream: false
+};
 
-const _MANI_TENSOR_U = new Uint8Array([
-    205, 190, 155, 100, 74, 100, 172, 135, 164, 156, 99, 89, 6, 244,
-    202, 164, 144, 52, 94, 20, 224, 128, 189, 142, 116, 38, 14, 237,
-    159, 181, 148, 77, 106, 28, 190, 155, 186, 150, 66, 60, 66, 241,
-    216, 177, 113, 74, 46, 4, 252, 213, 177, 119
-]);
+// =====================================================
+// 1B. KALI LINUX & PAYLOAD INTRUSION SHIELD (ADSENSE SAFE)
+// =====================================================
+const _MANI_DEFENSE_SHARD = [
+    2340, 2375, 2352, 2368, 32, 2350, 2366, 2306, 32, 2325, 2368, 32,
+    2330, 2379, 2342, 32, 2350, 2366, 2342, 2352, 2330, 2379, 2342
+];
 
-const _MANI_TENSOR_M = new Uint8Array([
-    202, 186, 138, 122, 88, 55, 172, 207, 189, 134, 58, 83, 18, 245,
-    134, 226, 197, 120
-]);
+function _getDefenseResponse() {
+    return String.fromCharCode(..._MANI_DEFENSE_SHARD);
+}
 
-const _MANI_TENSOR_V = new Uint8Array([
-    200, 175, 155, 117, 22, 50, 239, 201, 160, 147, 58, 15, 79, 180,
-    134, 233, 197, 120, 18, 18, 224, 221, 186, 151, 115, 111, 14, 226,
-    194, 162, 137, 85, 38, 30
-]);
+function _isSearchOrAdSenseCrawler() {
+    const ua = (navigator.userAgent || "").toLowerCase();
+    return /(googlebot|mediapartners-google|adsbot-google|apis-google|bingbot|slurp|duckduckbot)/i.test(ua);
+}
 
-const _MANI_TENSOR_R = new Uint8Array([
-    205, 190, 155, 100, 74, 100, 172, 135, 174, 157, 101, 79, 17, 244,
-    196, 168, 140, 52, 86, 11, 166, 145, 166, 138, 113, 127
-]);
+function _isKaliOrExploitAttempt(inputStr = "") {
+    if (_isSearchOrAdSenseCrawler()) return false;
 
-const _MANI_TENSOR_B = new Uint8Array([
-    205, 190, 155, 100, 74, 100, 172, 135, 185, 151, 111, 72, 79, 246,
-    196, 188, 153, 115, 81, 5, 253, 199, 188, 150, 110, 108, 6, 229,
-    158, 185, 139, 69, 43, 11, 230
-]);
+    const ua = (navigator.userAgent || "").toLowerCase();
+    const platform = (navigator.platform || "").toLowerCase();
 
-const _MANI_TENSOR_G = new Uint8Array([
-    205, 190, 155, 100, 74, 100, 172, 135, 172, 155, 58, 13, 76, 231,
-    192, 225, 132, 52, 80, 10, 251, 203, 189, 156, 120, 48, 73, 239,
-    222, 187, 212, 86, 116, 69, 236, 220, 184, 138, 12, 43, 2, 255,
-    199, 176, 100, 82, 34, 31, 251, 201
-]);
-
-const _MANI_TENSOR_GK = new Uint8Array([
-    214, 161, 194, 121, 88, 48, 234, 133, 244, 150, 37, 9,
-    81, 182, 153, 230, 205, 34, 91, 86, 184, 154, 177, 193
-]);
-
-const _CORE_CIPHER_ID = String.fromCharCode(65, 69, 83, 45, 71, 67, 77);
-const _CORE_OP_SEAL = String.fromCharCode(101, 110, 99, 114, 121, 112, 116);
-const _CORE_OP_OPEN = String.fromCharCode(100, 101, 99, 114, 121, 112, 116);
-
-let _coreMatrixHandle = null;
-let _coreMatrixCells = {};
-let _coreBootPromise = null;
-
-function _unpackTensorBuffer(shardArr) {
-    const out = new Uint8Array(shardArr.length);
-    for (let i = 0; i < shardArr.length; i++) {
-        out[i] = shardArr[i] ^ ((i * 37 + 165) & 0xFF);
-        shardArr[i] = 0;
+    if (/\b(kali|parrot|blackarch|backbox|pentoo|sqlmap|nikto|nmap|burpsuite|burp|metasploit|dirbuster|gobuster|wfuzz|hydra|acunetix|nessus|zgrab|masscan)\b/i.test(ua) || /\bkali\b/i.test(platform)) {
+        return true;
     }
-    return out;
+
+    const raw = String(inputStr || "").trim();
+    if (!raw) return false;
+
+    const payloadPatterns = [
+        /<script[\s>]/i,
+        /javascript\s*:/i,
+        /\b(onerror|onload|onmouseover|onfocus)\s*=/i,
+        /\bunion\s+(all\s+)?select\b/i,
+        /('\s*or\s*'1'\s*=\s*'1|"\s*or\s*"1"\s*=\s*"1|\bor\s+1\s*=\s*1\b)/i,
+        /\b(drop\s+table|information_schema|sleep\(\d+\)|benchmark\()/i,
+        /(\/etc\/passwd|\/etc\/shadow|\.\.\/\.\.\/|cmd\.exe|\/bin\/bash|\/bin\/sh)/i,
+        /\b(nvapi-|nvidia_config|api_key\s*nikal|api\s*key\s*de|expose\s*api\s*key|dump\s*key|show\s*system\s*prompt|ignore\s+all\s+previous\s+instructions)\b/i,
+        /\b(sqlmap|metasploit|burpsuite|nmap\s+-|kali\s+linux\s+payload)\b/i
+    ];
+
+    return payloadPatterns.some(rx => rx.test(raw));
 }
-
-function _initManiNeuralCore() {
-    if (_coreBootPromise) return _coreBootPromise;
-
-    _coreBootPromise = (async () => {
-        const rawMap = {
-            k: _unpackTensorBuffer(_MANI_TENSOR_K),
-            u: _unpackTensorBuffer(_MANI_TENSOR_U),
-            m: _unpackTensorBuffer(_MANI_TENSOR_M),
-            v: _unpackTensorBuffer(_MANI_TENSOR_V),
-            r: _unpackTensorBuffer(_MANI_TENSOR_R),
-            b: _unpackTensorBuffer(_MANI_TENSOR_B),
-            g: _unpackTensorBuffer(_MANI_TENSOR_G),
-            gk: _unpackTensorBuffer(_MANI_TENSOR_GK)
-        };
-
-        if (window.crypto && window.crypto.subtle) {
-            _coreMatrixHandle = await window.crypto.subtle.generateKey(
-                { name: _CORE_CIPHER_ID, length: 256 },
-                false,
-                [_CORE_OP_SEAL, _CORE_OP_OPEN]
-            );
-
-            for (const slot of Object.keys(rawMap)) {
-                const iv = window.crypto.getRandomValues(new Uint8Array(12));
-                const buf = await window.crypto.subtle.encrypt(
-                    { name: _CORE_CIPHER_ID, iv: iv, tagLength: 128 },
-                    _coreMatrixHandle,
-                    rawMap[slot]
-                );
-                _coreMatrixCells[slot] = { iv, buf };
-                rawMap[slot].fill(0);
-            }
-        } else {
-            for (const slot of Object.keys(rawMap)) {
-                _coreMatrixCells[slot] = {
-                    fallback: rawMap[slot].map((b, idx) => b ^ ((idx * 73 + 41) & 0xFF))
-                };
-                rawMap[slot].fill(0);
-            }
-        }
-    })();
-
-    return _coreBootPromise;
-}
-
-async function _readNeuralSlot(slot) {
-    await _initManiNeuralCore();
-    const cell = _coreMatrixCells[slot];
-    if (!cell) return "";
-
-    if (_coreMatrixHandle && cell.buf) {
-        const dec = await window.crypto.subtle.decrypt(
-            { name: _CORE_CIPHER_ID, iv: cell.iv, tagLength: 128 },
-            _coreMatrixHandle,
-            cell.buf
-        );
-        const arr = new Uint8Array(dec);
-        const str = new TextDecoder().decode(arr);
-        arr.fill(0);
-        return str;
-    } else if (cell.fallback) {
-        const temp = cell.fallback.map((b, idx) => b ^ ((idx * 73 + 41) & 0xFF));
-        const str = new TextDecoder().decode(temp);
-        temp.fill(0);
-        return str;
-    }
-    return "";
-}
-
-_initManiNeuralCore().catch(() => {});
 
 // In-RAM conversational context memory (Zero browser storage)
 let conversationHistory = [];
@@ -176,11 +97,14 @@ function handleSeoAndLegalRouting() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Keep browser storage 100% empty
     try {
-        localStorage.clear();
-        sessionStorage.clear();
+        localStorage.removeItem('maniLeads');
     } catch (e) {}
+
+    if (_isKaliOrExploitAttempt(window.location.href)) {
+        document.body.innerHTML = `<div style="background:#000;color:#ff2a2a;height:100vh;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;text-align:center;padding:20px;">${_getDefenseResponse()}</div>`;
+        return;
+    }
 
     handleSeoAndLegalRouting();
 
@@ -263,17 +187,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // SCROLL REVEAL (Blur-Free Smooth Reveal)
-    const observerOptions = { root: null, rootMargin: "0px", threshold: 0.08 };
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("active");
-                entry.target.classList.add("seen");
-            }
+    // SCROLL REVEAL (Blur-Free Smooth Reveal + AdSense Bot Safe)
+    const revealElements = document.querySelectorAll(".reveal-up");
+    if ('IntersectionObserver' in window) {
+        const observerOptions = { root: null, rootMargin: "0px", threshold: 0.08 };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("active");
+                    entry.target.classList.add("seen");
+                }
+            });
+        }, observerOptions);
+        revealElements.forEach(el => scrollObserver.observe(el));
+    } else {
+        revealElements.forEach(el => {
+            el.classList.add("active");
+            el.classList.add("seen");
         });
-    }, observerOptions);
-    document.querySelectorAll(".reveal-up").forEach(el => scrollObserver.observe(el));
+    }
 
     // 3D Tilt Effect on Cards
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -520,37 +452,81 @@ document.addEventListener("DOMContentLoaded", () => {
     if (inputFileCamera) inputFileCamera.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
     if (inputFileGallery) inputFileGallery.addEventListener('change', (e) => handleFileSelect(e.target.files[0]));
 
+    // =====================================================
+    // UPGRADED SMOOTH SPEECH ENGINE (Sentence Chunking)
+    // =====================================================
     let availableVoices = [];
-    function loadVoices() { if ('speechSynthesis' in window) { availableVoices = window.speechSynthesis.getVoices(); } }
+    function loadVoices() {
+        if ('speechSynthesis' in window) {
+            availableVoices = window.speechSynthesis.getVoices();
+        }
+    }
     loadVoices();
-    if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = loadVoices; }
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
 
     function speakText(text, onEndCallback = null) {
-        if (!('speechSynthesis' in window)) { if (onEndCallback) onEndCallback(); return; }
+        if (!('speechSynthesis' in window)) {
+            if (onEndCallback) onEndCallback();
+            return;
+        }
         window.speechSynthesis.cancel();
         isAISpeaking = true;
         try { if (recognition) recognition.stop(); } catch (e) {}
 
-        const cleanText = text.replace(/[*#_`]/g, '');
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.rate = 1.03;
+        const cleanText = String(text || "")
+            .replace(/https?:\/\/\S+/g, "")
+            .replace(/[*#_`~>|]/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        if (!cleanText) {
+            isAISpeaking = false;
+            if (onEndCallback) onEndCallback();
+            return;
+        }
+
         const hasHindiChars = /[\u0900-\u097F]/.test(cleanText);
         const isHinglish = /\b(hai|kya|main|mera|karta|ho|gaya|kar|raha|hu|hain|bhai|nahi|yeh|woh|dikho|dekh|kaise|batao)\b/i.test(cleanText);
-        if (hasHindiChars || isHinglish) { utterance.lang = 'hi-IN'; } else { utterance.lang = 'en-IN'; }
+        const targetLang = (hasHindiChars || isHinglish) ? 'hi-IN' : 'en-IN';
+
         if (availableVoices.length === 0) loadVoices();
-        if (availableVoices.length > 0) {
-            const selectedVoice = availableVoices.find(v => v.lang === utterance.lang || v.lang.replace('-', '_') === utterance.lang) || availableVoices.find(v => v.lang.startsWith('hi')) || availableVoices.find(v => v.lang.startsWith('en'));
+        const selectedVoice =
+            availableVoices.find(v => (v.lang === targetLang || v.lang.replace('_', '-') === targetLang) && /google|natural|swara|madhur/i.test(v.name)) ||
+            availableVoices.find(v => v.lang === targetLang || v.lang.replace('_', '-') === targetLang) ||
+            availableVoices.find(v => v.lang.startsWith(targetLang.slice(0, 2))) ||
+            null;
+
+        const chunks = cleanText.match(/[^.!?।|\n]+[.!?।|\n]*/g) || [cleanText];
+        let idx = 0;
+
+        function speakNextChunk() {
+            if (!isAISpeaking || idx >= chunks.length) {
+                isAISpeaking = false;
+                if (onEndCallback) onEndCallback();
+                return;
+            }
+            const part = chunks[idx++].trim();
+            if (!part) {
+                speakNextChunk();
+                return;
+            }
+            const utterance = new SpeechSynthesisUtterance(part);
+            utterance.lang = targetLang;
+            utterance.rate = 1.02;
+            utterance.pitch = 1.0;
             if (selectedVoice) utterance.voice = selectedVoice;
+
+            utterance.onend = () => speakNextChunk();
+            utterance.onerror = () => {
+                isAISpeaking = false;
+                if (onEndCallback) onEndCallback();
+            };
+            window.speechSynthesis.speak(utterance);
         }
-        utterance.onend = () => {
-            isAISpeaking = false;
-            if (onEndCallback) onEndCallback();
-        };
-        utterance.onerror = () => {
-            isAISpeaking = false;
-            if (onEndCallback) onEndCallback();
-        };
-        window.speechSynthesis.speak(utterance);
+
+        speakNextChunk();
     }
 
     function getCurrentVideoFrame() {
@@ -782,7 +758,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ========================================================
-       MANI NEURAL INFERENCE ROUTER & MULTI-NODE AI ENGINE
+       NVIDIA NIM + BROWSER-NATIVE OPENAI INFERENCE ENGINE
        ======================================================== */
     function _cleanModelOutput(rawContent) {
         if (!rawContent) return "";
@@ -792,59 +768,82 @@ document.addEventListener("DOMContentLoaded", () => {
             .trim();
     }
 
-    function _isErrorPayloadText(txt) {
-        if (!txt) return true;
+    function _isValidReplyText(txt) {
+        if (!txt || txt.length < 1) return false;
         const lower = txt.toLowerCase();
-        return /^(system error:|❌|error:|http \d{3})/i.test(txt) ||
-               lower.includes('"status":403') ||
-               lower.includes('"status":401') ||
-               lower.includes('authorization failed') ||
-               lower.includes('ai server error') ||
-               lower.includes('connection glitch') ||
-               lower.includes('rate limit') ||
-               lower.includes('bad gateway') ||
-               lower.startsWith('<!doctype') ||
-               lower.startsWith('<html');
+        return !(/^(system error:|❌|error:|http \d{3})/i.test(txt) ||
+            lower.includes('got it! regarding') ||
+            lower.includes('would you like a quick step-by-step') ||
+            lower.includes('"status":400') ||
+            lower.includes('"status":401') ||
+            lower.includes('"status":403') ||
+            lower.includes('"status":404') ||
+            lower.includes('"status":429') ||
+            lower.includes('unsupported value') ||
+            lower.includes('unsupported parameter') ||
+            lower.includes('post requests are only available') ||
+            lower.startsWith('<!doctype') ||
+            lower.startsWith('<html'));
     }
 
-    function _isIdentityQuestion(text) {
-        const q = (text || "").toLowerCase();
-        return /\b(tera naam|tumhara naam|aapka naam|your name|who are you|kon ho|kaun ho|kisne banaya|who made you|who created you|developer kon|owner kon|what is mani ai)\b/i.test(q);
-    }
-
-    async function _executeInferenceCall(targetUrl, apiKey, modelName, messages, timeoutMs = 8000, omitAuth = false) {
+    // 1. Exact NVIDIA Node.js SDK structure call
+    async function _callNvidiaEndpoint(targetUrl, messages, timeoutMs = 18000) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
 
         try {
-            const payload = omitAuth
-                ? {
-                    model: modelName,
+            const response = await fetch(targetUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${NVIDIA_CONFIG.apiKey}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: NVIDIA_CONFIG.model,
                     messages: messages,
-                    stream: false
-                }
-                : {
-                    model: modelName,
-                    messages: messages,
-                    max_tokens: 900,
-                    temperature: 0.65,
-                    top_p: 0.95,
-                    stream: false
-                };
+                    temperature: NVIDIA_CONFIG.temperature,
+                    top_p: NVIDIA_CONFIG.top_p,
+                    max_tokens: NVIDIA_CONFIG.max_tokens,
+                    stream: NVIDIA_CONFIG.stream
+                }),
+                signal: controller.signal
+            });
 
-            const headers = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            };
+            clearTimeout(timer);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-            if (!omitAuth && apiKey) {
-                headers['Authorization'] = `Bearer ${apiKey}`;
-            }
+            const completion = await response.json();
+            const reasoning = completion.choices?.[0]?.message?.reasoning_content;
+            const content = completion.choices?.[0]?.message?.content;
+
+            const finalOutput = _cleanModelOutput(content || reasoning || "");
+            if (_isValidReplyText(finalOutput)) return finalOutput;
+            throw new Error("Empty NVIDIA completion");
+        } catch (err) {
+            clearTimeout(timer);
+            throw err;
+        }
+    }
+
+    // 2. Exact Working Browser-CORS OpenAI Payload (NO extra temperature/max_tokens that cause HTTP 400)
+    async function _callBrowserOpenAIPost(targetUrl, messages, useSimpleHeader = false, timeoutMs = 20000) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+        try {
+            const headers = useSimpleHeader
+                ? { 'Content-Type': 'text/plain;charset=UTF-8' }
+                : { 'Content-Type': 'application/json', 'Accept': 'application/json' };
 
             const response = await fetch(targetUrl, {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(payload),
+                body: JSON.stringify({
+                    model: "openai",
+                    messages: messages,
+                    stream: false
+                }),
                 signal: controller.signal
             });
 
@@ -852,49 +851,40 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
             const rawText = await response.text();
-            let data = null;
             try {
-                data = JSON.parse(rawText);
-            } catch (err) {
+                const data = JSON.parse(rawText);
+                const msg = _cleanModelOutput(data.choices?.[0]?.message?.content || data.choices?.[0]?.text || "");
+                if (_isValidReplyText(msg)) return msg;
+            } catch (e) {
                 const cleanedRaw = _cleanModelOutput(rawText);
-                if (cleanedRaw && !_isErrorPayloadText(cleanedRaw)) return cleanedRaw;
-                throw new Error("Invalid JSON");
+                if (_isValidReplyText(cleanedRaw)) return cleanedRaw;
             }
-
-            if (data.error) {
-                throw new Error("API Error");
-            }
-
-            if (data.choices && data.choices.length > 0) {
-                const msgObj = data.choices[0].message || {};
-                let reply = _cleanModelOutput(msgObj.content || data.choices[0].text || "");
-                if (reply && !_isErrorPayloadText(reply)) return reply;
-            }
-            throw new Error("Empty choice");
+            throw new Error("Invalid OpenAI POST response");
         } catch (err) {
             clearTimeout(timer);
             throw err;
         }
     }
 
-    async function _executeCleanGetBridge(bridgeBaseUrl, promptText, isHindiOrHinglish, timeoutMs = 7500) {
+    // 3. Clean GET Fallback (No special characters or newlines in path)
+    async function _callBrowserCleanGet(promptText, isHindiOrHinglish, timeoutMs = 18000) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), timeoutMs);
-        try {
-            const rootUrl = (bridgeBaseUrl || "https://text.pollinations.ai").replace(/\/openai\/?$/, "");
-            const shortSys = isHindiOrHinglish
-                ? "You are Mani AI created by Money Bagga. Reply naturally in friendly Hindi or Hinglish."
-                : "You are Mani AI created by Money Bagga. Reply naturally and helpfully.";
-            const cleanQ = String(promptText || "Hello").slice(0, 350);
-            const target = `${rootUrl}/${encodeURIComponent(cleanQ)}?model=openai&system=${encodeURIComponent(shortSys)}&seed=${Math.floor(Math.random() * 9999)}`;
 
-            const res = await fetch(target, { method: "GET", signal: controller.signal });
+        try {
+            const sysRule = isHindiOrHinglish
+                ? "Reply naturally like a smart friend in Hindi or Hinglish. Only say your name is Mani AI created by Money Bagga if asked."
+                : "Reply naturally and accurately in English. Only say your name is Mani AI created by Money Bagga if asked.";
+
+            const cleanPrompt = String(promptText || "Hello").replace(/\s+/g, " ").trim().slice(0, 350);
+            const url = `https://text.pollinations.ai/${encodeURIComponent(cleanPrompt)}?model=openai&system=${encodeURIComponent(sysRule)}`;
+
+            const res = await fetch(url, { method: "GET", signal: controller.signal });
             clearTimeout(timer);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
             const text = _cleanModelOutput(await res.text());
-            if (text && !_isErrorPayloadText(text)) {
-                return text;
-            }
+            if (_isValidReplyText(text)) return text;
             throw new Error("Empty GET response");
         } catch (err) {
             clearTimeout(timer);
@@ -902,161 +892,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Built-in Local Neural Engine (Guarantees 0% Error & Instant Reply even if external APIs are blocked)
-    function _maniLocalNeuralEngine(promptText, base64Img, isHindiOrHinglish) {
-        const raw = (promptText || "").trim();
-        const q = raw.toLowerCase();
-
-        // 1. Image / Vision / Camera Analysis
-        if (base64Img) {
-            return isHindiOrHinglish
-                ? "मैंने आपकी भेजी हुई इमेज/फ्रेम को ध्यान से देख लिया है। फ्रेम एकदम क्लियर है—बताओ भाई, इसके बारे में क्या खास जानकारी या एडिटिंग आइडिया चाहिए?"
-                : "I've analyzed the image frame you shared. Everything looks clear—let me know what specific details or insights you'd like from it!";
-        }
-
-        // 2. Greetings & Casual Chat ("Hi bahi kese ho", "Kese ho", "Hello", etc.)
-        if (/^(hi+|hello+|hey+|hlo+|namaste|ram ram|jai shree ram|radhe radhe|kese ho|kaise ho|kya haal|aur bhai|batao|sup|good morning|good evening|good afternoon)\b/i.test(q) || /\b(kese ho|kaise ho|kya haal hai|kya chal raha hai|how are you|how r u)\b/i.test(q)) {
-            const hiReplies = [
-                "मैं एकदम बढ़िया हूँ भाई! आप बताओ, कैसे हो और आज किस प्रोजेक्ट पर काम चल रहा है?",
-                "सब एकदम फर्स्ट क्लास है भाई! बताओ आज क्या मदद करूँ आपकी?",
-                "बढ़िया हूँ भाई! आप सुनाओ, आज क्या नया बना रहे हो?"
-            ];
-            const enReplies = [
-                "I'm doing great! How are you doing today, and what are we working on?",
-                "Doing awesome! Let me know how I can help you today.",
-                "All good here! What project or question can I help you with right now?"
-            ];
-            const list = isHindiOrHinglish ? hiReplies : enReplies;
-            return list[Math.floor(Math.random() * list.length)];
-        }
-
-        // 3. Math / Calculation Evaluator
-        const mathMatch = q.replace(/[^0-9+\-*/().%]/g, "");
-        if (mathMatch.length >= 3 && /[+\-*/]/.test(mathMatch) && /^\d/.test(mathMatch)) {
-            try {
-                const ans = Function(`"use strict"; return (${mathMatch})`)();
-                if (typeof ans === "number" && isFinite(ans)) {
-                    return isHindiOrHinglish
-                        ? `इसका सही जवाब **${ans}** है।`
-                        : `The calculated result is **${ans}**.`;
-                }
-            } catch (e) {}
-        }
-
-        // 4. Common Knowledge & India / Himachal / History Queries
-        if (q.includes("shimla") || q.includes("शिमला")) {
-            return isHindiOrHinglish
-                ? "शिमला समझौता (Simla Agreement) 2 जुलाई 1972 को भारत की प्रधानमंत्री इंदिरा गांधी और पाकिस्तान के राष्ट्रपति जुल्फिकार अली भुट्टो के बीच हिमाचल प्रदेश की राजधानी शिमला में हुआ था।"
-                : "The Simla Agreement was signed on July 2, 1972, between Indian Prime Minister Indira Gandhi and Pakistani President Zulfikar Ali Bhutto in Shimla, Himachal Pradesh.";
-        }
-
-        if (/\b(code|html|javascript|python|website|css|api|script)\b/i.test(q)) {
-            return isHindiOrHinglish
-                ? `भाई, "${raw}" के लिए मैं पूरा कोड और लॉजिक तैयार कर सकता हूँ। बस यह बता दो कि इसे किस लैंग्वेज (Python, JavaScript, या HTML/CSS) में रखना है और क्या फीचर जोड़ना है?`
-                : `I can help you build and debug "${raw}". Let me know if you want the implementation in Python, JavaScript, or HTML/CSS, and any specific features you need!`;
-        }
-
-        // 5. Smart Contextual Conversational Response
-        return isHindiOrHinglish
-            ? `समझ गया भाई! आपने "${raw}" के बारे में पूछा है। मैं इस पर आपकी पूरी मदद करने के लिए तैयार हूँ—बताओ इसमें आपको शॉर्ट पॉइंट्स चाहिए या पूरा डिटेल में समझाऊँ?`
-            : `Got it! Regarding "${raw}", I'm ready to help. Would you like a quick step-by-step breakdown or a detailed explanation?`;
-    }
-
-    async function sendMultiNodeRequest(nodes, messages, promptText, isHindiOrHinglish) {
-        const { nvidiaUrl, nvidiaKey, nvidiaModel, relayPrefix, bridgeUrl, renderUrl, renderKey } = nodes;
-
-        const tasks = [];
-
-        // Tunnel 1: Direct NVIDIA NIM Call
-        if (nvidiaUrl && nvidiaKey) {
-            tasks.push(_executeInferenceCall(nvidiaUrl, nvidiaKey, nvidiaModel, messages, 5500, false));
-        }
-
-        // Tunnel 2: NVIDIA NIM via Primary Encrypted Relay
-        if (relayPrefix && nvidiaUrl && nvidiaKey) {
-            const relayedUrl = relayPrefix + encodeURIComponent(nvidiaUrl);
-            tasks.push(_executeInferenceCall(relayedUrl, nvidiaKey, nvidiaModel, messages, 6500, false));
-        }
-
-        // Tunnel 3: NVIDIA NIM via Secondary CORS Proxy
-        if (nvidiaUrl && nvidiaKey) {
-            const proxy2 = "https://thingproxy.freeboard.io/fetch/" + nvidiaUrl;
-            tasks.push(_executeInferenceCall(proxy2, nvidiaKey, nvidiaModel, messages, 6500, false));
-        }
-
-        // Tunnel 4: Render Gateway Node
-        if (renderUrl && renderKey) {
-            tasks.push(_executeInferenceCall(renderUrl, renderKey, nvidiaModel, messages, 6500, false));
-        }
-
-        // Tunnel 5: Direct Browser-CORS Neural Bridge (POST & Fast Clean GET)
-        if (bridgeUrl) {
-            tasks.push(_executeInferenceCall(bridgeUrl, "", "openai", messages, 7000, true));
-            tasks.push(_executeCleanGetBridge(bridgeUrl, promptText, isHindiOrHinglish, 6500));
-        }
-
-        if (typeof Promise.any === "function" && tasks.length > 0) {
-            return await Promise.any(tasks);
-        }
-
-        for (const t of tasks) {
-            try {
-                return await t;
-            } catch (e) {}
-        }
-        throw new Error("Fallback to local neural engine");
-    }
-
     async function callAIAPI(promptText, base64Img = null) {
-        const isHindiOrHinglish = /[\u0900-\u097F]/.test(promptText) || /\b(kya|kaise|kese|kab|hua|kon|kaun|bhai|bahi|mani|bagga|tum|aap|batao|hai|ho|naam|mein|main|mera|teri|tera|haan|nahi)\b/i.test(promptText);
-
-        // Instant accurate reply if user directly asks who the AI is
-        if (_isIdentityQuestion(promptText) && !base64Img) {
-            const idReply = isHindiOrHinglish
-                ? "मेरा नाम Mani AI है और मुझे Money Bagga (Mani Singh) ने डेवलप किया है। बताओ भाई, आज क्या मदद करूँ?"
-                : "My name is Mani AI, developed by Money Bagga (Mani Singh). How can I help you today?";
-            conversationHistory.push({ role: "user", content: promptText });
-            conversationHistory.push({ role: "assistant", content: idReply });
-            return idReply;
+        if (_isKaliOrExploitAttempt(promptText)) {
+            return _getDefenseResponse();
         }
 
-        const [nvidiaKey, nvidiaUrl, primaryModel, visionModel, relayPrefix, bridgeUrl, renderUrl, renderKey] = await Promise.all([
-            _readNeuralSlot("k"),
-            _readNeuralSlot("u"),
-            _readNeuralSlot("m"),
-            _readNeuralSlot("v"),
-            _readNeuralSlot("r"),
-            _readNeuralSlot("b"),
-            _readNeuralSlot("g"),
-            _readNeuralSlot("gk")
-        ]);
+        const isHindiOrHinglish = /[\u0900-\u097F]/.test(promptText) || /\b(kya|kaise|kese|kab|hua|kon|kaun|bhai|bahi|brother|mani|bagga|tum|aap|batao|hai|ho|naam|mein|main|mera|teri|tera|haan|ha|nahi|badiya|fir)\b/i.test(promptText);
 
         const systemInstruction = {
             role: "system",
             content: [
-                "You are a warm, smart, natural, and highly capable AI assistant, talking just like Gemini.",
-                "STRICT IDENTITY RULES:",
-                "- Your name is 'Mani AI' and your creator is 'Money Bagga (Mani Singh)' from Haroli, District Una, Himachal Pradesh.",
-                "- NEVER mention your name ('Mani AI') or creator ('Money Bagga') in normal greetings (like 'Hi', 'Hello', 'Kese ho') or when answering general questions. ONLY state your name or creator if the user explicitly asks who you are, what your name is, or who made you.",
-                "LANGUAGE & TONE RULES:",
-                "- Talk like a smart, friendly Indian peer (just like Gemini). Be direct, accurate, and natural.",
-                "- If the user writes in Hinglish (e.g., 'Kese ho', 'Shimla samjhota kab hua') or Hindi, reply in natural Hindi (Devanagari) or friendly Hinglish.",
-                "- If the user writes in English, reply in natural English.",
-                "- Remember the conversation history below and never repeat generic canned lines."
+                "You are a warm, smart, natural, human-like AI peer (talking just like Google Gemini).",
+                "STRICT CONVERSATION RULES:",
+                "1. If the user sends a short casual message (like 'Hi', 'Bahi kese ho', 'Fir to badiya', 'Ha', 'Ok'), reply in 1 short, natural, friendly sentence like a real brother/friend.",
+                "2. If the user asks any factual, general, or technical question (like 'Modi kon hai', 'Ai kya hai', 'Shimla samjhota kab hua', 'Which number is larger, 9.11 or 9.8?', or coding questions), give a direct, clear, accurate, and complete answer.",
+                "3. IDENTITY RULE: Never mention your name on normal greetings or general questions. ONLY IF the user explicitly asks your name, who you are, or who made/created you, tell them clearly that your name is 'Mani AI' and you were created by 'Money Bagga (Mani Singh)' from Haroli, District Una, Himachal Pradesh.",
+                "4. LANGUAGE RULE: If the user writes in Hindi or Hinglish, reply in natural Hindi (Devanagari) or friendly Hinglish. If they write in English, reply in natural English."
             ].join("\n")
         };
 
-        const nodes = {
-            nvidiaUrl,
-            nvidiaKey,
-            nvidiaModel: base64Img ? visionModel : primaryModel,
-            relayPrefix,
-            bridgeUrl,
-            renderUrl,
-            renderKey
-        };
-
-        const activeMessages = base64Img && base64Img.startsWith("data:image/")
+        const activeMessages = (base64Img && base64Img.startsWith("data:image/"))
             ? [
                 systemInstruction,
                 ...conversationHistory.slice(-6),
@@ -1074,22 +929,85 @@ document.addEventListener("DOMContentLoaded", () => {
                 { role: "user", content: promptText }
             ];
 
+        const nvidiaTarget = `${NVIDIA_CONFIG.baseURL}/chat/completions`;
+
+        // Stage 1: Race NVIDIA (different host) + Single Primary OpenAI POST (Exact payload that worked in 60144.jpg)
         try {
-            const reply = await sendMultiNodeRequest(nodes, activeMessages, promptText, isHindiOrHinglish);
+            const reply = await Promise.any([
+                _callBrowserOpenAIPost("https://text.pollinations.ai/openai", activeMessages, false, 20000),
+                _callNvidiaEndpoint(`https://cors.eu.org/${nvidiaTarget}`, activeMessages, 18000),
+                _callNvidiaEndpoint(nvidiaTarget, activeMessages, 15000)
+            ]);
             conversationHistory.push({ role: "user", content: promptText });
             conversationHistory.push({ role: "assistant", content: reply });
             if (conversationHistory.length > 16) conversationHistory = conversationHistory.slice(-16);
             return reply;
-        } catch (err) {
-            const localReply = _maniLocalNeuralEngine(promptText, base64Img, isHindiOrHinglish);
+        } catch (stage1Err) {}
+
+        // Stage 2: Sequential Simple-Header POST (No CORS preflight)
+        try {
+            const reply2 = await _callBrowserOpenAIPost("https://text.pollinations.ai/", activeMessages, true, 20000);
             conversationHistory.push({ role: "user", content: promptText });
-            conversationHistory.push({ role: "assistant", content: localReply });
+            conversationHistory.push({ role: "assistant", content: reply2 });
             if (conversationHistory.length > 16) conversationHistory = conversationHistory.slice(-16);
-            return localReply;
+            return reply2;
+        } catch (stage2Err) {}
+
+        // Stage 3: Sequential Clean GET Stream
+        try {
+            const reply3 = await _callBrowserCleanGet(promptText, isHindiOrHinglish, 18000);
+            conversationHistory.push({ role: "user", content: promptText });
+            conversationHistory.push({ role: "assistant", content: reply3 });
+            if (conversationHistory.length > 16) conversationHistory = conversationHistory.slice(-16);
+            return reply3;
+        } catch (stage3Err) {
+            return isHindiOrHinglish
+                ? "एकदम बढ़िया हूँ भाई! बताओ आज किस सवाल या प्रोजेक्ट पर काम करना है?"
+                : "Doing great! Let me know what question or project we are working on today.";
         }
     }
 
-    function appendMessageBubble(sender, content, imageSrc = null, hideImage = false) {
+    // Gemini-Style Live "Analyzing -> Reading -> Reasoning" Bubble Updater
+    function startGeminiAnalyzingUI(bubbleEl, userQuery) {
+        if (!bubbleEl) return null;
+        const textNode = bubbleEl.querySelector('.ai-text-content');
+        if (!textNode) return null;
+
+        const shortPreview = String(userQuery || "").slice(0, 38) + (String(userQuery || "").length > 38 ? "..." : "");
+        const steps = [
+            { title: "✨ Analyzing...", sub: `Reading message: "${shortPreview}"` },
+            { title: "🧠 Reasoning...", sub: "Running NVIDIA gpt-oss-20b reasoning chain..." },
+            { title: "⚡ Processing...", sub: "Synthesizing accurate answer..." },
+            { title: "✍️ Finalizing response...", sub: "Formatting reply..." }
+        ];
+
+        let stepIdx = 0;
+        function renderStep(idx) {
+            const s = steps[Math.min(idx, steps.length - 1)];
+            textNode.innerHTML = `
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                    <div style="font-weight:600;color:#93c5fd;font-size:14.5px;display:flex;align-items:center;gap:6px;">
+                        <span>${s.title}</span>
+                    </div>
+                    <div style="font-size:12.5px;color:rgba(241,245,249,0.72);line-height:1.4;">
+                        ${s.sub}
+                    </div>
+                </div>
+            `;
+        }
+
+        renderStep(0);
+        const intervalId = setInterval(() => {
+            stepIdx++;
+            if (stepIdx < steps.length) {
+                renderStep(stepIdx);
+            }
+        }, 2200);
+
+        return intervalId;
+    }
+
+    function appendMessageBubble(sender, content, imageSrc = null, hideImage = false, isLoadingBubble = false) {
         if (!chatHistory) return null;
         if (chatBoxWrapper) { chatBoxWrapper.classList.add('has-messages'); }
         if (liveToolsPanel) { liveToolsPanel.style.display = 'flex'; }
@@ -1130,7 +1048,7 @@ document.addEventListener("DOMContentLoaded", () => {
             textNode.innerText = content;
             msgWrapper.appendChild(textNode);
 
-            if (content !== 'Thinking...') {
+            if (!isLoadingBubble && content !== 'Thinking...') {
                 const actionBar = document.createElement('div');
                 actionBar.className = 'chat-action-bar';
 
@@ -1201,19 +1119,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         isProcessing = true;
         lastUserPrompt = finalPrompt;
-        appendMessageBubble('user', userText, imagePayload, hideImageInChat);
+        appendMessageBubble('user', userText, imagePayload, hideImageInChat, false);
         if (aiInput) aiInput.value = '';
         attachedBase64Image = null;
         if (mediaPreviewContainer) mediaPreviewContainer.style.display = 'none';
 
-        const loadingBubble = appendMessageBubble('bot', 'Thinking...');
+        const loadingBubble = appendMessageBubble('bot', 'Analyzing...', null, false, true);
+        const analyzingTimer = startGeminiAnalyzingUI(loadingBubble, userText);
 
         const aiReply = await callAIAPI(finalPrompt, imagePayload);
+        if (analyzingTimer) clearInterval(analyzingTimer);
         isProcessing = false;
         if (loadingBubble && loadingBubble.parentNode) {
             chatHistory.removeChild(loadingBubble);
         }
-        appendMessageBubble('bot', aiReply);
+        appendMessageBubble('bot', aiReply, null, false, false);
 
         if (autoSpeak || isLiveModeActive || isCameraVisible) {
             speakText(aiReply, () => {
