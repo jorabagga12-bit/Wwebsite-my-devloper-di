@@ -4,7 +4,7 @@ function closeMobileNav() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. फॉर्म को हमेशा पेज पर दिखाने के लिए (contact-hidden हटा दिया गया है)
+    // 1. फॉर्म को हमेशा पेज पर दिखाने के लिए
     const contactSection = document.getElementById('contact');
     const closeBar = document.querySelector('.contact-close-bar');
     if (contactSection) {
@@ -13,6 +13,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (closeBar) {
         closeBar.style.display = 'none';
+    }
+
+    // 1.1 फॉर्म को फोटो जैसा एकदम क्लीन करने के लिए (नंबर, ईमेल और डबल टेक्स्ट हटाने के लिए)
+    const cleanForm = document.getElementById('form') || document.getElementById('leadContactForm');
+    if (cleanForm) {
+        cleanForm.setAttribute('autocomplete', 'off');
+        cleanForm.querySelectorAll('.underline-field label').forEach(lbl => {
+            lbl.style.display = 'none';
+        });
+
+        const fieldPlaceholders = {
+            leadName: "Full Name",
+            leadEmail: "Work Email",
+            leadPhone: "Phone Number",
+            leadLocation: "Country / Location",
+            leadWebsite: "Existing Website URL (OPTIONAL)",
+            leadVision: "Tell me about your vision..."
+        };
+
+        Object.keys(fieldPlaceholders).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.placeholder = fieldPlaceholders[id];
+                el.value = "";
+                el.setAttribute('autocomplete', 'off');
+            }
+        });
+
+        const budgetEl = document.getElementById('leadBudget');
+        if (budgetEl) budgetEl.selectedIndex = 0;
     }
 
     // 2. Navbar Glass Shimmer Effect
@@ -160,23 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
             leadSelectedPackage.value = pkgName;
             selectedOfferBanner.style.display = 'flex';
         }
-        if (budgetVal && leadBudgetSelect) {
-            for (let i = 0; i < leadBudgetSelect.options.length; i++) {
-                if (leadBudgetSelect.options[i].value === budgetVal) {
-                    leadBudgetSelect.selectedIndex = i;
-                    break;
-                }
-            }
-        }
         if (categoryVal && typePills.length > 0) {
             typePills.forEach(p => {
                 if (p.getAttribute('data-type') === categoryVal) p.classList.add('active');
                 else p.classList.remove('active');
             });
             if (leadCategoryInput) leadCategoryInput.value = categoryVal;
-        }
-        if (leadVisionInput && pkgName) {
-            leadVisionInput.value = `Hi Money Bagga, I'm interested in booking the "${pkgName}" package. Please share the next steps.`;
         }
         setTimeout(() => {
             if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -209,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleProjectFormBtn = document.getElementById('toggleProjectFormBtn');
     if (toggleProjectFormBtn) {
         toggleProjectFormBtn.addEventListener('click', () => {
-            revealAndScrollToContact("72-Hour Rapid Launch Inquiry", "₹35,000 – ₹50,000", "New Website");
+            revealAndScrollToContact("72-Hour Rapid Launch Inquiry", null, "New Website");
         });
     }
 
@@ -253,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(form);
             formData.append("access_key", "2eaf4c95-6786-4959-8d36-b4fdfaddd506");
 
-            // सभी इनपुट फील्ड्स का डेटा ईमेल में साफ-सुथरा भेजने के लिए
             const nameVal = document.getElementById('leadName')?.value || '';
             const emailVal = document.getElementById('leadEmail')?.value || '';
             const phoneVal = document.getElementById('leadPhone')?.value || '';
@@ -307,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 10. Login Modal Toggle (बिना किसी लॉक या AES एन्क्रिप्शन के)
+    // 10. Login Modal Toggle
     const loginTriggers = document.querySelectorAll('.open-login-trigger, #secretLoginTrigger');
     const loginModal = document.getElementById('secretLoginModal');
     const closeLogin = document.getElementById('closeLoginModal');
