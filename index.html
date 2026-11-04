@@ -691,8 +691,15 @@
                 </div>
             </section>
 
-            <!-- CONTACT FORM SECTION (ALWAYS VISIBLE) -->
-            <section id="contact" class="contact-page-section">
+            <!-- CONTACT FORM SECTION (HIDDEN BY DEFAULT, OPENS ONLY ON BUTTON/PACKAGE CLICK) -->
+            <section id="contact" class="contact-page-section contact-hidden" style="display: none;">
+                <div class="contact-close-bar">
+                    <button type="button" id="closeContactFormBtn" class="close-contact-pill">
+                        <span>Close Form</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+
                 <div class="contact-split-layout">
                     <div class="contact-info-col">
                         <p class="contact-lead-text">I specialize in 72-hour rapid deployments and long-term 2-year maintenance support for growing Indian businesses.</p>
@@ -732,7 +739,7 @@
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                                     LOCAL TIME
                                 </span>
-                                <strong id="liveIstClock">10:26 PM IST</strong>
+                                <strong id="liveIstClock">IST (India)</strong>
                             </div>
                         </div>
                     </div>
@@ -759,30 +766,26 @@
                             </button>
                         </div>
 
-                        <form id="form" class="modern-underline-form">
+                        <form id="form" class="modern-underline-form" autocomplete="off">
                             <input type="hidden" id="leadCategory" name="service_category" value="New Website">
                             <input type="hidden" id="leadSelectedPackage" name="selected_package" value="General Inquiry">
 
                             <div class="form-two-col">
                                 <div class="underline-field">
-                                    <label for="leadName">Full Name</label>
-                                    <input type="text" id="leadName" name="name" placeholder="Full Name" required>
+                                    <input type="text" id="leadName" name="name" placeholder="Full Name" autocomplete="off" required>
                                 </div>
                                 <div class="underline-field">
-                                    <label for="leadEmail">Work Email</label>
-                                    <input type="email" id="leadEmail" name="email" placeholder="name@company.com" required>
+                                    <input type="email" id="leadEmail" name="email" placeholder="Email Address" autocomplete="off" required>
                                 </div>
                             </div>
 
                             <div class="form-two-col">
                                 <div class="underline-field">
-                                    <label for="leadPhone">Phone Number</label>
-                                    <input type="tel" id="leadPhone" name="phone" placeholder="+91 82196-93695" required>
+                                    <input type="tel" id="leadPhone" name="phone" placeholder="Phone Number" autocomplete="off" required>
                                 </div>
                                 <div class="underline-field">
-                                    <label for="leadLocation">Country / Location</label>
                                     <div class="input-with-icon">
-                                        <input type="text" id="leadLocation" name="location" placeholder="City, State, India">
+                                        <input type="text" id="leadLocation" name="location" placeholder="Country / Location" autocomplete="off">
                                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                                     </div>
                                 </div>
@@ -790,7 +793,6 @@
 
                             <div class="form-two-col">
                                 <div class="underline-field">
-                                    <label for="leadBudget">Estimated Budget</label>
                                     <select id="leadBudget" name="budget">
                                         <option value="" disabled selected>Estimated Budget</option>
                                         <option value="Under ₹5,000">Under ₹5,000 (Quick Starts)</option>
@@ -802,14 +804,12 @@
                                     </select>
                                 </div>
                                 <div class="underline-field">
-                                    <label for="leadWebsite">Existing Website URL <small>(OPTIONAL)</small></label>
-                                    <input type="text" id="leadWebsite" name="website" placeholder="https://yourwebsite.com">
+                                    <input type="text" id="leadWebsite" name="website" placeholder="Existing Website URL (OPTIONAL)" autocomplete="off">
                                 </div>
                             </div>
 
                             <div class="underline-field full-width-field">
-                                <label for="leadVision">Tell me about your vision...</label>
-                                <textarea id="leadVision" name="message" rows="3" placeholder="Tell me about your vision, timeline, or project goals..." required></textarea>
+                                <textarea id="leadVision" name="message" rows="3" placeholder="Tell me about your vision..." required></textarea>
                             </div>
 
                             <button type="submit" class="submit-project-blue-btn">
