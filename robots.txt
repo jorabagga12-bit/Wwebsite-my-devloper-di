@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /images/mani-devloper.jpeg
+Allow: /images/aster.jpg
+
+Sitemap: https://nexusmani.shop/sitemap.xml
