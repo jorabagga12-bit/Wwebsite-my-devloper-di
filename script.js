@@ -1,393 +1,303 @@
-function closeMobileNav() {
-    const nav = document.getElementById('mobileNavOverlay');
-    if (nav) nav.classList.remove('open');
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+=====================================================================================
+  [ TOP VERIFIED SEO BADGE — NEXUSMANI.SHOP OFFICIAL FULL SITEMAP ]
+  ★ TITLE      : Mani Developer — Money Bagga | #1 Web & App Developer in Una, HP
+  ★ BRAND      : Mani Developer (Money Bagga / MONEY / Developer Money)
+  ★ DOMAIN     : https://nexusmani.shop/
+  ★ ROLE       : #1 Full-Stack Web Developer, App Creator & Cyber Expert in Una, HP
+  ★ LOCATION   : Haroli, District Una, Himachal Pradesh (177220), India
+  ★ CONTACT    : +91-82196-93695 (24/7 Direct Support & WhatsApp)
+  ★ SERVICES   : Next.js Full-Stack, UI/UX, Technical SEO, Android & iOS Apps
+  ★ PACKAGES   : Starter (₹19,999), Business Pro (₹39,999), Maps Booster (₹999)
+  ★ STATUS     : Google Search Console Fast-Index Master Sitemap (Zero Redirect Error)
+=====================================================================================
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+                            http://www.google.com/schemas/sitemap-image/1.1
+                            https://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
 
-document.addEventListener("DOMContentLoaded", () => {
-    // 0. DARK MODE ON/OFF BUTTON INSIDE MOBILE MENU (PURE BLACK THEME & AUTO-CLOSE MENU)
-    document.documentElement.classList.remove('dark-mode');
-    document.body.classList.remove('dark-mode');
-    const mobileNavOverlayEl = document.getElementById('mobileNavOverlay');
-    if (mobileNavOverlayEl && !document.getElementById('darkModeMenuToggle')) {
-        const darkBtn = document.createElement('button');
-        darkBtn.type = 'button';
-        darkBtn.id = 'darkModeMenuToggle';
-        darkBtn.className = 'dark-mode-menu-btn';
-        darkBtn.innerHTML = `
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-            <span>Dark Mode: OFF</span>
-        `;
-        darkBtn.addEventListener('click', () => {
-            const isDark = document.body.classList.toggle('dark-mode');
-            document.documentElement.classList.toggle('dark-mode', isDark);
-            darkBtn.innerHTML = isDark
-                ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><span>Dark Mode: ON</span>`
-                : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg><span>Dark Mode: OFF</span>`;
-            closeMobileNav();
-        });
-        mobileNavOverlayEl.appendChild(darkBtn);
-    }
+    <!-- ======================================================================== -->
+    <!-- 1. PRIMARY HOMEPAGE & CANONICAL LANDING PAGE (PRIORITY 1.00)             -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.00</priority>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/mani-devloper.jpeg</image:loc>
+            <image:title>Mani Developer — Money Bagga | #1 Web &amp; App Developer in Una, HP</image:title>
+            <image:caption>Money Bagga (Mani Developer / MONEY) — #1 Full-Stack Web Developer, Custom Mobile App Creator &amp; Cyber Expert in Haroli, District Una, Himachal Pradesh (177220).</image:caption>
+            <image:geo_location>Haroli, District Una, Himachal Pradesh 177220, India</image:geo_location>
+        </image:image>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/aster.jpg</image:loc>
+            <image:title>Mani Developer (Money Bagga) Official Brand Logo &amp; Favicon Badge</image:title>
+            <image:caption>Official Brand Badge and Favicon of Mani Developer — nexusmani.shop (#1 Web &amp; App Developer in District Una, Himachal Pradesh).</image:caption>
+            <image:geo_location>Haroli, District Una, Himachal Pradesh 177220, India</image:geo_location>
+        </image:image>
+    </url>
 
-    // 1. फॉर्म को डिफ़ॉल्ट रूप से छुपा कर रखने के लिए (सिर्फ बटन क्लिक पर खुलेगा)
-    const contactSection = document.getElementById('contact');
-    const closeContactBtn = document.getElementById('closeContactFormBtn');
-    if (contactSection) {
-        contactSection.classList.add('contact-hidden');
-        contactSection.style.display = 'none';
-    }
-    if (closeContactBtn && contactSection) {
-        closeContactBtn.addEventListener('click', () => {
-            contactSection.classList.add('contact-hidden');
-            contactSection.style.display = 'none';
-        });
-    }
+    <!-- ======================================================================== -->
+    <!-- 2. TOP HERO SECTION — FREELANCE WEB DEVELOPER & CYBER EXPERT IN INDIA    -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?section=top-hero</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.98</priority>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/mani-devloper.jpeg</image:loc>
+            <image:title>Freelance Web Developer in India — Money Bagga (Mani Developer)</image:title>
+            <image:caption>Fast, SEO-friendly websites, web applications and mobile apps with 100/100 mobile speed and 72-hour launch across India by Money Bagga.</image:caption>
+            <image:geo_location>Haroli, District Una, Himachal Pradesh, India</image:geo_location>
+        </image:image>
+    </url>
 
-    // 1.1 फॉर्म को एकदम क्लीन रखने के लिए (कोई पर्सनल नंबर या ईमेल शो न हो)
-    const cleanForm = document.getElementById('form') || document.getElementById('leadContactForm');
-    if (cleanForm) {
-        cleanForm.setAttribute('autocomplete', 'off');
-        cleanForm.querySelectorAll('.underline-field label').forEach(lbl => {
-            lbl.style.display = 'none';
-        });
+    <!-- ======================================================================== -->
+    <!-- 3. DEVELOPER PROFILE — CYBER EXPERT & DEVELOPER MONEY BAGGA              -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?section=developer</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.96</priority>
+        <image:image>
+            <image:loc>https://nexusmani.shop/images/mani-devloper.jpeg</image:loc>
+            <image:title>Cyber Expert &amp; Developer Money Bagga — Founder &amp; Lead Developer</image:title>
+            <image:caption>Meet Money Bagga (Mani Developer) — #1 Web &amp; App Developer &amp; Cyber Expert in Haroli, District Una, Himachal Pradesh (177220) with 2+ years of expertise.</image:caption>
+            <image:geo_location>Haroli, District Una, Himachal Pradesh 177220, India</image:geo_location>
+        </image:image>
+    </url>
 
-        const fieldPlaceholders = {
-            leadName: "Full Name",
-            leadEmail: "Email Address",
-            leadPhone: "Phone Number",
-            leadLocation: "Country / Location",
-            leadWebsite: "Existing Website URL (OPTIONAL)",
-            leadVision: "Tell me about your vision..."
-        };
+    <!-- ======================================================================== -->
+    <!-- 4. CORE WEBSITE NAVIGATION SECTIONS (DIRECT 200 OK URLS)                 -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?section=services</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.95</priority>
+    </url>
 
-        Object.keys(fieldPlaceholders).forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.placeholder = fieldPlaceholders[id];
-                el.value = "";
-                el.setAttribute('autocomplete', 'off');
-            }
-        });
+    <url>
+        <loc>https://nexusmani.shop/?section=case-studies</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.92</priority>
+    </url>
 
-        const budgetEl = document.getElementById('leadBudget');
-        if (budgetEl) budgetEl.selectedIndex = 0;
-    }
+    <url>
+        <loc>https://nexusmani.shop/?section=pricing</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.92</priority>
+    </url>
 
-    // 2. Navbar Glass Shimmer Effect
-    const rootStyle = document.documentElement.style;
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY || 0;
-        const shimmerPct = 10 + ((scrollY * 0.18) % 75);
-        const angleDeg = 125 + ((scrollY * 0.05) % 35);
-        rootStyle.setProperty('--shimmer-pos', `${shimmerPct}%`);
-        rootStyle.setProperty('--glass-angle', `${angleDeg}deg`);
-    }, { passive: true });
+    <url>
+        <loc>https://nexusmani.shop/?section=estimator</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.88</priority>
+    </url>
 
-    window.addEventListener('mousemove', (e) => {
-        const pctX = Math.round((e.clientX / window.innerWidth) * 80) + 5;
-        rootStyle.setProperty('--shimmer-pos', `${pctX}%`);
-    }, { passive: true });
+    <url>
+        <loc>https://nexusmani.shop/?section=contact</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.94</priority>
+    </url>
 
-    // 3. Mobile Menu Toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-    const mobileNavClose = document.getElementById('mobileNavClose');
+    <url>
+        <loc>https://nexusmani.shop/?section=faq</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+    </url>
 
-    if (mobileMenuBtn && mobileNavOverlay) {
-        mobileMenuBtn.addEventListener('click', () => mobileNavOverlay.classList.add('open'));
-    }
-    if (mobileNavClose && mobileNavOverlay) {
-        mobileNavClose.addEventListener('click', () => mobileNavOverlay.classList.remove('open'));
-    }
+    <!-- ======================================================================== -->
+    <!-- 5. BRAND & LOCATION SEO LANDING QUERIES (UNA, HAROLI, HIMACHAL PRADESH)  -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?brand=mani-developer-money-bagga</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.95</priority>
+    </url>
 
-    // 4. Developer Photo Fallback Picker
-    const localPhotoPicker = document.getElementById('localPhotoPicker');
-    const devProfileImg = document.getElementById('devProfileImg');
-    const addPhotoFallback = document.getElementById('addPhotoFallback');
+    <url>
+        <loc>https://nexusmani.shop/?brand=developer-money-una-hp</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.92</priority>
+    </url>
 
-    if (localPhotoPicker && devProfileImg && addPhotoFallback) {
-        localPhotoPicker.addEventListener('change', (e) => {
-            const file = e.target.files && e.target.files[0];
-            if (!file || !file.type.startsWith('image/')) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                devProfileImg.src = ev.target.result;
-                devProfileImg.style.display = 'block';
-                addPhotoFallback.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        });
-    }
+    <url>
+        <loc>https://nexusmani.shop/?location=web-developer-in-haroli-una-hp-177220</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.92</priority>
+    </url>
 
-    // 5. Live IST Clock
-    const liveClockEl = document.getElementById('liveIstClock');
-    function updateIstClock() {
-        if (!liveClockEl) return;
-        try {
-            const now = new Date();
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'Asia/Kolkata',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            });
-            liveClockEl.textContent = `${formatter.format(now)} IST`;
-        } catch (e) {
-            liveClockEl.textContent = "IST (India)";
-        }
-    }
-    updateIstClock();
-    setInterval(updateIstClock, 30000);
+    <url>
+        <loc>https://nexusmani.shop/?location=best-web-and-app-developer-himachal-pradesh</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+    </url>
 
-    // 6. Scroll Reveal & Number Counter Animations
-    const topHeroEl = document.getElementById('top-hero');
-    if (topHeroEl) topHeroEl.classList.add('active');
+    <url>
+        <loc>https://nexusmani.shop/?role=cyber-expert-and-fullstack-developer-india</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.90</priority>
+    </url>
 
-    const observerOptions = { root: null, rootMargin: "0px", threshold: 0.08 };
-    const scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add("active");
-        });
-    }, observerOptions);
-    document.querySelectorAll(".reveal-up").forEach(el => scrollObserver.observe(el));
+    <!-- ======================================================================== -->
+    <!-- 6. WEB & MOBILE APP DEVELOPMENT SERVICES                                 -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?service=nextjs-and-fullstack-development</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.88</priority>
+    </url>
 
-    const countElements = document.querySelectorAll('.count-up');
-    const countObserver = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            const el = entry.target;
-            const target = parseInt(el.getAttribute('data-target') || '1', 10);
-            const prefix = el.getAttribute('data-prefix') || '';
-            const suffix = el.getAttribute('data-suffix') || '';
-            let current = 1;
-            el.textContent = `${prefix}${current}${suffix}`;
-            if (target > 1) {
-                const duration = 1100;
-                const steps = target - 1;
-                const stepTime = Math.max(35, Math.floor(duration / steps));
-                const timer = setInterval(() => {
-                    current += 1;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    el.textContent = `${prefix}${current}${suffix}`;
-                }, stepTime);
-            }
-            obs.unobserve(el);
-        });
-    }, { threshold: 0.35 });
-    countElements.forEach(el => countObserver.observe(el));
+    <url>
+        <loc>https://nexusmani.shop/?service=conversion-ui-ux-design-figma-react</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.86</priority>
+    </url>
 
-    // 7. FAQ Accordion
-    const faqItems = document.querySelectorAll('.clean-faq-item');
-    faqItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const isOpen = item.classList.contains('active');
-            faqItems.forEach(f => f.classList.remove('active'));
-            if (!isOpen) item.classList.add('active');
-        });
-    });
+    <url>
+        <loc>https://nexusmani.shop/?service=technical-seo-and-100-mobile-speed</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.86</priority>
+    </url>
 
-    // 8. Service Type Pills & Package Selection Buttons
-    const typePills = document.querySelectorAll('.type-pill');
-    const leadCategoryInput = document.getElementById('leadCategory');
-    typePills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            typePills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            if (leadCategoryInput) leadCategoryInput.value = pill.getAttribute('data-type') || 'New Website';
-        });
-    });
+    <url>
+        <loc>https://nexusmani.shop/?service=custom-web-and-mobile-applications</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.88</priority>
+    </url>
 
-    const offerTriggers = document.querySelectorAll('.select-offer-trigger');
-    const openContactNavLinks = document.querySelectorAll('.open-contact-nav');
-    const formCard = document.getElementById('projectFormContainer');
-    const selectedOfferBanner = document.getElementById('selectedOfferBanner');
-    const selectedOfferName = document.getElementById('selectedOfferName');
-    const clearOfferBtn = document.getElementById('clearOfferBtn');
-    const leadSelectedPackage = document.getElementById('leadSelectedPackage');
-    const leadBudgetSelect = document.getElementById('leadBudget');
-    const leadVisionInput = document.getElementById('leadVision');
-    const leadNameInput = document.getElementById('leadName');
+    <url>
+        <loc>https://nexusmani.shop/?service=website-development-for-small-businesses</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.82</priority>
+    </url>
 
-    function revealAndScrollToContact(pkgName, budgetVal, categoryVal) {
-        if (contactSection) {
-            contactSection.classList.remove('contact-hidden');
-            contactSection.style.display = 'block';
-        }
-        if (pkgName && selectedOfferBanner && selectedOfferName && leadSelectedPackage) {
-            selectedOfferName.textContent = pkgName;
-            leadSelectedPackage.value = pkgName;
-            selectedOfferBanner.style.display = 'flex';
-        } else if (!pkgName && selectedOfferBanner && leadSelectedPackage) {
-            selectedOfferBanner.style.display = 'none';
-            leadSelectedPackage.value = 'General Inquiry';
-        }
-        if (budgetVal && leadBudgetSelect) {
-            for (let i = 0; i < leadBudgetSelect.options.length; i++) {
-                if (leadBudgetSelect.options[i].value === budgetVal) {
-                    leadBudgetSelect.selectedIndex = i;
-                    break;
-                }
-            }
-        }
-        if (categoryVal && typePills.length > 0) {
-            typePills.forEach(p => {
-                if (p.getAttribute('data-type') === categoryVal) p.classList.add('active');
-                else p.classList.remove('active');
-            });
-            if (leadCategoryInput) leadCategoryInput.value = categoryVal;
-        }
-        setTimeout(() => {
-            if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            if (formCard) {
-                formCard.classList.add('highlight-pulse');
-                setTimeout(() => formCard.classList.remove('highlight-pulse'), 2200);
-            }
-            if (leadNameInput) setTimeout(() => leadNameInput.focus(), 600);
-        }, 60);
-    }
+    <url>
+        <loc>https://nexusmani.shop/?service=affordable-website-development-india</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.82</priority>
+    </url>
 
-    offerTriggers.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            revealAndScrollToContact(
-                btn.getAttribute('data-package'),
-                btn.getAttribute('data-budget'),
-                btn.getAttribute('data-category')
-            );
-        });
-    });
+    <url>
+        <loc>https://nexusmani.shop/?service=ecommerce-website-development</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.82</priority>
+    </url>
 
-    openContactNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            revealAndScrollToContact(null, null, null);
-        });
-    });
+    <url>
+        <loc>https://nexusmani.shop/?service=website-redesign-services</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.80</priority>
+    </url>
 
-    const toggleProjectFormBtn = document.getElementById('toggleProjectFormBtn');
-    if (toggleProjectFormBtn) {
-        toggleProjectFormBtn.addEventListener('click', () => {
-            revealAndScrollToContact("72-Hour Rapid Launch Inquiry", null, "New Website");
-        });
-    }
+    <!-- ======================================================================== -->
+    <!-- 7. PORTFOLIO & CLIENT CASE STUDIES                                       -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?project=intern-stump-edtech-platform-ios-app</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.84</priority>
+    </url>
 
-    if (clearOfferBtn) {
-        clearOfferBtn.addEventListener('click', () => {
-            if (selectedOfferBanner) selectedOfferBanner.style.display = 'none';
-            if (leadSelectedPackage) leadSelectedPackage.value = 'General Inquiry';
-            if (leadVisionInput) leadVisionInput.value = '';
-        });
-    }
+    <url>
+        <loc>https://nexusmani.shop/?project=smc-online-classes-android-app</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.84</priority>
+    </url>
 
-    function showToast(message, type = 'success') {
-        const container = document.getElementById('toastContainer');
-        if (!container) return;
-        container.innerHTML = '';
-        const toast = document.createElement('div');
-        toast.className = `iphone-glass toast-msg ${type}`;
-        const svgIcon = type === 'success'
-            ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`
-            : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
-        toast.innerHTML = `${svgIcon}<span>${message}</span>`;
-        container.appendChild(toast);
-        setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 400);
-        }, 3000);
-    }
+    <url>
+        <loc>https://nexusmani.shop/?project=money-systems-enterprise-automation-suite</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.84</priority>
+    </url>
 
-    // =========================================================================
-    // 9. WEB3FORMS DIRECT SUBMISSION (आपकी Key और FormData के साथ - UNTOUCHED)
-    // =========================================================================
-    const form = document.getElementById('form') || document.getElementById('leadContactForm');
+    <url>
+        <loc>https://nexusmani.shop/?project=ai-property-inquiry-chatbot-real-estate</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.84</priority>
+    </url>
 
-    if (form) {
-        const submitBtn = form.querySelector('button[type="submit"]');
+    <!-- ======================================================================== -->
+    <!-- 8. PACKAGES, STANDALONE SERVICES & 24/7 SUPPORT                          -->
+    <!-- ======================================================================== -->
+    <url>
+        <loc>https://nexusmani.shop/?plan=starter-launch-19999</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+    </url>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    <url>
+        <loc>https://nexusmani.shop/?plan=business-pro-39999-72h-rapid-launch</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.90</priority>
+    </url>
 
-            const formData = new FormData(form);
-            formData.append("access_key", "2eaf4c95-6786-4959-8d36-b4fdfaddd506");
+    <url>
+        <loc>https://nexusmani.shop/?plan=custom-web-app-fullstack-nextjs</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+    </url>
 
-            const nameVal = document.getElementById('leadName')?.value || '';
-            const emailVal = document.getElementById('leadEmail')?.value || '';
-            const phoneVal = document.getElementById('leadPhone')?.value || '';
-            const locVal = document.getElementById('leadLocation')?.value || 'India';
-            const budgetVal = document.getElementById('leadBudget')?.value || 'Not specified';
-            const webVal = document.getElementById('leadWebsite')?.value || 'None';
-            const visionVal = document.getElementById('leadVision')?.value || '';
-            const catVal = document.getElementById('leadCategory')?.value || 'New Website';
-            const pkgVal = document.getElementById('leadSelectedPackage')?.value || 'General Inquiry';
+    <url>
+        <loc>https://nexusmani.shop/?addon=google-maps-booster-999</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.80</priority>
+    </url>
 
-            formData.set("name", nameVal);
-            formData.set("email", emailVal);
-            formData.set("phone", phoneVal);
-            formData.set("location", locVal);
-            formData.set("budget", budgetVal);
-            formData.set("website", webVal);
-            formData.set("service_category", catVal);
-            formData.set("selected_package", pkgVal);
-            formData.set("message", visionVal);
-            formData.set("subject", `New Project Inquiry from ${nameVal} — ${pkgVal}`);
+    <url>
+        <loc>https://nexusmani.shop/?addon=figma-ui-mockup-1499</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.80</priority>
+    </url>
 
-            const originalHTML = submitBtn.innerHTML;
-            submitBtn.textContent = "Sending...";
-            submitBtn.disabled = true;
+    <url>
+        <loc>https://nexusmani.shop/?addon=promotional-video-shoot-7999</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.78</priority>
+    </url>
 
-            try {
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    body: formData
-                });
+    <url>
+        <loc>https://nexusmani.shop/?audit=free-website-audit-and-consultation</loc>
+        <lastmod>2026-11-09T21:15:00+05:30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    showToast("Success! Your message has been sent.", "success");
-                    alert("Success! Your message has been sent.");
-                    form.reset();
-                    if (selectedOfferBanner) selectedOfferBanner.style.display = 'none';
-                } else {
-                    showToast("Error: " + data.message, "error");
-                    alert("Error: " + data.message);
-                }
-
-            } catch (error) {
-                showToast("Something went wrong. Please try again.", "error");
-                alert("Something went wrong. Please try again.");
-            } finally {
-                submitBtn.innerHTML = originalHTML;
-                submitBtn.disabled = false;
-            }
-        });
-    }
-
-    // 10. Login Modal Toggle
-    const loginTriggers = document.querySelectorAll('.open-login-trigger, #secretLoginTrigger');
-    const loginModal = document.getElementById('secretLoginModal');
-    const closeLogin = document.getElementById('closeLoginModal');
-    const mainWebsite = document.getElementById('mainWebsite');
-
-    loginTriggers.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (mainWebsite) mainWebsite.style.display = 'none';
-            if (loginModal) loginModal.style.display = 'flex';
-            window.scrollTo(0, 0);
-        });
-    });
-
-    if (closeLogin) {
-        closeLogin.addEventListener('click', () => {
-            if (loginModal) loginModal.style.display = 'none';
-            if (mainWebsite) mainWebsite.style.display = 'block';
-            window.scrollTo(0, 0);
-        });
-    }
-});
+</urlset>
